@@ -1,0 +1,18 @@
+freebsd_instance:
+  image_family: freebsd-12-1
+
+task:
+  install_script:
+    - pkg update
+    - pkg upgrade -y
+    - pkg install -y git poudriere
+    - echo "NO_ZFS=yes" | tee -a filename
+    - echo "FREEBSD_HOST=https://download.FreeBSD.org" | tee -a filename
+    - poudriere jail -c -j 114Ri386 -v 11.4-RELEASE -a i386
+    - poudriere jail -c -j 121Ramd64 -v 12.1-RELEASE -a amd64
+  test_script:
+    - git clone https://github.com/yzgyyang/freebsd-ports
+    - poudriere ports -c -m null -M ./freebsd-ports -p development
+    - poudriere testport -j 114Ri386 -p development -o net/shadowsocks-libev
+    - poudriere testport -j 121Ramd64 -p development -o net/shadowsocks-libev
+ 
