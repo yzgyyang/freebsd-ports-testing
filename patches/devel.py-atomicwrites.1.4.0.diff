@@ -1,0 +1,24 @@
+diff --git a/devel/py-atomicwrites/Makefile b/devel/py-atomicwrites/Makefile
+index 921d81029f90..db5b7fc8a074 100644
+--- a/devel/py-atomicwrites/Makefile
++++ b/devel/py-atomicwrites/Makefile
+@@ -1,7 +1,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	atomicwrites
+-DISTVERSION=	1.3.0
++DISTVERSION=	1.4.0
+ CATEGORIES=	devel python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+diff --git a/devel/py-atomicwrites/distinfo b/devel/py-atomicwrites/distinfo
+index 070da325b0db..33f6283b655a 100644
+--- a/devel/py-atomicwrites/distinfo
++++ b/devel/py-atomicwrites/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1560196383
+-SHA256 (atomicwrites-1.3.0.tar.gz) = 75a9445bac02d8d058d5e1fe689654ba5a6556a1dfd8ce6ec55a0ed79866cfa6
+-SIZE (atomicwrites-1.3.0.tar.gz) = 11699
++TIMESTAMP = 1605973835
++SHA256 (atomicwrites-1.4.0.tar.gz) = ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a
++SIZE (atomicwrites-1.4.0.tar.gz) = 11790
