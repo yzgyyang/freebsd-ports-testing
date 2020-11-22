@@ -2,14 +2,14 @@ freebsd_instance:
   image_family: freebsd-12-1
 
 task:
-  timeout_in: 119m
+  name: 114Ri386
+  timeout_in: 120m
   only_if: $CIRRUS_BRANCH != 'main'
   install_script:
     - pkg update
     - pkg upgrade -y
     - pkg install -y git poudriere
     - poudriere jail -c -j 114Ri386 -v 11.4-RELEASE -a i386
-    - poudriere jail -c -j 121Ramd64 -v 12.1-RELEASE -a amd64
     - git clone --depth 1 https://github.com/freebsd/freebsd-ports /opt/freebsd-ports
     - poudriere ports -c -m null -M /opt/freebsd-ports -p development
   test_script:
@@ -20,4 +20,23 @@ task:
     - PATCH_NAME="${PORT_CAT}.${PORT_NAME}.${PORT_VER}.diff"
     - cd /opt/freebsd-ports && git apply ${CIRRUS_WORKING_DIR}/patches/${PATCH_NAME}
     - poudriere testport -j 114Ri386 -p development -o ${CIRRUS_BRANCH}
+
+task:
+  name: 121Ramd64
+  timeout_in: 120m
+  only_if: $CIRRUS_BRANCH != 'main'
+  install_script:
+    - pkg update
+    - pkg upgrade -y
+    - pkg install -y git poudriere
+    - poudriere jail -c -j 121Ramd64 -v 12.1-RELEASE -a amd64
+    - git clone --depth 1 https://github.com/freebsd/freebsd-ports /opt/freebsd-ports
+    - poudriere ports -c -m null -M /opt/freebsd-ports -p development
+  test_script:
+    - echo ${CIRRUS_BRANCH}
+    - PORT_CAT=$(echo ${CIRRUS_BRANCH} | awk -F '/' '{print $1}')
+    - PORT_NAME=$(echo ${CIRRUS_BRANCH} | awk -F '/' '{print $2}')
+    - PORT_VER=$(echo ${CIRRUS_CHANGE_TITLE} | awk -F ':' '{print $2}')
+    - PATCH_NAME="${PORT_CAT}.${PORT_NAME}.${PORT_VER}.diff"
+    - cd /opt/freebsd-ports && git apply ${CIRRUS_WORKING_DIR}/patches/${PATCH_NAME}
     - poudriere testport -j 121Ramd64 -p development -o ${CIRRUS_BRANCH}
