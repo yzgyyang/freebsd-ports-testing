@@ -4,17 +4,17 @@ freebsd_instance:
   memory: 16G
 
 env:
-  - PD_TREE: development
-  - PD_TREE_PATH: /opt/freebsd-ports
+  PD_TREE: development
+  PD_TREE_PATH: /opt/freebsd-ports
 
 task:
   name: 114Ri386
   timeout_in: 120m
   only_if: $CIRRUS_BRANCH != 'main'
   env:
-    - PD_ARCH: i386
-    - PD_JAIL: 114Ri386
-    - PD_JAIL_RELEASE: 11.4-RELEASE
+    PD_ARCH: i386
+    PD_JAIL: 114Ri386
+    PD_JAIL_RELEASE: 11.4-RELEASE
   install_script:
     - ./install_script.sh
   test_script:
@@ -25,9 +25,9 @@ task:
   timeout_in: 120m
   only_if: $CIRRUS_BRANCH != 'main'
   env:
-    - PD_ARCH: amd64
-    - PD_JAIL: 121Ramd64
-    - PD_JAIL_RELEASE: 12.1-RELEASE
+    PD_ARCH: amd64
+    PD_JAIL: 121Ramd64
+    PD_JAIL_RELEASE: 12.1-RELEASE
   install_script:
     - ./install_script.sh
   test_script:
