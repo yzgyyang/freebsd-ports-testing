@@ -1,0 +1,30 @@
+diff --git a/finance/R-cran-timeSeries/Makefile b/finance/R-cran-timeSeries/Makefile
+index d24f9fe22a59..9b0ca7404b94 100644
+--- a/finance/R-cran-timeSeries/Makefile
++++ b/finance/R-cran-timeSeries/Makefile
+@@ -2,12 +2,11 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	timeSeries
+-DISTVERSION=	3042.102
+-PORTREVISION=	4
++DISTVERSION=	3062.100
+ CATEGORIES=	finance
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+-MAINTAINER=	ports@FreeBSD.org
++MAINTAINER=	ygy@FreeBSD.org
+ COMMENT=	Rmetrics - Financial Time Series Objects
+ 
+ LICENSE=	GPLv2+
+diff --git a/finance/R-cran-timeSeries/distinfo b/finance/R-cran-timeSeries/distinfo
+index 88ea5c08869d..5be7a18b39c2 100644
+--- a/finance/R-cran-timeSeries/distinfo
++++ b/finance/R-cran-timeSeries/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1513539732
+-SHA256 (timeSeries_3042.102.tar.gz) = fa153c60da7ab085fe72ac32e3a0348bdf79156379f52a4234aa45084eabb0a0
+-SIZE (timeSeries_3042.102.tar.gz) = 1256511
++TIMESTAMP = 1606898589
++SHA256 (timeSeries_3062.100.tar.gz) = 14a4d2af14299dcfde9e41b8b07c6d624c6422aca3bb294ee87778a4b52475f9
++SIZE (timeSeries_3062.100.tar.gz) = 1281981
