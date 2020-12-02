@@ -1,6 +1,5 @@
 #!/bin/sh -xe
 
-sed -i.bak -e 's,pkg+http://pkg.FreeBSD.org/\${ABI}/quarterly,pkg+http://pkg.FreeBSD.org/\${ABI}/latest,' /etc/pkg/FreeBSD.conf
 pkg update -f
 pkg install -y git poudriere
 git clone --depth 1 --single-branch -b master https://github.com/freebsd/freebsd-ports ${PD_TREE_PATH}
