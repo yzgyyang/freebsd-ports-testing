@@ -32,7 +32,7 @@ git checkout -- .
 git pull upstream master
 
 # Apply patch
-git apply ${WORKSPACE}/src/patches/${PATCH_NAME}
+git apply ${WORKSPACE}/patches/${PATCH_NAME}
 
 # Build
 sudo poudriere testport -j ${PD_JAIL} -p ${PD_TREE} -o ${GIT_BRANCH}
