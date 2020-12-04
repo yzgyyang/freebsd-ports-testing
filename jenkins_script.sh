@@ -36,4 +36,4 @@ git pull upstream master
 git apply ${WORKSPACE}/src/patches/${PATCH_NAME}
 
 # Build
-sudo poudriere testport -j ${PD_JAIL} -p ${PD_TREE} -o ${GIT_BRANCH}
+sudo poudriere testport -j ${PD_JAIL} -p ${PD_TREE} -o ${PORT_CAT}/${PORT_NAME}
