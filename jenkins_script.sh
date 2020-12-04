@@ -13,8 +13,9 @@ fi
 # Set env
 cd ${WORKSPACE}/src
 
-PORT_CAT=$(echo ${GIT_BRANCH} | awk -F '/' '{print $1}')
-PORT_NAME=$(echo ${GIT_BRANCH} | awk -F '/' '{print $2}')
+# in Jenkins, GIT_BRANCH=origin/devel/R-cran-covr
+PORT_CAT=$(echo ${GIT_BRANCH} | awk -F '/' '{print $2}')
+PORT_NAME=$(echo ${GIT_BRANCH} | awk -F '/' '{print $3}')
 CHANGE_TITLE=$(git log --pretty=format:%s | head -n1)
 PORT_VER=$(echo ${CHANGE_TITLE} | awk -F ':' '{print $2}')
 PATCH_NAME="${PORT_CAT}.${PORT_NAME}.${PORT_VER}.diff"
