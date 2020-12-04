@@ -6,7 +6,9 @@
 # PD_TREE=development
 # PD_TREE_PATH=/home/guangyuan/freebsd-ports
 
-[ "${GIT_BRANCH}" = main ]; exit 0
+if [ "${GIT_BRANCH}" = 'origin/main' ]; then
+exit 0
+fi
 
 # Set env
 cd ${WORKSPACE}/src
