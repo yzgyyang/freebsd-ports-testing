@@ -1,0 +1,44 @@
+diff --git a/finance/R-cran-fBasics/Makefile b/finance/R-cran-fBasics/Makefile
+index 9230af6847f5..4331bb310ac8 100644
+--- a/finance/R-cran-fBasics/Makefile
++++ b/finance/R-cran-fBasics/Makefile
+@@ -2,12 +2,11 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fBasics
+-DISTVERSION=	3042.89
+-PORTREVISION=	4
++DISTVERSION=	3042.89.1
+ CATEGORIES=	finance
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+-MAINTAINER=	ports@FreeBSD.org
++MAINTAINER=	ygy@FreeBSD.org
+ COMMENT=	Rmetrics - Markets and Basic Statistics
+ 
+ LICENSE=	GPLv2+
+diff --git a/finance/R-cran-fBasics/distinfo b/finance/R-cran-fBasics/distinfo
+index 06fb551eae5a..37618d403e2b 100644
+--- a/finance/R-cran-fBasics/distinfo
++++ b/finance/R-cran-fBasics/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1513584449
+-SHA256 (fBasics_3042.89.tar.gz) = b8b8d2362cbcfae3282b35fb59258cc956e2e60a5d19e3c7cee06b51b434da74
+-SIZE (fBasics_3042.89.tar.gz) = 929797
++TIMESTAMP = 1607522328
++SHA256 (fBasics_3042.89.1.tar.gz) = ad242043c2e7d2788706518570596e3ff7f536e09008ed87656de93d930b1dd5
++SIZE (fBasics_3042.89.1.tar.gz) = 851865
+diff --git a/finance/R-cran-fBasics/pkg-descr b/finance/R-cran-fBasics/pkg-descr
+index 8054fcf0b1cd..e8cd51cf0ddf 100644
+--- a/finance/R-cran-fBasics/pkg-descr
++++ b/finance/R-cran-fBasics/pkg-descr
+@@ -3,7 +3,7 @@ explore and to investigate basic properties of financial returns
+ and related quantities.  The covered fields include techniques of
+ explorative data analysis and the investigation of distributional
+ properties, including parameter estimation and hypothesis testing.
+-Evenmore there are several utility functions for data handling and
++Even more there are several utility functions for data handling and
+ management.
+ 
+-WWW: http://cran.r-project.org/web/packages/fBasics/
++WWW: https://cran.r-project.org/web/packages/fBasics/
