@@ -1,0 +1,30 @@
+diff --git a/finance/R-cran-fGarch/Makefile b/finance/R-cran-fGarch/Makefile
+index 7081f62feb51..a10d02192317 100644
+--- a/finance/R-cran-fGarch/Makefile
++++ b/finance/R-cran-fGarch/Makefile
+@@ -2,12 +2,11 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fGarch
+-DISTVERSION=	3042.83.1
+-PORTREVISION=	2
++DISTVERSION=	3042.83.2
+ CATEGORIES=	finance
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+-MAINTAINER=	ports@FreeBSD.org
++MAINTAINER=	ygy@FreeBSD.org
+ COMMENT=	Rmetrics - Autoregressive Conditional Heteroskedastic Modelling
+ 
+ LICENSE=	GPLv2+
+diff --git a/finance/R-cran-fGarch/distinfo b/finance/R-cran-fGarch/distinfo
+index 3ed6324f80b6..4d996bad9029 100644
+--- a/finance/R-cran-fGarch/distinfo
++++ b/finance/R-cran-fGarch/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1554053133
+-SHA256 (fGarch_3042.83.1.tar.gz) = 2db021ffcfb0645bd0872180492e9ce6a9d89afd92871d8f034dc5140897ad32
+-SIZE (fGarch_3042.83.1.tar.gz) = 145810
++TIMESTAMP = 1607522216
++SHA256 (fGarch_3042.83.2.tar.gz) = a39465d89650799693af457e65ff728c28e9b9375301a28f5dac80b70e708619
++SIZE (fGarch_3042.83.2.tar.gz) = 143455
