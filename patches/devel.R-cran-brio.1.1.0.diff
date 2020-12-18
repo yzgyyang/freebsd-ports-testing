@@ -1,0 +1,57 @@
+diff --git a/devel/Makefile b/devel/Makefile
+index 0f1a6bad3e93..2b54bc1f08a8 100644
+--- a/devel/Makefile
++++ b/devel/Makefile
+@@ -22,6 +22,7 @@
+     SUBDIR += R-cran-bit
+     SUBDIR += R-cran-bit64
+     SUBDIR += R-cran-bitops
++    SUBDIR += R-cran-brio
+     SUBDIR += R-cran-broom
+     SUBDIR += R-cran-caTools
+     SUBDIR += R-cran-caret
+diff --git a/devel/R-cran-brio/Makefile b/devel/R-cran-brio/Makefile
+new file mode 100644
+index 000000000000..b51a9c0ee2ce
+--- /dev/null
++++ b/devel/R-cran-brio/Makefile
+@@ -0,0 +1,19 @@
++# $FreeBSD$
++
++PORTNAME=	brio
++DISTVERSION=	1.1.0
++CATEGORIES=	devel
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Basic R Input Output
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++TEST_DEPENDS=	R-cran-covr>0:devel/R-cran-covr \
++		R-cran-testthat>=2.1.0:devel/R-cran-testthat
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/devel/R-cran-brio/distinfo b/devel/R-cran-brio/distinfo
+new file mode 100644
+index 000000000000..ddcd255cb34a
+--- /dev/null
++++ b/devel/R-cran-brio/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608300467
++SHA256 (brio_1.1.0.tar.gz) = 6bb3a3b47bea13f1a1e3dcdc8b9f688502643e4b40a481a34aa04a261aabea38
++SIZE (brio_1.1.0.tar.gz) = 11610
+diff --git a/devel/R-cran-brio/pkg-descr b/devel/R-cran-brio/pkg-descr
+new file mode 100644
+index 000000000000..3284d51d3422
+--- /dev/null
++++ b/devel/R-cran-brio/pkg-descr
+@@ -0,0 +1,5 @@
++Functions to handle basic input output, these functions always read and write
++UTF-8 (8-bit Unicode Transformation Format) files and provide more explicit
++control over line endings.
++
++WWW: https://github.com/r-lib/brio
