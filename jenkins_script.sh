@@ -33,7 +33,8 @@ git checkout -- .
 git pull upstream master
 
 # Apply patch
-patch < ${WORKSPACE}/src/patches/${PATCH_NAME}
+cd ${PD_TREE_PATH}
+patch -p1 -u < ${WORKSPACE}/src/patches/${PATCH_NAME}
 
 # Build
 sudo poudriere testport -j ${PD_JAIL} -p ${PD_TREE} -o ${PORT_CAT}/${PORT_NAME}
