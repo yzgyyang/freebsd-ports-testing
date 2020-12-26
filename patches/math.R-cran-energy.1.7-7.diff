@@ -1,0 +1,60 @@
+diff --git a/math/Makefile b/math/Makefile
+index 0d5d3729a189..f0f9b924d8a6 100644
+--- a/math/Makefile
++++ b/math/Makefile
+@@ -52,6 +52,7 @@
+     SUBDIR += R-cran-dimRed
+     SUBDIR += R-cran-dlmodeler
+     SUBDIR += R-cran-dplyr
++    SUBDIR += R-cran-energy
+     SUBDIR += R-cran-expm
+     SUBDIR += R-cran-forcats
+     SUBDIR += R-cran-forecast
+diff --git a/math/R-cran-energy/Makefile b/math/R-cran-energy/Makefile
+new file mode 100644
+index 000000000000..c18e0850b97c
+--- /dev/null
++++ b/math/R-cran-energy/Makefile
+@@ -0,0 +1,17 @@
++# $FreeBSD$
++
++PORTNAME=	energy
++DISTVERSION=	1.7-7
++CATEGORIES=	math
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	E-Statistics: Multivariate Inference via the Energy of Data
++
++LICENSE=	GPLv2+
++
++RUN_DEPENDS=	R-cran-Rcpp>=0.12.6:devel/R-cran-Rcpp
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/math/R-cran-energy/distinfo b/math/R-cran-energy/distinfo
+new file mode 100644
+index 000000000000..0f982916514e
+--- /dev/null
++++ b/math/R-cran-energy/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609019150
++SHA256 (energy_1.7-7.tar.gz) = 67b88fb33ee6e7bec2e4fe356a4efd36f70c3cf9b0ebe2f6d9da9ec96de9968f
++SIZE (energy_1.7-7.tar.gz) = 55273
+diff --git a/math/R-cran-energy/pkg-descr b/math/R-cran-energy/pkg-descr
+new file mode 100644
+index 000000000000..47033cf7facb
+--- /dev/null
++++ b/math/R-cran-energy/pkg-descr
+@@ -0,0 +1,10 @@
++E-statistics (energy) tests and statistics for multivariate and univariate
++inference, including distance correlation, one-sample, two-sample, and
++multi-sample tests for comparing multivariate distributions, are implemented.
++Measuring and testing multivariate independence based on distance correlation,
++partial distance correlation, multivariate goodness-of-fit tests, k-groups and
++hierarchical clustering based on energy distance, testing for multivariate
++normality, distance components (disco) for non-parametric analysis of
++structured data, and other energy statistics/methods are implemented.
++
++WWW: https://github.com/mariarizzo/energy
