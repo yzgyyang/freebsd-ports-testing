@@ -1,0 +1,54 @@
+diff --git a/graphics/Makefile b/graphics/Makefile
+index ab4ae18a3348..41644f401470 100644
+--- a/graphics/Makefile
++++ b/graphics/Makefile
+@@ -25,6 +25,7 @@
+     SUBDIR += R-cran-ggrepel
+     SUBDIR += R-cran-gridBase
+     SUBDIR += R-cran-gridExtra
++    SUBDIR += R-cran-jpeg
+     SUBDIR += R-cran-munsell
+     SUBDIR += R-cran-pROC
+     SUBDIR += R-cran-pixmap
+diff --git a/graphics/R-cran-jpeg/Makefile b/graphics/R-cran-jpeg/Makefile
+new file mode 100644
+index 000000000000..accc33a77004
+--- /dev/null
++++ b/graphics/R-cran-jpeg/Makefile
+@@ -0,0 +1,16 @@
++# $FreeBSD$
++
++PORTNAME=	jpeg
++DISTVERSION=	0.1-8.1
++CATEGORIES=	graphics
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Read and write JPEG images
++
++LICENSE=	GPLv2 GPLv3
++LICENSE_COMB=	dual
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/graphics/R-cran-jpeg/distinfo b/graphics/R-cran-jpeg/distinfo
+new file mode 100644
+index 000000000000..826c87e9431e
+--- /dev/null
++++ b/graphics/R-cran-jpeg/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609011786
++SHA256 (jpeg_0.1-8.1.tar.gz) = 1db0a4976fd9b2ae27a37d3e856cca35bc2909323c7a40724846a5d3c18915a9
++SIZE (jpeg_0.1-8.1.tar.gz) = 18116
+diff --git a/graphics/R-cran-jpeg/pkg-descr b/graphics/R-cran-jpeg/pkg-descr
+new file mode 100644
+index 000000000000..ab3e18e385c6
+--- /dev/null
++++ b/graphics/R-cran-jpeg/pkg-descr
+@@ -0,0 +1,5 @@
++This package provides an easy and simple way to read, write and display bitmap
++images stored in the JPEG format. It can read and write both files and
++in-memory raw vectors.
++
++WWW: http://www.rforge.net/jpeg/
