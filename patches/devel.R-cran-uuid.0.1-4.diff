@@ -1,0 +1,52 @@
+diff --git a/devel/Makefile b/devel/Makefile
+index 5848b65e7ab4..6b0c12e5c7cc 100644
+--- a/devel/Makefile
++++ b/devel/Makefile
+@@ -90,6 +90,7 @@
+     SUBDIR += R-cran-tidyr
+     SUBDIR += R-cran-tidyselect
+     SUBDIR += R-cran-tinytest
++    SUBDIR += R-cran-uuid
+     SUBDIR += R-cran-vcd
+     SUBDIR += R-cran-vctrs
+     SUBDIR += R-cran-withr
+diff --git a/devel/R-cran-uuid/Makefile b/devel/R-cran-uuid/Makefile
+new file mode 100644
+index 000000000000..0e3f3954bbec
+--- /dev/null
++++ b/devel/R-cran-uuid/Makefile
+@@ -0,0 +1,16 @@
++# $FreeBSD$
++
++PORTNAME=	uuid
++DISTVERSION=	0.1-4
++CATEGORIES=	devel
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Tools for Generating and Handling of UUIDs
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/devel/R-cran-uuid/distinfo b/devel/R-cran-uuid/distinfo
+new file mode 100644
+index 000000000000..aeef19649ed9
+--- /dev/null
++++ b/devel/R-cran-uuid/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609162905
++SHA256 (uuid_0.1-4.tar.gz) = 98e0249dda17434bfa209c2058e9911e576963d4599be9f7ea946e664f8ca93e
++SIZE (uuid_0.1-4.tar.gz) = 49544
+diff --git a/devel/R-cran-uuid/pkg-descr b/devel/R-cran-uuid/pkg-descr
+new file mode 100644
+index 000000000000..dc2ca6a9044c
+--- /dev/null
++++ b/devel/R-cran-uuid/pkg-descr
+@@ -0,0 +1,3 @@
++Tools for generating and handling of UUIDs (Universally Unique Identifiers).
++
++WWW: http://www.rforge.net/uuid
