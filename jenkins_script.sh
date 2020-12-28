@@ -29,7 +29,7 @@ cd ${PD_TREE_PATH}
 # Bulk build
 case ${GIT_BRANCH} in origin/bulk*)
   # Apply patch
-  PATCH_NAME="${CHANGE_TITLE}.diff"
+  PATCH_NAME="$(echo ${GIT_BRANCH} | cut -d'/' -f2).diff"
   patch -p1 -u < ${WORKSPACE}/src/patches/${PATCH_NAME}
 
   # Build
