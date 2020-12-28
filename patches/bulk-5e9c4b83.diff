@@ -1,0 +1,1163 @@
+diff --git a/chinese/Makefile b/chinese/Makefile
+index 13caff74a5e3..4706a6f47d87 100644
+--- a/chinese/Makefile
++++ b/chinese/Makefile
+@@ -37,6 +37,8 @@
+     SUBDIR += fcitx-sunpinyin
+     SUBDIR += fcitx-table-extra
+     SUBDIR += fcitx-ui-light
++    SUBDIR += fcitx5-chewing
++    SUBDIR += fcitx5-rime
+     SUBDIR += fireflyttf
+     SUBDIR += font-std
+     SUBDIR += fortunetw
+diff --git a/chinese/fcitx/Makefile b/chinese/fcitx/Makefile
+index 2ffa81edcede..197647ce3c0a 100644
+--- a/chinese/fcitx/Makefile
++++ b/chinese/fcitx/Makefile
+@@ -38,7 +38,7 @@ RUN_DEPENDS=	xdg-open:devel/xdg-utils \
+ SUB_FILES=	pkg-message
+ SUB_LIST+=	PORTSDIR=${PORTSDIR}
+ 
+-CONFLICTS=	zh-scim-fcitx-3.*
++CONFLICTS=	zh-scim-fcitx-3.* fcitx5
+ 
+ USE_GNOME=	pango intltool libxml2 introspection
+ USE_KDE=	ecm
+diff --git a/chinese/fcitx5-chewing/Makefile b/chinese/fcitx5-chewing/Makefile
+new file mode 100644
+index 000000000000..bc808dc0d136
+--- /dev/null
++++ b/chinese/fcitx5-chewing/Makefile
+@@ -0,0 +1,24 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-chewing
++DISTVERSION=	5.0.2
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Chewing support for Fcitx5
++
++LICENSE=	GPLv2+
++LICENSE_FILE=	${WRKSRC}/LICENSES/GPL-2.0-or-later.txt
++
++LIB_DEPENDS=	libchewing.so:chinese/libchewing \
++		libFcitx5Core.so:textproc/fcitx5
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 pkgconfig
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++.include <bsd.port.mk>
+diff --git a/chinese/fcitx5-chewing/distinfo b/chinese/fcitx5-chewing/distinfo
+new file mode 100644
+index 000000000000..7c3aa338f14e
+--- /dev/null
++++ b/chinese/fcitx5-chewing/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608388686
++SHA256 (fcitx-fcitx5-chewing-5.0.2_GH0.tar.gz) = acf4a18ccbc815dfbb28bc92fc1d4552133c15c355ca41052d01b1b1e6d5301b
++SIZE (fcitx-fcitx5-chewing-5.0.2_GH0.tar.gz) = 19701
+diff --git a/chinese/fcitx5-chewing/pkg-descr b/chinese/fcitx5-chewing/pkg-descr
+new file mode 100644
+index 000000000000..2868e8ce96ed
+--- /dev/null
++++ b/chinese/fcitx5-chewing/pkg-descr
+@@ -0,0 +1,4 @@
++Chewing intelligent phonetic input method library support for
++Fcitx5 input method framework.
++
++WWW: https://github.com/fcitx/fcitx5-chewing
+diff --git a/chinese/fcitx5-chewing/pkg-plist b/chinese/fcitx5-chewing/pkg-plist
+new file mode 100644
+index 000000000000..77b6dda92b77
+--- /dev/null
++++ b/chinese/fcitx5-chewing/pkg-plist
+@@ -0,0 +1,16 @@
++lib/fcitx5/chewing.so
++share/fcitx5/addon/chewing.conf
++share/fcitx5/inputmethod/chewing.conf
++share/icons/hicolor/48x48/apps/fcitx-chewing.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-chewing.png
++share/locale/ca/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/da/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/de/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/he/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/ja/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/ko/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/ru/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/tr/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-chewing.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-chewing.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.Chewing.metainfo.xml
+diff --git a/chinese/fcitx5-rime/Makefile b/chinese/fcitx5-rime/Makefile
+new file mode 100644
+index 000000000000..3e6638031214
+--- /dev/null
++++ b/chinese/fcitx5-rime/Makefile
+@@ -0,0 +1,33 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-rime
++DISTVERSION=	5.0.2
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	RIME support for Fcitx5
++
++LICENSE=	LGPL21
++LICENSE_FILE=	${WRKSRC}/LICENSES/LGPL-2.1-or-later.txt
++
++BUILD_DEPENDS=	${_SCHEMA_DEPENDS}
++LIB_DEPENDS=	librime.so:chinese/librime \
++		libFcitx5Core.so:textproc/fcitx5
++RUN_DEPENDS=	${_SCHEMA_DEPENDS}
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 localbase \
++		pkgconfig
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++_SCHEMA_DEPENDS=	\
++	${LOCALBASE}/share/rime-data/luna_pinyin.schema.yaml:chinese/rime-luna-pinyin	\
++	${LOCALBASE}/share/rime-data/bopomofo.schema.yaml:chinese/rime-bopomofo	\
++	${LOCALBASE}/share/rime-data/cangjie5.schema.yaml:chinese/rime-cangjie	\
++	${LOCALBASE}/share/rime-data/stroke.schema.yaml:chinese/rime-stroke
++
++.include <bsd.port.mk>
+diff --git a/chinese/fcitx5-rime/distinfo b/chinese/fcitx5-rime/distinfo
+new file mode 100644
+index 000000000000..e03627216e49
+--- /dev/null
++++ b/chinese/fcitx5-rime/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608288386
++SHA256 (fcitx-fcitx5-rime-5.0.2_GH0.tar.gz) = d3c2663c483a04fc5fbb0490a0de53220903314faa642d0c921815e8a1c28094
++SIZE (fcitx-fcitx5-rime-5.0.2_GH0.tar.gz) = 45722
+diff --git a/chinese/fcitx5-rime/pkg-descr b/chinese/fcitx5-rime/pkg-descr
+new file mode 100644
+index 000000000000..9ba9db9600f0
+--- /dev/null
++++ b/chinese/fcitx5-rime/pkg-descr
+@@ -0,0 +1,3 @@
++RIME support for Fcitx5 input method framework.
++
++WWW: https://github.com/fcitx/fcitx5-rime
+diff --git a/chinese/fcitx5-rime/pkg-plist b/chinese/fcitx5-rime/pkg-plist
+new file mode 100644
+index 000000000000..8cc9936f9036
+--- /dev/null
++++ b/chinese/fcitx5-rime/pkg-plist
+@@ -0,0 +1,39 @@
++lib/fcitx5/rime.so
++share/fcitx5/addon/rime.conf
++share/fcitx5/inputmethod/rime.conf
++share/icons/hicolor/48x48/apps/fcitx-rime-deploy.png
++share/icons/hicolor/48x48/apps/fcitx-rime-disable.png
++share/icons/hicolor/48x48/apps/fcitx-rime-im.png
++share/icons/hicolor/48x48/apps/fcitx-rime-latin.png
++share/icons/hicolor/48x48/apps/fcitx-rime-sync.png
++share/icons/hicolor/48x48/apps/fcitx-rime.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rime-deploy.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rime-disable.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rime-im.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rime-latin.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rime-sync.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rime.png
++share/icons/hicolor/scalable/apps/fcitx-rime-deploy.svg
++share/icons/hicolor/scalable/apps/fcitx-rime-disable.svg
++share/icons/hicolor/scalable/apps/fcitx-rime-im.svg
++share/icons/hicolor/scalable/apps/fcitx-rime-latin.svg
++share/icons/hicolor/scalable/apps/fcitx-rime-sync.svg
++share/icons/hicolor/scalable/apps/fcitx-rime.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-rime-deploy.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-rime-disable.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-rime-im.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-rime-latin.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-rime-sync.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-rime.svg
++share/locale/ca/LC_MESSAGES/fcitx5-rime.mo
++share/locale/da/LC_MESSAGES/fcitx5-rime.mo
++share/locale/de/LC_MESSAGES/fcitx5-rime.mo
++share/locale/he/LC_MESSAGES/fcitx5-rime.mo
++share/locale/ja/LC_MESSAGES/fcitx5-rime.mo
++share/locale/ko/LC_MESSAGES/fcitx5-rime.mo
++share/locale/ru/LC_MESSAGES/fcitx5-rime.mo
++share/locale/tr/LC_MESSAGES/fcitx5-rime.mo
++share/locale/vi/LC_MESSAGES/fcitx5-rime.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-rime.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-rime.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.Rime.metainfo.xml
+diff --git a/japanese/Makefile b/japanese/Makefile
+index a3f9d51daf04..00f10cbfd493 100644
+--- a/japanese/Makefile
++++ b/japanese/Makefile
+@@ -58,6 +58,7 @@
+     SUBDIR += fcitx-anthy
+     SUBDIR += fcitx-mozc
+     SUBDIR += fcitx-skk
++    SUBDIR += fcitx5-anthy
+     SUBDIR += flower-fpw
+     SUBDIR += foldoc-fpw
+     SUBDIR += font-aozoramincho
+diff --git a/japanese/fcitx5-anthy/Makefile b/japanese/fcitx5-anthy/Makefile
+new file mode 100644
+index 000000000000..298ee195c8b7
+--- /dev/null
++++ b/japanese/fcitx5-anthy/Makefile
+@@ -0,0 +1,24 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-anthy
++DISTVERSION=	5.0.1
++CATEGORIES=	japanese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Anthy support for Fcitx5
++
++LICENSE=	GPLv2+
++LICENSE_FILE=	${WRKSRC}/LICENSES/GPL-2.0-or-later.txt
++
++LIB_DEPENDS=	libanthy.so:japanese/anthy \
++		libFcitx5Core.so:textproc/fcitx5
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 pkgconfig
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++.include <bsd.port.mk>
+diff --git a/japanese/fcitx5-anthy/distinfo b/japanese/fcitx5-anthy/distinfo
+new file mode 100644
+index 000000000000..c204eb0e91a3
+--- /dev/null
++++ b/japanese/fcitx5-anthy/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608388045
++SHA256 (fcitx-fcitx5-anthy-5.0.1_GH0.tar.gz) = 73edfa4b69e21cf368ac70bc6c08aa75c9bb8cb482f1e998928fc581067efc22
++SIZE (fcitx-fcitx5-anthy-5.0.1_GH0.tar.gz) = 96840
+diff --git a/japanese/fcitx5-anthy/pkg-descr b/japanese/fcitx5-anthy/pkg-descr
+new file mode 100644
+index 000000000000..202d18181167
+--- /dev/null
++++ b/japanese/fcitx5-anthy/pkg-descr
+@@ -0,0 +1,3 @@
++Anthy support for Fcitx5 input method framework.
++
++WWW: https://github.com/fcitx/fcitx5-anthy
+diff --git a/japanese/fcitx5-anthy/pkg-plist b/japanese/fcitx5-anthy/pkg-plist
+new file mode 100644
+index 000000000000..f04af2e5f716
+--- /dev/null
++++ b/japanese/fcitx5-anthy/pkg-plist
+@@ -0,0 +1,42 @@
++lib/fcitx5/anthy.so
++share/fcitx5/addon/anthy.conf
++share/fcitx5/anthy/101kana.sty
++share/fcitx5/anthy/atok.sty
++share/fcitx5/anthy/azik.sty
++share/fcitx5/anthy/canna.sty
++share/fcitx5/anthy/msime.sty
++share/fcitx5/anthy/nicola-a.sty
++share/fcitx5/anthy/nicola-f.sty
++share/fcitx5/anthy/nicola-j.sty
++share/fcitx5/anthy/oasys100j.sty
++share/fcitx5/anthy/qkana.sty
++share/fcitx5/anthy/tron-dvorak.sty
++share/fcitx5/anthy/tron-qwerty-jp.sty
++share/fcitx5/anthy/tsuki-2-203-101.sty
++share/fcitx5/anthy/tsuki-2-203-106.sty
++share/fcitx5/anthy/vje-delta.sty
++share/fcitx5/anthy/wnn.sty
++share/fcitx5/inputmethod/anthy.conf
++share/icons/hicolor/22x22/status/fcitx-anthy-symbol.png
++share/icons/hicolor/22x22/status/org.fcitx.Fcitx5.fcitx-anthy-symbol.png
++share/icons/hicolor/48x48/status/fcitx-anthy.png
++share/icons/hicolor/48x48/status/org.fcitx.Fcitx5.fcitx-anthy.png
++share/icons/hicolor/scalable/status/fcitx-anthy-period-japanese.svg
++share/icons/hicolor/scalable/status/fcitx-anthy-period-latin.svg
++share/icons/hicolor/scalable/status/fcitx-anthy-period-wide-japanese.svg
++share/icons/hicolor/scalable/status/fcitx-anthy-period-wide-latin.svg
++share/icons/hicolor/scalable/status/fcitx-anthy-symbol.svg
++share/icons/hicolor/scalable/status/org.fcitx.Fcitx5.fcitx-anthy-period-japanese.svg
++share/icons/hicolor/scalable/status/org.fcitx.Fcitx5.fcitx-anthy-period-latin.svg
++share/icons/hicolor/scalable/status/org.fcitx.Fcitx5.fcitx-anthy-period-wide-japanese.svg
++share/icons/hicolor/scalable/status/org.fcitx.Fcitx5.fcitx-anthy-period-wide-latin.svg
++share/icons/hicolor/scalable/status/org.fcitx.Fcitx5.fcitx-anthy-symbol.svg
++share/locale/ca/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/da/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/de/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/ja/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/ko/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/ru/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-anthy.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.Anthy.metainfo.xml
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..4a7c44f93750
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,9 @@
++chinese/fcitx
++chinese/fcitx5-chewing
++chinese/fcitx5-rime
++japanese/fcitx5-anthy
++textproc/fcitx5
++textproc/fcitx5-configtool
++textproc/fcitx5-gtk
++textproc/fcitx5-qt
++x11/xcb-imdkit
+diff --git a/textproc/Makefile b/textproc/Makefile
+index 0c131213b25b..456204c418de 100644
+--- a/textproc/Makefile
++++ b/textproc/Makefile
+@@ -196,6 +196,10 @@
+     SUBDIR += fcitx-m17n
+     SUBDIR += fcitx-qt5
+     SUBDIR += fcitx-table-other
++    SUBDIR += fcitx5
++    SUBDIR += fcitx5-configtool
++    SUBDIR += fcitx5-gtk
++    SUBDIR += fcitx5-qt
+     SUBDIR += fex
+     SUBDIR += ffe
+     SUBDIR += fi-aspell
+diff --git a/textproc/fcitx5-configtool/Makefile b/textproc/fcitx5-configtool/Makefile
+new file mode 100644
+index 000000000000..90fc862edb78
+--- /dev/null
++++ b/textproc/fcitx5-configtool/Makefile
+@@ -0,0 +1,35 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-configtool
++DISTVERSION=	5.0.1-20
++CATEGORIES=	textproc x11
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Fcitx5 IM framework configuration tool
++
++LICENSE=	GPLv2+
++LICENSE_FILE=	${WRKSRC}/LICENSES/GPL-2.0-or-later.txt
++
++BUILD_DEPENDS=	iso-codes>=0:misc/iso-codes
++LIB_DEPENDS=	libxkbcommon.so:x11/libxkbcommon \
++		libFcitx5Core.so:textproc/fcitx5 \
++		libFcitx5Qt5DBusAddons.so:textproc/fcitx5-qt
++RUN_DEPENDS=	xkeyboard-config>=0:x11/xkeyboard-config \
++		iso-codes>=0:misc/iso-codes
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 pkgconfig qt:5 xorg
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++GH_TAGNAME=	b4fbd81
++
++USE_KDE=	ecm coreaddons kdeclarative i18n itemviews kirigami2 package widgetsaddons
++USE_QT=		concurrent core gui quickcontrols2 widgets x11extras buildtools_build qmake_build
++USE_XORG=	x11 xkbfile
++USE_LDCONFIG=	yes
++
++CMAKE_ON=	ENABLE_KCM ENABLE_CONFIG_QT
++CMAKE_OFF=	ENABLE_TEST
++
++.include <bsd.port.mk>
+diff --git a/textproc/fcitx5-configtool/distinfo b/textproc/fcitx5-configtool/distinfo
+new file mode 100644
+index 000000000000..525ea70ad59a
+--- /dev/null
++++ b/textproc/fcitx5-configtool/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608287204
++SHA256 (fcitx-fcitx5-configtool-5.0.1-20-b4fbd81_GH0.tar.gz) = d9699d05c1d8cfdb864c7040d3300394efa2ceb1159063a41a323e07d46e4d09
++SIZE (fcitx-fcitx5-configtool-5.0.1-20-b4fbd81_GH0.tar.gz) = 130607
+diff --git a/textproc/fcitx5-configtool/pkg-descr b/textproc/fcitx5-configtool/pkg-descr
+new file mode 100644
+index 000000000000..77527a29c315
+--- /dev/null
++++ b/textproc/fcitx5-configtool/pkg-descr
+@@ -0,0 +1,4 @@
++This is Fcitx5 IM framework configuration tool.
++It comes with fcitx5-config-qt which provides a GUI for configuring Fcitx5.
++
++WWW: https://github.com/fcitx/fcitx5-configtool
+diff --git a/textproc/fcitx5-configtool/pkg-plist b/textproc/fcitx5-configtool/pkg-plist
+new file mode 100644
+index 000000000000..59643fad327f
+--- /dev/null
++++ b/textproc/fcitx5-configtool/pkg-plist
+@@ -0,0 +1,53 @@
++bin/fcitx5-config-qt
++bin/fcitx5-migrator
++bin/kbd-layout-viewer5
++lib/libFcitx5Migrator.so
++lib/libFcitx5Migrator.so.5
++lib/libFcitx5Migrator.so.5.0.1
++%%QT_PLUGINDIR%%/kcms/kcm_fcitx5.so
++share/applications/kbd-layout-viewer5.desktop
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/AddIMPage.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/AddonPage.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/BoolOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/ColorOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/ConfigGroup.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/ConfigPage.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/EnumOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/ExternalOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/FontOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/IntegerOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/KeyListOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/KeyOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/ListOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/OptionLoader.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/SaveWarningDialog.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/SelectLayoutSheet.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/StringOption.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/main.qml
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/utils.js
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/metadata.desktop
++share/kpackage/kcms/org.fcitx.fcitx5.kcm/metadata.json
++share/kservices5/kcm_fcitx5.desktop
++share/locale/ca/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/ca/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/da/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/da/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/de/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/de/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/he/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/he/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/ja/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/ja/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/ko/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/ko/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/ru/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/ru/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/tr/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/tr/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/vi/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/vi/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/zh_CN/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-configtool.mo
++share/locale/zh_TW/LC_MESSAGES/org.fcitx.fcitx5.kcm.mo
++share/metainfo/org.fcitx.fcitx5.kcm.appdata.xml
+diff --git a/textproc/fcitx5-gtk/Makefile b/textproc/fcitx5-gtk/Makefile
+new file mode 100644
+index 000000000000..4e9c539d5cd1
+--- /dev/null
++++ b/textproc/fcitx5-gtk/Makefile
+@@ -0,0 +1,28 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-gtk
++DISTVERSION=	5.0.1
++CATEGORIES=	textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Fcitx support for GTK+ 2/3
++
++LICENSE=	LGPL21+
++LICENSE_FILE=	${WRKSRC}/LICENSES/LGPL-2.1-or-later.txt
++
++LIB_DEPENDS=	libxkbcommon.so:x11/libxkbcommon
++
++USES=		compiler:c++17-lang gettext-tools cmake gnome kde:5 pkgconfig xorg
++
++USE_LDCONFIG=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++USE_GNOME=	introspection glib20 gtk20 gtk30
++USE_KDE=	ecm
++USE_XORG=	x11
++
++CMAKE_OFF=	ENABLE_GTK4_IM_MODULE
++
++.include <bsd.port.mk>
+diff --git a/textproc/fcitx5-gtk/distinfo b/textproc/fcitx5-gtk/distinfo
+new file mode 100644
+index 000000000000..ca706ded9a70
+--- /dev/null
++++ b/textproc/fcitx5-gtk/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608282030
++SHA256 (fcitx-fcitx5-gtk-5.0.1_GH0.tar.gz) = 464645a9445e0d301b2274f4b86bcdec3a2d0ecc3ff993f59985927a39b17bb9
++SIZE (fcitx-fcitx5-gtk-5.0.1_GH0.tar.gz) = 37195
+diff --git a/textproc/fcitx5-gtk/pkg-descr b/textproc/fcitx5-gtk/pkg-descr
+new file mode 100644
+index 000000000000..bdc9dea4d309
+--- /dev/null
++++ b/textproc/fcitx5-gtk/pkg-descr
+@@ -0,0 +1,3 @@
++Fcitx5 support for GTK+ applications.
++
++WWW: https://github.com/fcitx/fcitx5-gtk
+diff --git a/textproc/fcitx5-gtk/pkg-plist b/textproc/fcitx5-gtk/pkg-plist
+new file mode 100644
+index 000000000000..4a9a3d160c34
+--- /dev/null
++++ b/textproc/fcitx5-gtk/pkg-plist
+@@ -0,0 +1,14 @@
++include/Fcitx5/GClient/fcitx-gclient/fcitxgclient.h
++include/Fcitx5/GClient/fcitx-gclient/fcitxgwatcher.h
++lib/cmake/Fcitx5GClient/Fcitx5GClientConfig.cmake
++lib/cmake/Fcitx5GClient/Fcitx5GClientConfigVersion.cmake
++lib/cmake/Fcitx5GClient/Fcitx5GClientTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/Fcitx5GClient/Fcitx5GClientTargets.cmake
++lib/girepository-1.0/FcitxG-1.0.typelib
++lib/gtk-2.0/%%GTK2_VERSION%%/immodules/im-fcitx5.so
++lib/gtk-3.0/%%GTK3_VERSION%%/immodules/im-fcitx5.so
++lib/libFcitx5GClient.so
++lib/libFcitx5GClient.so.1
++lib/libFcitx5GClient.so.5.0.1
++libdata/pkgconfig/Fcitx5GClient.pc
++share/gir-1.0/FcitxG-1.0.gir
+diff --git a/textproc/fcitx5-qt/Makefile b/textproc/fcitx5-qt/Makefile
+new file mode 100644
+index 000000000000..3239cb611e8b
+--- /dev/null
++++ b/textproc/fcitx5-qt/Makefile
+@@ -0,0 +1,31 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-qt
++DISTVERSION=	5.0.1
++CATEGORIES=	textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Fcitx support for Qt5
++
++LICENSE=	LGPL21+ BSD3CLAUSE
++LICENSE_COMB=	multi
++LICENSE_FILE_LGPL21+ =		${WRKSRC}/LICENSES/LGPL-2.1-or-later.txt
++LICENSE_FILE_BSD3CLAUSE=	${WRKSRC}/LICENSES/BSD-3-Clause.txt
++
++LIB_DEPENDS=	libFcitx5Utils.so:textproc/fcitx5 \
++		libxkbcommon.so:x11/libxkbcommon
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 pkgconfig qt:5 xorg
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++USE_KDE=	ecm
++USE_QT=		concurrent core dbus widgets buildtools_build qmake_build
++USE_XORG=	x11 xcb
++USE_LDCONFIG=	yes
++
++CMAKE_ON=	ENABLE_QT5
++CMAKE_OFF=	ENABLE_QT4 ENABLE_QT6
++
++.include <bsd.port.mk>
+diff --git a/textproc/fcitx5-qt/distinfo b/textproc/fcitx5-qt/distinfo
+new file mode 100644
+index 000000000000..80388e706d7b
+--- /dev/null
++++ b/textproc/fcitx5-qt/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608279898
++SHA256 (fcitx-fcitx5-qt-5.0.1_GH0.tar.gz) = 15f3ea902dba2d9a1f368e3ad2efd6e7fde120e49c647452ad136fec8fd92046
++SIZE (fcitx-fcitx5-qt-5.0.1_GH0.tar.gz) = 107323
+diff --git a/textproc/fcitx5-qt/pkg-descr b/textproc/fcitx5-qt/pkg-descr
+new file mode 100644
+index 000000000000..a7b9a1c0ecf6
+--- /dev/null
++++ b/textproc/fcitx5-qt/pkg-descr
+@@ -0,0 +1,3 @@
++Fcitx5 support for Qt5 applications.
++
++WWW: https://github.com/fcitx/fcitx5-qt
+diff --git a/textproc/fcitx5-qt/pkg-plist b/textproc/fcitx5-qt/pkg-plist
+new file mode 100644
+index 000000000000..d0c3a4cb8e8e
+--- /dev/null
++++ b/textproc/fcitx5-qt/pkg-plist
+@@ -0,0 +1,42 @@
++include/Fcitx5Qt5/Fcitx5Qt5DBusAddons/fcitx5qt5dbusaddons_export.h
++include/Fcitx5Qt5/Fcitx5Qt5DBusAddons/fcitxqtcontrollerproxy.h
++include/Fcitx5Qt5/Fcitx5Qt5DBusAddons/fcitxqtdbustypes.h
++include/Fcitx5Qt5/Fcitx5Qt5DBusAddons/fcitxqtinputcontextproxy.h
++include/Fcitx5Qt5/Fcitx5Qt5DBusAddons/fcitxqtinputmethodproxy.h
++include/Fcitx5Qt5/Fcitx5Qt5DBusAddons/fcitxqtwatcher.h
++include/Fcitx5Qt5/Fcitx5QtWidgetsAddons/fcitx5qt5widgetsaddons_export.h
++include/Fcitx5Qt5/Fcitx5QtWidgetsAddons/fcitxqtconfiguifactory.h
++include/Fcitx5Qt5/Fcitx5QtWidgetsAddons/fcitxqtconfiguiplugin.h
++include/Fcitx5Qt5/Fcitx5QtWidgetsAddons/fcitxqtconfiguiwidget.h
++include/Fcitx5Qt5/Fcitx5QtWidgetsAddons/fcitxqti18nhelper.h
++include/Fcitx5Qt5/Fcitx5QtWidgetsAddons/fcitxqtkeysequencewidget.h
++include/Fcitx5Qt5/fcitx5qt5dbusaddons_version.h
++include/Fcitx5Qt5/fcitx5qt5widgetsaddons_version.h
++lib/cmake/Fcitx5Qt5DBusAddons/Fcitx5Qt5DBusAddonsConfig.cmake
++lib/cmake/Fcitx5Qt5DBusAddons/Fcitx5Qt5DBusAddonsConfigVersion.cmake
++lib/cmake/Fcitx5Qt5DBusAddons/Fcitx5Qt5DBusAddonsTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/Fcitx5Qt5DBusAddons/Fcitx5Qt5DBusAddonsTargets.cmake
++lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsConfig.cmake
++lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsConfigVersion.cmake
++lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsTargets.cmake
++lib/fcitx5/libexec/fcitx5-qt5-gui-wrapper
++lib/fcitx5/qt5/libfcitx-quickphrase-editor5.so
++lib/libFcitx5Qt5DBusAddons.so
++lib/libFcitx5Qt5DBusAddons.so.1
++lib/libFcitx5Qt5DBusAddons.so.5.0.1
++lib/libFcitx5Qt5WidgetsAddons.so
++lib/libFcitx5Qt5WidgetsAddons.so.2
++lib/libFcitx5Qt5WidgetsAddons.so.5.0.1
++%%QT_PLUGINDIR%%/platforminputcontexts/libfcitx5platforminputcontextplugin.so
++share/locale/ca/LC_MESSAGES/fcitx5-qt.mo
++share/locale/da/LC_MESSAGES/fcitx5-qt.mo
++share/locale/de/LC_MESSAGES/fcitx5-qt.mo
++share/locale/es/LC_MESSAGES/fcitx5-qt.mo
++share/locale/fr/LC_MESSAGES/fcitx5-qt.mo
++share/locale/he/LC_MESSAGES/fcitx5-qt.mo
++share/locale/ja/LC_MESSAGES/fcitx5-qt.mo
++share/locale/ko/LC_MESSAGES/fcitx5-qt.mo
++share/locale/ru/LC_MESSAGES/fcitx5-qt.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-qt.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-qt.mo
+diff --git a/textproc/fcitx5/Makefile b/textproc/fcitx5/Makefile
+new file mode 100644
+index 000000000000..617f2ba8361b
+--- /dev/null
++++ b/textproc/fcitx5/Makefile
+@@ -0,0 +1,78 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5
++DISTVERSION=	5.0.3-31
++CATEGORIES=	textproc
++MASTER_SITES=	https://download.fcitx-im.org/data/:dict
++DISTFILES=	${SPELL_EN_DICT_TAR}:dict
++DIST_SUBDIR=	${PORTNAME}
++EXTRACT_ONLY=	${DISTNAME}${EXTRACT_SUFX}
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	New implementation of the Fcitx IME framework
++
++LICENSE=	LGPL21+
++
++BUILD_DEPENDS=	iso-codes>=0:misc/iso-codes \
++		uthash>=0:devel/uthash
++LIB_DEPENDS=	libdbus-1.so:devel/dbus \
++		libevent.so:devel/libevent \
++		libuuid.so:misc/e2fsprogs-libuuid \
++		libfmt.so:devel/libfmt \
++		libxkbcommon.so:x11/libxkbcommon \
++		libexpat.so:textproc/expat2 \
++		libjson-c.so:devel/json-c
++RUN_DEPENDS=	iso-codes>=0:misc/iso-codes \
++		xkeyboard-config>=0:x11/xkeyboard-config
++
++# gettext-tools for both build-time hard requirement and Fcitx5 helper shell scripts
++USES=		cmake compiler:c++17-lang gettext-runtime gettext-tools:build,run gl gnome kde:5 pkgconfig
++
++CONFLICTS=	zh-fcitx
++
++OPTIONS_DEFINE=		X11 WAYLAND ENCHANT
++OPTIONS_DEFAULT=	X11 WAYLAND ENCHANT
++OPTIONS_SUB=		yes
++
++SUB_FILES=	pkg-message
++
++X11_USES=	xorg
++X11_USE=	xorg=xcb,xkbfile
++X11_LIB_DEPENDS=	libxcb-util.so:x11/xcb-util \
++			libxcb-keysyms.so:x11/xcb-util-keysyms \
++			libxcb-ewmh.so:x11/xcb-util-wm \
++			libxcb-icccm.so:x11/xcb-util-wm \
++			libxcb-imdkit.so:x11/xcb-imdkit
++
++WAYLAND_BUILD_DEPENDS=	wayland-scanner:graphics/wayland \
++			wayland-protocols>=0:graphics/wayland-protocols
++WAYLAND_LIB_DEPENDS=	libwayland-client.so:graphics/wayland \
++			libwayland-egl.so:graphics/wayland
++
++ENCHANT_DESC=		Dictionary/spellchecking framework
++ENCHANT_LIB_DEPENDS=	libenchant-2.so:textproc/enchant2
++ENCHANT_CMAKE_BOOL=	ENABLE_ENCHANT
++
++CMAKE_ON=	SYSTEM_USE_UTHASH FCITX5_DOWNLOAD_DISALLOWED
++CMAKE_OFF=	ENABLE_TEST
++MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
++
++USE_GL=		egl
++USE_GNOME=	cairo glib20 gdkpixbuf2 pango
++USE_KDE=	ecm
++INSTALLS_ICONS=	yes
++
++USE_LDCONFIG=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++GH_TAGNAME=	49c79b4
++
++SPELL_EN_DICT_VER=	20121020 # This must follow src/modules/spell/dict/CMakeLists.txt0
++SPELL_EN_DICT_TAR=	en_dict-${SPELL_EN_DICT_VER}.tar.gz
++
++post-extract:
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${SPELL_EN_DICT_TAR} ${WRKSRC}/src/modules/spell/dict
++
++.include <bsd.port.mk>
+diff --git a/textproc/fcitx5/distinfo b/textproc/fcitx5/distinfo
+new file mode 100644
+index 000000000000..999a6d45f1fd
+--- /dev/null
++++ b/textproc/fcitx5/distinfo
+@@ -0,0 +1,5 @@
++TIMESTAMP = 1608311668
++SHA256 (fcitx5/en_dict-20121020.tar.gz) = c44a5d7847925eea9e4d2d04748d442cd28dd9299a0b572ef7d91eac4f5a6ceb
++SIZE (fcitx5/en_dict-20121020.tar.gz) = 630491
++SHA256 (fcitx5/fcitx-fcitx5-5.0.3-31-49c79b4_GH0.tar.gz) = 57b52a91ad39b500fd33ab6f348b7db3cbeaa713bb23b2cf86959b0bbc297b4a
++SIZE (fcitx5/fcitx-fcitx5-5.0.3-31-49c79b4_GH0.tar.gz) = 1902713
+diff --git a/textproc/fcitx5/files/patch-src_lib_fcitx-utils_Fcitx5Download.cmake.in b/textproc/fcitx5/files/patch-src_lib_fcitx-utils_Fcitx5Download.cmake.in
+new file mode 100644
+index 000000000000..08e1fbc0352a
+--- /dev/null
++++ b/textproc/fcitx5/files/patch-src_lib_fcitx-utils_Fcitx5Download.cmake.in
+@@ -0,0 +1,25 @@
++--- src/lib/fcitx-utils/Fcitx5Download.cmake.in.orig	2020-12-04 23:50:28 UTC
+++++ src/lib/fcitx-utils/Fcitx5Download.cmake.in
++@@ -1,11 +1,16 @@
+++SET(FCITX5_DOWNLOAD_DISALLOWED $ENV{FCITX5_DOWNLOAD_DISALLOWED})
++ if (NOT EXISTS "@FCITX5_DOWNLOAD_DEST@")
++     message(STATUS "Downloading '@FCITX5_DOWNLOAD_URL@' to '@FCITX5_DOWNLOAD_DEST@'...")
++-    file(DOWNLOAD
++-         "@FCITX5_DOWNLOAD_URL@"
++-         "@FCITX5_DOWNLOAD_DEST@"
++-         EXPECTED_HASH SHA256=@FCITX5_DOWNLOAD_SHA256@
++-         TLS_VERIFY ON
++-         SHOW_PROGRESS)
+++    if (NOT FCITX5_DOWNLOAD_DISALLOWED)
+++        file(DOWNLOAD
+++             "@FCITX5_DOWNLOAD_URL@"
+++             "@FCITX5_DOWNLOAD_DEST@"
+++             EXPECTED_HASH SHA256=@FCITX5_DOWNLOAD_SHA256@
+++             TLS_VERIFY ON
+++             SHOW_PROGRESS)
+++    else()
+++        message(FATAL_ERROR "Downloading is disallowed")
+++    endif()
++ else()
++     file(SHA256 "@FCITX5_DOWNLOAD_DEST@" actual_value)
++     if(NOT "${actual_value}" STREQUAL "@FCITX5_DOWNLOAD_SHA256@")
+diff --git a/textproc/fcitx5/files/pkg-message.in b/textproc/fcitx5/files/pkg-message.in
+new file mode 100644
+index 000000000000..e2d9d0ebcdc3
+--- /dev/null
++++ b/textproc/fcitx5/files/pkg-message.in
+@@ -0,0 +1,25 @@
++[
++{ type: install
++  message: <<EOM
++Remember to set the environment variable XMODIFIERS:
++
++	csh/tcsh:	setenv XMODIFIERS @im=fcitx
++	sh/bash:	export XMODIFIERS='@im=fcitx'
++
++For GTK+ programs, you may want to set:
++
++	csh/tcsh:	setenv GTK_IM_MODULE fcitx/xim
++	sh/bash:	export GTK_IM_MODULE=fcitx/xim
++
++For Qt programs, you may want to set:
++
++	csh/tcsh:	setenv QT_IM_MODULE fcitx
++	sh/bash:	export QT_IM_MODULE=fcitx
++
++To start fcitx with your desktop, just
++
++	cp %%PREFIX%%/share/applications/org.fcitx.Fcitx5.desktop \
++	    ~/.config/autostart/
++EOM
++}
++]
+diff --git a/textproc/fcitx5/pkg-descr b/textproc/fcitx5/pkg-descr
+new file mode 100644
+index 000000000000..435fb0bda94c
+--- /dev/null
++++ b/textproc/fcitx5/pkg-descr
+@@ -0,0 +1,3 @@
++Fcitx5 is a generic input method framework. It supercedes Fcitx 4.
++
++WWW: https://github.com/fcitx/fcitx5
+diff --git a/textproc/fcitx5/pkg-plist b/textproc/fcitx5/pkg-plist
+new file mode 100644
+index 000000000000..94a81bef5094
+--- /dev/null
++++ b/textproc/fcitx5/pkg-plist
+@@ -0,0 +1,277 @@
++bin/fcitx5
++bin/fcitx5-configtool
++bin/fcitx5-diagnose
++bin/fcitx5-remote
++etc/xdg/autostart/org.fcitx.Fcitx5.desktop
++include/Fcitx5/Config/fcitx-config/configuration.h
++include/Fcitx5/Config/fcitx-config/dbushelper.h
++include/Fcitx5/Config/fcitx-config/enum.h
++include/Fcitx5/Config/fcitx-config/fcitxconfig_export.h
++include/Fcitx5/Config/fcitx-config/iniparser.h
++include/Fcitx5/Config/fcitx-config/marshallfunction.h
++include/Fcitx5/Config/fcitx-config/option.h
++include/Fcitx5/Config/fcitx-config/option_details.h
++include/Fcitx5/Config/fcitx-config/optiontypename.h
++include/Fcitx5/Config/fcitx-config/rawconfig.h
++include/Fcitx5/Core/fcitx/action.h
++include/Fcitx5/Core/fcitx/addonfactory.h
++include/Fcitx5/Core/fcitx/addoninfo.h
++include/Fcitx5/Core/fcitx/addoninstance.h
++include/Fcitx5/Core/fcitx/addoninstance_details.h
++include/Fcitx5/Core/fcitx/addonloader.h
++include/Fcitx5/Core/fcitx/addonmanager.h
++include/Fcitx5/Core/fcitx/candidatelist.h
++include/Fcitx5/Core/fcitx/event.h
++include/Fcitx5/Core/fcitx/fcitxcore_export.h
++include/Fcitx5/Core/fcitx/focusgroup.h
++include/Fcitx5/Core/fcitx/globalconfig.h
++include/Fcitx5/Core/fcitx/icontheme.h
++include/Fcitx5/Core/fcitx/inputcontext.h
++include/Fcitx5/Core/fcitx/inputcontextmanager.h
++include/Fcitx5/Core/fcitx/inputcontextproperty.h
++include/Fcitx5/Core/fcitx/inputmethodengine.h
++include/Fcitx5/Core/fcitx/inputmethodentry.h
++include/Fcitx5/Core/fcitx/inputmethodgroup.h
++include/Fcitx5/Core/fcitx/inputmethodmanager.h
++include/Fcitx5/Core/fcitx/inputpanel.h
++include/Fcitx5/Core/fcitx/instance.h
++include/Fcitx5/Core/fcitx/menu.h
++include/Fcitx5/Core/fcitx/statusarea.h
++include/Fcitx5/Core/fcitx/surroundingtext.h
++include/Fcitx5/Core/fcitx/text.h
++include/Fcitx5/Core/fcitx/userinterface.h
++include/Fcitx5/Core/fcitx/userinterfacemanager.h
++include/Fcitx5/Module/fcitx-module/clipboard/clipboard_public.h
++include/Fcitx5/Module/fcitx-module/dbus/dbus_public.h
++include/Fcitx5/Module/fcitx-module/notificationitem/notificationitem_public.h
++include/Fcitx5/Module/fcitx-module/notifications/notifications_public.h
++include/Fcitx5/Module/fcitx-module/quickphrase/quickphrase_public.h
++include/Fcitx5/Module/fcitx-module/spell/spell_public.h
++include/Fcitx5/Module/fcitx-module/testfrontend/testfrontend_public.h
++include/Fcitx5/Module/fcitx-module/testim/testim_public.h
++include/Fcitx5/Module/fcitx-module/wayland/wayland_public.h
++include/Fcitx5/Module/fcitx-module/xcb/xcb_public.h
++include/Fcitx5/Utils/fcitx-utils/capabilityflags.h
++include/Fcitx5/Utils/fcitx-utils/charutils.h
++include/Fcitx5/Utils/fcitx-utils/color.h
++include/Fcitx5/Utils/fcitx-utils/connectableobject.h
++include/Fcitx5/Utils/fcitx-utils/cutf8.h
++include/Fcitx5/Utils/fcitx-utils/dbus/bus.h
++include/Fcitx5/Utils/fcitx-utils/dbus/matchrule.h
++include/Fcitx5/Utils/fcitx-utils/dbus/message.h
++include/Fcitx5/Utils/fcitx-utils/dbus/message_details.h
++include/Fcitx5/Utils/fcitx-utils/dbus/objectvtable.h
++include/Fcitx5/Utils/fcitx-utils/dbus/servicewatcher.h
++include/Fcitx5/Utils/fcitx-utils/element.h
++include/Fcitx5/Utils/fcitx-utils/event.h
++include/Fcitx5/Utils/fcitx-utils/eventdispatcher.h
++include/Fcitx5/Utils/fcitx-utils/fcitxutils_export.h
++include/Fcitx5/Utils/fcitx-utils/flags.h
++include/Fcitx5/Utils/fcitx-utils/fs.h
++include/Fcitx5/Utils/fcitx-utils/handlertable.h
++include/Fcitx5/Utils/fcitx-utils/handlertable_details.h
++include/Fcitx5/Utils/fcitx-utils/i18n.h
++include/Fcitx5/Utils/fcitx-utils/i18nstring.h
++include/Fcitx5/Utils/fcitx-utils/inputbuffer.h
++include/Fcitx5/Utils/fcitx-utils/intrusivelist.h
++include/Fcitx5/Utils/fcitx-utils/key.h
++include/Fcitx5/Utils/fcitx-utils/keysym.h
++include/Fcitx5/Utils/fcitx-utils/keysymgen.h
++include/Fcitx5/Utils/fcitx-utils/library.h
++include/Fcitx5/Utils/fcitx-utils/log.h
++include/Fcitx5/Utils/fcitx-utils/macros.h
++include/Fcitx5/Utils/fcitx-utils/metastring.h
++include/Fcitx5/Utils/fcitx-utils/misc.h
++include/Fcitx5/Utils/fcitx-utils/rect.h
++include/Fcitx5/Utils/fcitx-utils/signals.h
++include/Fcitx5/Utils/fcitx-utils/signals_details.h
++include/Fcitx5/Utils/fcitx-utils/standardpath.h
++include/Fcitx5/Utils/fcitx-utils/stringutils.h
++include/Fcitx5/Utils/fcitx-utils/stringutils_details.h
++include/Fcitx5/Utils/fcitx-utils/testing.h
++include/Fcitx5/Utils/fcitx-utils/textformatflags.h
++include/Fcitx5/Utils/fcitx-utils/trackableobject.h
++include/Fcitx5/Utils/fcitx-utils/tuplehelpers.h
++include/Fcitx5/Utils/fcitx-utils/unixfd.h
++include/Fcitx5/Utils/fcitx-utils/utf8.h
++lib/cmake/Fcitx5Config/Fcitx5ConfigConfig.cmake
++lib/cmake/Fcitx5Config/Fcitx5ConfigConfigVersion.cmake
++lib/cmake/Fcitx5Config/Fcitx5ConfigTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/Fcitx5Config/Fcitx5ConfigTargets.cmake
++lib/cmake/Fcitx5Core/Fcitx5CoreConfig.cmake
++lib/cmake/Fcitx5Core/Fcitx5CoreConfigVersion.cmake
++lib/cmake/Fcitx5Core/Fcitx5CoreTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/Fcitx5Core/Fcitx5CoreTargets.cmake
++lib/cmake/Fcitx5Module/Fcitx5ModuleConfig.cmake
++lib/cmake/Fcitx5Module/Fcitx5ModuleConfigVersion.cmake
++lib/cmake/Fcitx5ModuleClipboard/Fcitx5ModuleClipboardConfig.cmake
++lib/cmake/Fcitx5ModuleClipboard/Fcitx5ModuleClipboardConfigVersion.cmake
++lib/cmake/Fcitx5ModuleDBus/Fcitx5ModuleDBusConfig.cmake
++lib/cmake/Fcitx5ModuleDBus/Fcitx5ModuleDBusConfigVersion.cmake
++lib/cmake/Fcitx5ModuleNotificationItem/Fcitx5ModuleNotificationItemConfig.cmake
++lib/cmake/Fcitx5ModuleNotificationItem/Fcitx5ModuleNotificationItemConfigVersion.cmake
++lib/cmake/Fcitx5ModuleNotifications/Fcitx5ModuleNotificationsConfig.cmake
++lib/cmake/Fcitx5ModuleNotifications/Fcitx5ModuleNotificationsConfigVersion.cmake
++lib/cmake/Fcitx5ModuleQuickPhrase/Fcitx5ModuleQuickPhraseConfig.cmake
++lib/cmake/Fcitx5ModuleQuickPhrase/Fcitx5ModuleQuickPhraseConfigVersion.cmake
++lib/cmake/Fcitx5ModuleSpell/Fcitx5ModuleSpellConfig.cmake
++lib/cmake/Fcitx5ModuleSpell/Fcitx5ModuleSpellConfigVersion.cmake
++lib/cmake/Fcitx5ModuleTestFrontend/Fcitx5ModuleTestFrontendConfig.cmake
++lib/cmake/Fcitx5ModuleTestFrontend/Fcitx5ModuleTestFrontendConfigVersion.cmake
++lib/cmake/Fcitx5ModuleTestIM/Fcitx5ModuleTestIMConfig.cmake
++lib/cmake/Fcitx5ModuleTestIM/Fcitx5ModuleTestIMConfigVersion.cmake
++lib/cmake/Fcitx5ModuleWayland/Fcitx5ModuleWaylandConfig.cmake
++lib/cmake/Fcitx5ModuleWayland/Fcitx5ModuleWaylandConfigVersion.cmake
++lib/cmake/Fcitx5ModuleXCB/Fcitx5ModuleXCBConfig.cmake
++lib/cmake/Fcitx5ModuleXCB/Fcitx5ModuleXCBConfigVersion.cmake
++lib/cmake/Fcitx5Utils/Fcitx5CompilerSettings.cmake
++lib/cmake/Fcitx5Utils/Fcitx5Download.cmake.in
++lib/cmake/Fcitx5Utils/Fcitx5Macros.cmake
++lib/cmake/Fcitx5Utils/Fcitx5ModuleTemplate.cmake.in
++lib/cmake/Fcitx5Utils/Fcitx5UtilsConfig.cmake
++lib/cmake/Fcitx5Utils/Fcitx5UtilsConfigVersion.cmake
++lib/cmake/Fcitx5Utils/Fcitx5UtilsTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/Fcitx5Utils/Fcitx5UtilsTargets.cmake
++lib/fcitx5/classicui.so
++lib/fcitx5/clipboard.so
++lib/fcitx5/dbus.so
++lib/fcitx5/dbusfrontend.so
++lib/fcitx5/ibusfrontend.so
++lib/fcitx5/imselector.so
++lib/fcitx5/kimpanel.so
++lib/fcitx5/libexec/comp-spell-dict
++lib/fcitx5/notificationitem.so
++lib/fcitx5/notifications.so
++lib/fcitx5/quickphrase.so
++lib/fcitx5/spell.so
++lib/fcitx5/testfrontend.so
++lib/fcitx5/testim.so
++lib/fcitx5/testui.so
++lib/fcitx5/unicode.so
++lib/fcitx5/wayland.so
++lib/fcitx5/waylandim.so
++lib/fcitx5/xcb.so
++lib/fcitx5/xim.so
++lib/libFcitx5Config.so
++lib/libFcitx5Config.so.5.0.4
++lib/libFcitx5Config.so.6
++lib/libFcitx5Core.so
++lib/libFcitx5Core.so.5.0.4
++lib/libFcitx5Core.so.7
++lib/libFcitx5Utils.so
++lib/libFcitx5Utils.so.2
++lib/libFcitx5Utils.so.5.0.4
++libdata/pkgconfig/Fcitx5Config.pc
++libdata/pkgconfig/Fcitx5Core.pc
++libdata/pkgconfig/Fcitx5Module.pc
++libdata/pkgconfig/Fcitx5Utils.pc
++share/applications/fcitx5-configtool.desktop
++share/applications/org.fcitx.Fcitx5.desktop
++share/dbus-1/services/org.fcitx.Fcitx5.service
++%%DATADIR%%/addon/classicui.conf
++%%DATADIR%%/addon/clipboard.conf
++%%DATADIR%%/addon/dbus.conf
++%%DATADIR%%/addon/dbusfrontend.conf
++%%DATADIR%%/addon/ibusfrontend.conf
++%%DATADIR%%/addon/imselector.conf
++%%DATADIR%%/addon/keyboard.conf
++%%DATADIR%%/addon/kimpanel.conf
++%%DATADIR%%/addon/notificationitem.conf
++%%DATADIR%%/addon/notifications.conf
++%%DATADIR%%/addon/quickphrase.conf
++%%DATADIR%%/addon/spell.conf
++%%DATADIR%%/addon/unicode.conf
++%%DATADIR%%/addon/wayland.conf
++%%DATADIR%%/addon/waylandim.conf
++%%DATADIR%%/addon/xcb.conf
++%%DATADIR%%/addon/xim.conf
++%%DATADIR%%/data/quickphrase.d/emoji-eac.mb
++%%DATADIR%%/data/quickphrase.d/emoji.mb
++%%DATADIR%%/data/quickphrase.d/latex.mb
++%%DATADIR%%/default/ar_DZ
++%%DATADIR%%/default/as_IN
++%%DATADIR%%/default/ast_ES
++%%DATADIR%%/default/az_AZ
++%%DATADIR%%/default/be_BY
++%%DATADIR%%/default/bg_BG
++%%DATADIR%%/default/bn_IN
++%%DATADIR%%/default/cat_ES
++%%DATADIR%%/default/cs_CZ
++%%DATADIR%%/default/de_CH
++%%DATADIR%%/default/de_DE
++%%DATADIR%%/default/el_CY
++%%DATADIR%%/default/el_GR
++%%DATADIR%%/default/en_GB
++%%DATADIR%%/default/en_US
++%%DATADIR%%/default/en_ZA
++%%DATADIR%%/default/es_ES
++%%DATADIR%%/default/es_GT
++%%DATADIR%%/default/es_MX
++%%DATADIR%%/default/fr_BE
++%%DATADIR%%/default/fr_CH
++%%DATADIR%%/default/fr_FR
++%%DATADIR%%/default/gl_ES
++%%DATADIR%%/default/gu_IN
++%%DATADIR%%/default/he_IL
++%%DATADIR%%/default/hi_IN
++%%DATADIR%%/default/id_ID
++%%DATADIR%%/default/it_IT
++%%DATADIR%%/default/ja_JP
++%%DATADIR%%/default/kn_IN
++%%DATADIR%%/default/ko_KR
++%%DATADIR%%/default/mai_IN
++%%DATADIR%%/default/ml_IN
++%%DATADIR%%/default/mr_IN
++%%DATADIR%%/default/nl_NL
++%%DATADIR%%/default/or_IN
++%%DATADIR%%/default/pa_IN
++%%DATADIR%%/default/pl_PL
++%%DATADIR%%/default/pt_BR
++%%DATADIR%%/default/pt_PT
++%%DATADIR%%/default/ru_RU
++%%DATADIR%%/default/sd_IN
++%%DATADIR%%/default/sk_SK
++%%DATADIR%%/default/ta_IN
++%%DATADIR%%/default/te_IN
++%%DATADIR%%/default/ur_IN
++%%DATADIR%%/default/zh_CN
++%%DATADIR%%/default/zh_HK
++%%DATADIR%%/default/zh_TW
++%%DATADIR%%/spell/en_dict.fscd
++%%DATADIR%%/testing/addon/testfrontend.conf
++%%DATADIR%%/testing/addon/testim.conf
++%%DATADIR%%/testing/addon/testui.conf
++%%DATADIR%%/themes/default/arrow.png
++%%DATADIR%%/themes/default/highlight.png
++%%DATADIR%%/themes/default/next.png
++%%DATADIR%%/themes/default/panel.png
++%%DATADIR%%/themes/default/prev.png
++%%DATADIR%%/themes/default/radio.png
++%%DATADIR%%/themes/default/theme.conf
++%%DATADIR%%/unicode/charselectdata
++share/icons/hicolor/128x128/apps/fcitx.png
++share/icons/hicolor/128x128/apps/org.fcitx.Fcitx5.png
++share/icons/hicolor/16x16/apps/fcitx.png
++share/icons/hicolor/16x16/apps/org.fcitx.Fcitx5.png
++share/icons/hicolor/22x22/apps/fcitx.png
++share/icons/hicolor/22x22/apps/org.fcitx.Fcitx5.png
++share/icons/hicolor/24x24/apps/fcitx.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.png
++share/icons/hicolor/32x32/apps/fcitx.png
++share/icons/hicolor/32x32/apps/org.fcitx.Fcitx5.png
++share/icons/hicolor/48x48/apps/fcitx.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.png
++share/icons/hicolor/scalable/apps/fcitx.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.svg
++share/locale/ca/LC_MESSAGES/fcitx5.mo
++share/locale/da/LC_MESSAGES/fcitx5.mo
++share/locale/de/LC_MESSAGES/fcitx5.mo
++share/locale/es/LC_MESSAGES/fcitx5.mo
++share/locale/fr/LC_MESSAGES/fcitx5.mo
++share/locale/he/LC_MESSAGES/fcitx5.mo
++share/locale/ja/LC_MESSAGES/fcitx5.mo
++share/locale/ko/LC_MESSAGES/fcitx5.mo
++share/locale/ru/LC_MESSAGES/fcitx5.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5.mo
++share/metainfo/org.fcitx.Fcitx5.metainfo.xml
+diff --git a/x11/Makefile b/x11/Makefile
+index a757286b0e7b..9db9affc7221 100644
+--- a/x11/Makefile
++++ b/x11/Makefile
+@@ -394,6 +394,7 @@
+     SUBDIR += xcalib
+     SUBDIR += xcape
+     SUBDIR += xcb
++    SUBDIR += xcb-imdkit
+     SUBDIR += xcb-proto
+     SUBDIR += xcb-util
+     SUBDIR += xcb-util-cursor
+diff --git a/x11/xcb-imdkit/Makefile b/x11/xcb-imdkit/Makefile
+new file mode 100644
+index 000000000000..e9d235a88fed
+--- /dev/null
++++ b/x11/xcb-imdkit/Makefile
+@@ -0,0 +1,27 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	xcb-imdkit
++DISTVERSION=	1.0.1
++CATEGORIES=	x11 textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Input method development support for XCB
++
++LICENSE=	LGPL21+
++
++BUILD_DEPENDS=	uthash>=0:devel/uthash
++LIB_DEPENDS=	libxcb-util.so:x11/xcb-util \
++		libxcb-keysyms.so:x11/xcb-util-keysyms
++
++USES=		compiler:c11 cmake pkgconfig kde:5 xorg
++
++CMAKE_ON=	SYSTEM_USE_UTHASH
++
++USE_KDE=	ecm
++USE_XORG=	xcb
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++.include <bsd.port.mk>
+diff --git a/x11/xcb-imdkit/distinfo b/x11/xcb-imdkit/distinfo
+new file mode 100644
+index 000000000000..bccf33f99bd1
+--- /dev/null
++++ b/x11/xcb-imdkit/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608195071
++SHA256 (fcitx-xcb-imdkit-1.0.1_GH0.tar.gz) = 78572cc37f16fed62b9e8749d8919b7b6834fe71819847d88b16db7646481e71
++SIZE (fcitx-xcb-imdkit-1.0.1_GH0.tar.gz) = 659473
+diff --git a/x11/xcb-imdkit/pkg-descr b/x11/xcb-imdkit/pkg-descr
+new file mode 100644
+index 000000000000..8e7e1ce658cf
+--- /dev/null
++++ b/x11/xcb-imdkit/pkg-descr
+@@ -0,0 +1,3 @@
++An input method development support library for XCB.
++
++WWW: https://github.com/fcitx/xcb-imdkit
+diff --git a/x11/xcb-imdkit/pkg-plist b/x11/xcb-imdkit/pkg-plist
+new file mode 100644
+index 000000000000..8ebe99468cdd
+--- /dev/null
++++ b/x11/xcb-imdkit/pkg-plist
+@@ -0,0 +1,14 @@
++include/xcb-imdkit/encoding.h
++include/xcb-imdkit/imclient.h
++include/xcb-imdkit/imdkit.h
++include/xcb-imdkit/ximcommon.h
++include/xcb-imdkit/ximproto-gen.h
++include/xcb-imdkit/ximproto.h
++lib/cmake/XCBImdkit/XCBImdkitConfig.cmake
++lib/cmake/XCBImdkit/XCBImdkitConfigVersion.cmake
++lib/cmake/XCBImdkit/XCBImdkitLibraryTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/XCBImdkit/XCBImdkitLibraryTargets.cmake
++lib/libxcb-imdkit.so
++lib/libxcb-imdkit.so.1
++lib/libxcb-imdkit.so.1.0.1
++libdata/pkgconfig/xcb-imdkit.pc
