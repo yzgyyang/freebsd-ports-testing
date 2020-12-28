@@ -7,21 +7,8 @@
 # PD_TREE_PATH=/home/guangyuan/freebsd-ports
 
 if [ "${GIT_BRANCH}" = 'origin/main' ]; then
-exit 0
+  exit 0
 fi
-
-# Set env
-cd ${WORKSPACE}/src
-
-# in Jenkins, GIT_BRANCH=origin/devel/R-cran-covr
-PORT_CAT=$(echo ${GIT_BRANCH} | awk -F '/' '{print $2}')
-PORT_NAME=$(echo ${GIT_BRANCH} | awk -F '/' '{print $3}')
-CHANGE_TITLE=$(git log --pretty=format:%s | head -n1)
-PORT_VER=$(echo ${CHANGE_TITLE} | awk -F ':' '{print $2}')
-PATCH_NAME="${PORT_CAT}.${PORT_NAME}.${PORT_VER}.diff"
-PD_JAIL_RELEASE_A=$(echo ${PD_JAIL_RELEASE} | awk -F '.' '{print $1}')
-
-env
 
 # Clean up ports tree
 cd ${PD_TREE_PATH}
@@ -32,8 +19,31 @@ git clean -df
 git checkout -- .
 git pull upstream master
 
-# Apply patch
+# Environmental variables
+CHANGE_TITLE=$(git log --pretty=format:%s | head -n1)
+PD_JAIL_RELEASE_A=$(echo ${PD_JAIL_RELEASE} | awk -F '.' '{print $1}')
+
+# Get into Ports tree
 cd ${PD_TREE_PATH}
+
+# Bulk build
+case ${GIT_BRANCH} in origin/bulk*)
+  # Apply patch
+  PATCH_NAME="${CHANGE_TITLE}.diff"
+  patch -p1 -u < ${WORKSPACE}/src/patches/${PATCH_NAME}
+
+  # Build
+  sudo poudriere bulk -f ${PD_TREE_PATH}/pkglist -j ${PD_JAIL} -p ${PD_TREE}
+  exit 0
+esac
+
+# in Jenkins, GIT_BRANCH=origin/devel/R-cran-covr
+PORT_CAT=$(echo ${GIT_BRANCH} | awk -F '/' '{print $2}')
+PORT_NAME=$(echo ${GIT_BRANCH} | awk -F '/' '{print $3}')
+PORT_VER=$(echo ${CHANGE_TITLE} | awk -F ':' '{print $2}')
+PATCH_NAME="${PORT_CAT}.${PORT_NAME}.${PORT_VER}.diff"
+
+# Apply patch
 patch -p1 -u < ${WORKSPACE}/src/patches/${PATCH_NAME}
 
 # Build
