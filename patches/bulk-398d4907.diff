@@ -1,0 +1,1477 @@
+diff --git a/chinese/Makefile b/chinese/Makefile
+index 4706a6f47d87..14cb763cb03b 100644
+--- a/chinese/Makefile
++++ b/chinese/Makefile
+@@ -95,15 +95,29 @@
+     SUBDIR += pycangjie
+     SUBDIR += pyzy
+     SUBDIR += qe
++    SUBDIR += rime-array
+     SUBDIR += rime-bopomofo
+     SUBDIR += rime-cangjie
+     SUBDIR += rime-cantonese
+-    SUBDIR += rime-data
++    SUBDIR += rime-combo-pinyin
++    SUBDIR += rime-data-full
++    SUBDIR += rime-double-pinyin
++    SUBDIR += rime-emoji
+     SUBDIR += rime-essay
++    SUBDIR += rime-ipa
++    SUBDIR += rime-jyutping
+     SUBDIR += rime-luna-pinyin
++    SUBDIR += rime-middle-chinese
++    SUBDIR += rime-pinyin-simp
+     SUBDIR += rime-prelude
++    SUBDIR += rime-quick
++    SUBDIR += rime-scj
++    SUBDIR += rime-soutzoe
++    SUBDIR += rime-stenotype
+     SUBDIR += rime-stroke
+     SUBDIR += rime-terra-pinyin
++    SUBDIR += rime-wubi
++    SUBDIR += rime-wugniu
+     SUBDIR += scim-fcitx
+     SUBDIR += scim-pinyin
+     SUBDIR += scim-tables
+diff --git a/chinese/rime-array/Makefile b/chinese/rime-array/Makefile
+new file mode 100644
+index 000000000000..292302011891
+--- /dev/null
++++ b/chinese/rime-array/Makefile
+@@ -0,0 +1,56 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-array
++DISTVERSION=	g20200902
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Array input schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime \
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	cc6f15985090b7c1d57b963874d97e1338474e70
++
++NO_ARCH=	yes
++
++PORTDOCS=	README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	array30.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-array/distinfo b/chinese/rime-array/distinfo
+new file mode 100644
+index 000000000000..6457b2a1f630
+--- /dev/null
++++ b/chinese/rime-array/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608706695
++SHA256 (rime-rime-array-g20200902-cc6f15985090b7c1d57b963874d97e1338474e70_GH0.tar.gz) = b5ba9ae50b16eaeda59a4b52fee829f7918cf135bae660b3ea279729da3b6226
++SIZE (rime-rime-array-g20200902-cc6f15985090b7c1d57b963874d97e1338474e70_GH0.tar.gz) = 524645
+diff --git a/chinese/rime-array/pkg-descr b/chinese/rime-array/pkg-descr
+new file mode 100644
+index 000000000000..7a069965343d
+--- /dev/null
++++ b/chinese/rime-array/pkg-descr
+@@ -0,0 +1,3 @@
++Array input schema for Rime.
++
++WWW: https://github.com/rime/rime-array
+diff --git a/chinese/rime-array/pkg-plist b/chinese/rime-array/pkg-plist
+new file mode 100644
+index 000000000000..6d16e4aa47cb
+--- /dev/null
++++ b/chinese/rime-array/pkg-plist
+@@ -0,0 +1,8 @@
++share/rime-data/array30.dict.yaml
++share/rime-data/array30.schema.yaml
++share/rime-data/build/array30.prism.bin
++share/rime-data/build/array30.prism.txt
++share/rime-data/build/array30.reverse.bin
++share/rime-data/build/array30.schema.yaml
++share/rime-data/build/array30.table.bin
++share/rime-data/build/array30.table.txt
+diff --git a/chinese/rime-combo-pinyin/Makefile b/chinese/rime-combo-pinyin/Makefile
+new file mode 100644
+index 000000000000..402a6186b7f0
+--- /dev/null
++++ b/chinese/rime-combo-pinyin/Makefile
+@@ -0,0 +1,63 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-combo-pinyin
++DISTVERSION=	g20201204
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Combo Pinyin schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	5300951b8de07252d7565fefe84f5fae50205564
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++LUNA_PINYIN_FILES=	luna_pinyin.dict.yaml
++SCHEMA_FILES=	combo_pinyin.schema.yaml combo_pinyin_kbcon.schema.yaml \
++		combo_pinyin_left.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES} ${LUNA_PINYIN_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data/build
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${MY_OUTDIR}/build/combo_pinyin* \
++		${STAGEDIR}${PREFIX}/share/rime-data/build
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-combo-pinyin/distinfo b/chinese/rime-combo-pinyin/distinfo
+new file mode 100644
+index 000000000000..174ed72111df
+--- /dev/null
++++ b/chinese/rime-combo-pinyin/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608708086
++SHA256 (rime-rime-combo-pinyin-g20201204-5300951b8de07252d7565fefe84f5fae50205564_GH0.tar.gz) = 6eb8f61f5300891a39385f3c8126230b6779456f6c92be577166a0d049638182
++SIZE (rime-rime-combo-pinyin-g20201204-5300951b8de07252d7565fefe84f5fae50205564_GH0.tar.gz) = 17753
+diff --git a/chinese/rime-combo-pinyin/pkg-descr b/chinese/rime-combo-pinyin/pkg-descr
+new file mode 100644
+index 000000000000..6ed14b3274db
+--- /dev/null
++++ b/chinese/rime-combo-pinyin/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Combo Pinyin schema for Mandarin input support.
++
++WWW: https://github.com/rime/rime-combo-pinyin
+diff --git a/chinese/rime-combo-pinyin/pkg-plist b/chinese/rime-combo-pinyin/pkg-plist
+new file mode 100644
+index 000000000000..7bb411edba15
+--- /dev/null
++++ b/chinese/rime-combo-pinyin/pkg-plist
+@@ -0,0 +1,10 @@
++share/rime-data/build/combo_pinyin.prism.bin
++share/rime-data/build/combo_pinyin.schema.yaml
++share/rime-data/build/combo_pinyin_kbcon.prism.bin
++share/rime-data/build/combo_pinyin_kbcon.schema.yaml
++share/rime-data/build/combo_pinyin_left.prism.bin
++share/rime-data/build/combo_pinyin_left.schema.yaml
++share/rime-data/combo_pinyin.schema.yaml
++share/rime-data/combo_pinyin_kbcon.options.yaml
++share/rime-data/combo_pinyin_kbcon.schema.yaml
++share/rime-data/combo_pinyin_left.schema.yaml
+diff --git a/chinese/rime-data-full/Makefile b/chinese/rime-data-full/Makefile
+new file mode 100644
+index 000000000000..d20000cdd559
+--- /dev/null
++++ b/chinese/rime-data-full/Makefile
+@@ -0,0 +1,39 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-data-full
++PORTVERSION=	g20201223
++CATEGORIES=	chinese textproc
++
++COMMENT=	Rime data files full set
++
++LICENSE=	GPLv3 LGPL3 APACHE20
++LICENSE_COMB=	multi
++
++RUN_DEPENDS=	\
++	${_SCHEMA_DEPENDS} \
++	${LOCALBASE}/share/rime-data/array30.schema.yaml:chinese/rime-array \
++	${LOCALBASE}/share/rime-data/jyut6ping3.schema.yaml:chinese/rime-cantonese \
++	${LOCALBASE}/share/rime-data/combo_pinyin.schema.yaml:chinese/rime-combo-pinyin \
++	${LOCALBASE}/share/rime-data/double_pinyin.schema.yaml:chinese/rime-double-pinyin \
++	${LOCALBASE}/share/rime-data/emoji_suggestion.yaml:chinese/rime-emoji \
++	${LOCALBASE}/share/rime-data/ipa_xsampa.schema.yaml:chinese/rime-ipa \
++	${LOCALBASE}/share/rime-data/yale.schema.yaml:chinese/rime-jyutping \
++	${LOCALBASE}/share/rime-data/sampheng.schema.yaml:chinese/rime-middle-chinese \
++	${LOCALBASE}/share/rime-data/pinyin_simp.schema.yaml:chinese/rime-pinyin-simp \
++	${LOCALBASE}/share/rime-data/quick5.schema.yaml:chinese/rime-quick \
++	${LOCALBASE}/share/rime-data/scj6.schema.yaml:chinese/rime-scj \
++	${LOCALBASE}/share/rime-data/soutzoe.schema.yaml:chinese/rime-soutzoe \
++	${LOCALBASE}/share/rime-data/stenotype.schema.yaml:chinese/rime-stenotype \
++	${LOCALBASE}/share/rime-data/wubi86.schema.yaml:chinese/rime-wubi \
++	${LOCALBASE}/share/rime-data/wugniu.schema.yaml:chinese/rime-wugniu
++
++_SCHEMA_DEPENDS=	\
++	${LOCALBASE}/share/rime-data/luna_pinyin.schema.yaml:chinese/rime-luna-pinyin	\
++	${LOCALBASE}/share/rime-data/bopomofo.schema.yaml:chinese/rime-bopomofo	\
++	${LOCALBASE}/share/rime-data/cangjie5.schema.yaml:chinese/rime-cangjie	\
++	${LOCALBASE}/share/rime-data/stroke.schema.yaml:chinese/rime-stroke
++
++USES=		localbase metaport
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-data-full/pkg-descr b/chinese/rime-data-full/pkg-descr
+new file mode 100644
+index 000000000000..b62ccd686fa9
+--- /dev/null
++++ b/chinese/rime-data-full/pkg-descr
+@@ -0,0 +1,5 @@
++Rime data files.  This is a metaport that provides a full set of
++configuration ports and IME schema ports for the Rime IME
++framework.
++
++WWW: https://github.com/rime/plum
+diff --git a/chinese/rime-double-pinyin/Makefile b/chinese/rime-double-pinyin/Makefile
+new file mode 100644
+index 000000000000..dc760183b5df
+--- /dev/null
++++ b/chinese/rime-double-pinyin/Makefile
+@@ -0,0 +1,66 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-double-pinyin
++DISTVERSION=	g20190120
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Double Pinyin schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	69bf85d4dfe8bac139c36abbd68d530b8b6622ea
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++LUNA_PINYIN_FILES=	luna_pinyin.dict.yaml
++SCHEMA_FILES=	double_pinyin.schema.yaml \
++		double_pinyin_abc.schema.yaml \
++		double_pinyin_flypy.schema.yaml \
++		double_pinyin_mspy.schema.yaml \
++		double_pinyin_pyjj.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES} ${LUNA_PINYIN_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data/build
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${MY_OUTDIR}/build/double_pinyin* \
++		${STAGEDIR}${PREFIX}/share/rime-data/build
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-double-pinyin/distinfo b/chinese/rime-double-pinyin/distinfo
+new file mode 100644
+index 000000000000..a5191a5974cd
+--- /dev/null
++++ b/chinese/rime-double-pinyin/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608708914
++SHA256 (rime-rime-double-pinyin-g20190120-69bf85d4dfe8bac139c36abbd68d530b8b6622ea_GH0.tar.gz) = 41daacaf051c5c3c623170d73b2578bd8e70d0823fd1e3516af856283b7d9d48
++SIZE (rime-rime-double-pinyin-g20190120-69bf85d4dfe8bac139c36abbd68d530b8b6622ea_GH0.tar.gz) = 16998
+diff --git a/chinese/rime-double-pinyin/pkg-descr b/chinese/rime-double-pinyin/pkg-descr
+new file mode 100644
+index 000000000000..4f34bbc53f8e
+--- /dev/null
++++ b/chinese/rime-double-pinyin/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Double Pinyin schema for Mandarin input support.
++
++WWW: https://github.com/rime/rime-double-pinyin
+diff --git a/chinese/rime-double-pinyin/pkg-plist b/chinese/rime-double-pinyin/pkg-plist
+new file mode 100644
+index 000000000000..0033c67ca2f4
+--- /dev/null
++++ b/chinese/rime-double-pinyin/pkg-plist
+@@ -0,0 +1,20 @@
++share/rime-data/build/double_pinyin.prism.bin
++share/rime-data/build/double_pinyin.prism.txt
++share/rime-data/build/double_pinyin.schema.yaml
++share/rime-data/build/double_pinyin_abc.prism.bin
++share/rime-data/build/double_pinyin_abc.prism.txt
++share/rime-data/build/double_pinyin_abc.schema.yaml
++share/rime-data/build/double_pinyin_flypy.prism.bin
++share/rime-data/build/double_pinyin_flypy.prism.txt
++share/rime-data/build/double_pinyin_flypy.schema.yaml
++share/rime-data/build/double_pinyin_mspy.prism.bin
++share/rime-data/build/double_pinyin_mspy.prism.txt
++share/rime-data/build/double_pinyin_mspy.schema.yaml
++share/rime-data/build/double_pinyin_pyjj.prism.bin
++share/rime-data/build/double_pinyin_pyjj.prism.txt
++share/rime-data/build/double_pinyin_pyjj.schema.yaml
++share/rime-data/double_pinyin.schema.yaml
++share/rime-data/double_pinyin_abc.schema.yaml
++share/rime-data/double_pinyin_flypy.schema.yaml
++share/rime-data/double_pinyin_mspy.schema.yaml
++share/rime-data/double_pinyin_pyjj.schema.yaml
+diff --git a/chinese/rime-emoji/Makefile b/chinese/rime-emoji/Makefile
+new file mode 100644
+index 000000000000..e2a9e4f24fbc
+--- /dev/null
++++ b/chinese/rime-emoji/Makefile
+@@ -0,0 +1,36 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-emoji
++DISTVERSION=	g20201113
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime emoji suggestions support
++
++LICENSE=	LGPL3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	35c9632c34ea29e6d9ed80ff350c05f3d706fdc6
++
++NO_ARCH=	yes
++NO_BUILD=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/emoji_suggestion.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${WRKSRC} && ${COPYTREE_SHARE} opencc ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-emoji/distinfo b/chinese/rime-emoji/distinfo
+new file mode 100644
+index 000000000000..5197ea3f01e5
+--- /dev/null
++++ b/chinese/rime-emoji/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608715847
++SHA256 (rime-rime-emoji-g20201113-35c9632c34ea29e6d9ed80ff350c05f3d706fdc6_GH0.tar.gz) = 47600304d6e5edfaaacece069d381e5ca738da17cc6640148500029429df5aad
++SIZE (rime-rime-emoji-g20201113-35c9632c34ea29e6d9ed80ff350c05f3d706fdc6_GH0.tar.gz) = 66056
+diff --git a/chinese/rime-emoji/pkg-descr b/chinese/rime-emoji/pkg-descr
+new file mode 100644
+index 000000000000..4b1855c97bbf
+--- /dev/null
++++ b/chinese/rime-emoji/pkg-descr
+@@ -0,0 +1,3 @@
++Rime emoji suggestions support.
++
++WWW: https://github.com/rime/rime-emoji
+diff --git a/chinese/rime-emoji/pkg-plist b/chinese/rime-emoji/pkg-plist
+new file mode 100644
+index 000000000000..c80b01d3cc0e
+--- /dev/null
++++ b/chinese/rime-emoji/pkg-plist
+@@ -0,0 +1,4 @@
++share/rime-data/emoji_suggestion.yaml
++share/rime-data/opencc/emoji.json
++share/rime-data/opencc/emoji_category.txt
++share/rime-data/opencc/emoji_word.txt
+diff --git a/chinese/rime-ipa/Makefile b/chinese/rime-ipa/Makefile
+new file mode 100644
+index 000000000000..87aecfeeaf6b
+--- /dev/null
++++ b/chinese/rime-ipa/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-ipa
++DISTVERSION=	g20200413
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime IPA schema support
++
++LICENSE=	LGPL3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	22b71710e029bcb412e9197192a638ab11bc2abf
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	ipa_xsampa.schema.yaml ipa_yunlong.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-ipa/distinfo b/chinese/rime-ipa/distinfo
+new file mode 100644
+index 000000000000..61a0fd53f56b
+--- /dev/null
++++ b/chinese/rime-ipa/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608715983
++SHA256 (rime-rime-ipa-g20200413-22b71710e029bcb412e9197192a638ab11bc2abf_GH0.tar.gz) = 13759b08148719a03fdf68c9f739e337a80b8c727e73910ce6b3961771d1cb1e
++SIZE (rime-rime-ipa-g20200413-22b71710e029bcb412e9197192a638ab11bc2abf_GH0.tar.gz) = 9510
+diff --git a/chinese/rime-ipa/pkg-descr b/chinese/rime-ipa/pkg-descr
+new file mode 100644
+index 000000000000..88a826429966
+--- /dev/null
++++ b/chinese/rime-ipa/pkg-descr
+@@ -0,0 +1,3 @@
++Rime IPA schema input support.
++
++WWW: https://github.com/rime/rime-ipa
+diff --git a/chinese/rime-ipa/pkg-plist b/chinese/rime-ipa/pkg-plist
+new file mode 100644
+index 000000000000..5102f2cecaee
+--- /dev/null
++++ b/chinese/rime-ipa/pkg-plist
+@@ -0,0 +1,14 @@
++share/rime-data/build/ipa_xsampa.prism.bin
++share/rime-data/build/ipa_xsampa.reverse.bin
++share/rime-data/build/ipa_xsampa.schema.yaml
++share/rime-data/build/ipa_xsampa.table.bin
++share/rime-data/build/ipa_xsampa.table.txt
++share/rime-data/build/ipa_yunlong.prism.bin
++share/rime-data/build/ipa_yunlong.reverse.bin
++share/rime-data/build/ipa_yunlong.schema.yaml
++share/rime-data/build/ipa_yunlong.table.bin
++share/rime-data/build/ipa_yunlong.table.txt
++share/rime-data/ipa_xsampa.dict.yaml
++share/rime-data/ipa_xsampa.schema.yaml
++share/rime-data/ipa_yunlong.dict.yaml
++share/rime-data/ipa_yunlong.schema.yaml
+diff --git a/chinese/rime-jyutping/Makefile b/chinese/rime-jyutping/Makefile
+new file mode 100644
+index 000000000000..b90f3a7c08a5
+--- /dev/null
++++ b/chinese/rime-jyutping/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-jyutping
++DISTVERSION=	g20200809
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Jyutping (old) schema support
++
++LICENSE=	LGPL3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	1e24baa6998815c716c581effe8ec65ee87c4e8c
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	hkcantonese.schema.yaml jyutping.schema.yaml yale.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-jyutping/distinfo b/chinese/rime-jyutping/distinfo
+new file mode 100644
+index 000000000000..85ddd578f317
+--- /dev/null
++++ b/chinese/rime-jyutping/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608711623
++SHA256 (rime-rime-jyutping-g20200809-1e24baa6998815c716c581effe8ec65ee87c4e8c_GH0.tar.gz) = aa5399928110b58171a9a8cd7abcff153acc9fcf9dc85294accb11c360256738
++SIZE (rime-rime-jyutping-g20200809-1e24baa6998815c716c581effe8ec65ee87c4e8c_GH0.tar.gz) = 3123763
+diff --git a/chinese/rime-jyutping/pkg-descr b/chinese/rime-jyutping/pkg-descr
+new file mode 100644
+index 000000000000..7dedf7db66e2
+--- /dev/null
++++ b/chinese/rime-jyutping/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Hong Kong Cantonese, Jyutping and Yale schemas for Cantonese input support.
++
++WWW: https://github.com/rime/rime-jyutping
+diff --git a/chinese/rime-jyutping/pkg-plist b/chinese/rime-jyutping/pkg-plist
+new file mode 100644
+index 000000000000..6dfd25735507
+--- /dev/null
++++ b/chinese/rime-jyutping/pkg-plist
+@@ -0,0 +1,16 @@
++share/rime-data/build/hkcantonese.schema.yaml
++share/rime-data/build/jyutping.prism.bin
++share/rime-data/build/jyutping.prism.txt
++share/rime-data/build/jyutping.reverse.bin
++share/rime-data/build/jyutping.schema.yaml
++share/rime-data/build/jyutping.table.bin
++share/rime-data/build/jyutping.table.txt
++share/rime-data/build/yale.prism.bin
++share/rime-data/build/yale.prism.txt
++share/rime-data/build/yale.schema.yaml
++share/rime-data/hkcantonese.schema.yaml
++share/rime-data/jyutping.dict.yaml
++share/rime-data/jyutping.lettered.dict.yaml
++share/rime-data/jyutping.phrase.dict.yaml
++share/rime-data/jyutping.schema.yaml
++share/rime-data/yale.schema.yaml
+diff --git a/chinese/rime-middle-chinese/Makefile b/chinese/rime-middle-chinese/Makefile
+new file mode 100644
+index 000000000000..05ec540103b7
+--- /dev/null
++++ b/chinese/rime-middle-chinese/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-middle-chinese
++DISTVERSION=	g20201219
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Middle Chinese schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	9fad7a7c0c26167d5e6e85db8df48a15c7f7d4f0
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	sampheng.schema.yaml zyenpheng.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-middle-chinese/distinfo b/chinese/rime-middle-chinese/distinfo
+new file mode 100644
+index 000000000000..5b4fb48db76a
+--- /dev/null
++++ b/chinese/rime-middle-chinese/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608712247
++SHA256 (rime-rime-middle-chinese-g20201219-9fad7a7c0c26167d5e6e85db8df48a15c7f7d4f0_GH0.tar.gz) = 9165301b6ca67cadac17374f7063fc35d5c1f71a989e42237ffcffc71f28286a
++SIZE (rime-rime-middle-chinese-g20201219-9fad7a7c0c26167d5e6e85db8df48a15c7f7d4f0_GH0.tar.gz) = 137951
+diff --git a/chinese/rime-middle-chinese/pkg-descr b/chinese/rime-middle-chinese/pkg-descr
+new file mode 100644
+index 000000000000..406d9e911e6e
+--- /dev/null
++++ b/chinese/rime-middle-chinese/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Middle Chinese schema input support.
++
++WWW: https://github.com/rime/rime-middle-chinese
+diff --git a/chinese/rime-middle-chinese/pkg-plist b/chinese/rime-middle-chinese/pkg-plist
+new file mode 100644
+index 000000000000..da11f3ef7afc
+--- /dev/null
++++ b/chinese/rime-middle-chinese/pkg-plist
+@@ -0,0 +1,12 @@
++share/rime-data/build/sampheng.prism.bin
++share/rime-data/build/sampheng.prism.txt
++share/rime-data/build/sampheng.schema.yaml
++share/rime-data/build/zyenpheng.prism.bin
++share/rime-data/build/zyenpheng.prism.txt
++share/rime-data/build/zyenpheng.reverse.bin
++share/rime-data/build/zyenpheng.schema.yaml
++share/rime-data/build/zyenpheng.table.bin
++share/rime-data/build/zyenpheng.table.txt
++share/rime-data/sampheng.schema.yaml
++share/rime-data/zyenpheng.dict.yaml
++share/rime-data/zyenpheng.schema.yaml
+diff --git a/chinese/rime-pinyin-simp/Makefile b/chinese/rime-pinyin-simp/Makefile
+new file mode 100644
+index 000000000000..861c9cff4d92
+--- /dev/null
++++ b/chinese/rime-pinyin-simp/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-pinyin-simp
++DISTVERSION=	g20201109
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime pinyin-simp schema support
++
++LICENSE=	APACHE20
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	f5975ad8e324bbbc2c1eee94fdf8d66073efbbef
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	pinyin_simp.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-pinyin-simp/distinfo b/chinese/rime-pinyin-simp/distinfo
+new file mode 100644
+index 000000000000..d50da4cf6de3
+--- /dev/null
++++ b/chinese/rime-pinyin-simp/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608712625
++SHA256 (rime-rime-pinyin-simp-g20201109-f5975ad8e324bbbc2c1eee94fdf8d66073efbbef_GH0.tar.gz) = fe752dfec49b005348269a87fe868e2bb4c4542d2939a95093cb1fcf4d104215
++SIZE (rime-rime-pinyin-simp-g20201109-f5975ad8e324bbbc2c1eee94fdf8d66073efbbef_GH0.tar.gz) = 545305
+diff --git a/chinese/rime-pinyin-simp/pkg-descr b/chinese/rime-pinyin-simp/pkg-descr
+new file mode 100644
+index 000000000000..780cc07ccfc4
+--- /dev/null
++++ b/chinese/rime-pinyin-simp/pkg-descr
+@@ -0,0 +1,3 @@
++Rime pinyin-simp schema for Mandarin input support.
++
++WWW: https://github.com/rime/rime-pinyin-simp
+diff --git a/chinese/rime-pinyin-simp/pkg-plist b/chinese/rime-pinyin-simp/pkg-plist
+new file mode 100644
+index 000000000000..acb8d21153c8
+--- /dev/null
++++ b/chinese/rime-pinyin-simp/pkg-plist
+@@ -0,0 +1,8 @@
++share/rime-data/build/pinyin_simp.prism.bin
++share/rime-data/build/pinyin_simp.prism.txt
++share/rime-data/build/pinyin_simp.reverse.bin
++share/rime-data/build/pinyin_simp.schema.yaml
++share/rime-data/build/pinyin_simp.table.bin
++share/rime-data/build/pinyin_simp.table.txt
++share/rime-data/pinyin_simp.dict.yaml
++share/rime-data/pinyin_simp.schema.yaml
+diff --git a/chinese/rime-quick/Makefile b/chinese/rime-quick/Makefile
+new file mode 100644
+index 000000000000..10d90188a789
+--- /dev/null
++++ b/chinese/rime-quick/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-quick
++DISTVERSION=	g20190120
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Quick schema support
++
++LICENSE=	LGPL3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	3fe5911ba608cb2df1b6301b76ad1573bd482a76
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	quick5.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-quick/distinfo b/chinese/rime-quick/distinfo
+new file mode 100644
+index 000000000000..f6836a0ac989
+--- /dev/null
++++ b/chinese/rime-quick/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608712766
++SHA256 (rime-rime-quick-g20190120-3fe5911ba608cb2df1b6301b76ad1573bd482a76_GH0.tar.gz) = 4ccfacbb4d23f0f6ffaba170e5a92c98313037a449d5d9a625f5bdd5dad9a120
++SIZE (rime-rime-quick-g20190120-3fe5911ba608cb2df1b6301b76ad1573bd482a76_GH0.tar.gz) = 151060
+diff --git a/chinese/rime-quick/pkg-descr b/chinese/rime-quick/pkg-descr
+new file mode 100644
+index 000000000000..d768a24ff750
+--- /dev/null
++++ b/chinese/rime-quick/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Quick schema input support.
++
++WWW: https://github.com/rime/rime-quick
+diff --git a/chinese/rime-quick/pkg-plist b/chinese/rime-quick/pkg-plist
+new file mode 100644
+index 000000000000..b32e4a36c847
+--- /dev/null
++++ b/chinese/rime-quick/pkg-plist
+@@ -0,0 +1,8 @@
++share/rime-data/build/quick5.prism.bin
++share/rime-data/build/quick5.prism.txt
++share/rime-data/build/quick5.reverse.bin
++share/rime-data/build/quick5.schema.yaml
++share/rime-data/build/quick5.table.bin
++share/rime-data/build/quick5.table.txt
++share/rime-data/quick5.dict.yaml
++share/rime-data/quick5.schema.yaml
+diff --git a/chinese/rime-scj/Makefile b/chinese/rime-scj/Makefile
+new file mode 100644
+index 000000000000..0dd133210b9a
+--- /dev/null
++++ b/chinese/rime-scj/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-scj
++DISTVERSION=	g20190120
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Smart Cangjie schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	cab5a0858765eff0553dd685a2d61d5536e9149c
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	scj6.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-scj/distinfo b/chinese/rime-scj/distinfo
+new file mode 100644
+index 000000000000..a20be22ff4c8
+--- /dev/null
++++ b/chinese/rime-scj/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608713002
++SHA256 (rime-rime-scj-g20190120-cab5a0858765eff0553dd685a2d61d5536e9149c_GH0.tar.gz) = d349f0c1cb7eaf1050da57da4a6893f7691b6239c53788aa00225458d02fef7d
++SIZE (rime-rime-scj-g20190120-cab5a0858765eff0553dd685a2d61d5536e9149c_GH0.tar.gz) = 228601
+diff --git a/chinese/rime-scj/pkg-descr b/chinese/rime-scj/pkg-descr
+new file mode 100644
+index 000000000000..cece1789aabd
+--- /dev/null
++++ b/chinese/rime-scj/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Smart Cangjie schema input support.
++
++WWW: https://github.com/rime/rime-scj
+diff --git a/chinese/rime-scj/pkg-plist b/chinese/rime-scj/pkg-plist
+new file mode 100644
+index 000000000000..55c771751f35
+--- /dev/null
++++ b/chinese/rime-scj/pkg-plist
+@@ -0,0 +1,7 @@
++share/rime-data/build/scj6.prism.bin
++share/rime-data/build/scj6.reverse.bin
++share/rime-data/build/scj6.schema.yaml
++share/rime-data/build/scj6.table.bin
++share/rime-data/build/scj6.table.txt
++share/rime-data/scj6.dict.yaml
++share/rime-data/scj6.schema.yaml
+diff --git a/chinese/rime-soutzoe/Makefile b/chinese/rime-soutzoe/Makefile
+new file mode 100644
+index 000000000000..6fea8f97ad94
+--- /dev/null
++++ b/chinese/rime-soutzoe/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-soutzoe
++DISTVERSION=	g20190120
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Soutzoe schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	beeaeca72d8e17dfd1e9af58680439e9012987dc
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	soutzoe.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-soutzoe/distinfo b/chinese/rime-soutzoe/distinfo
+new file mode 100644
+index 000000000000..a9d311fa1f15
+--- /dev/null
++++ b/chinese/rime-soutzoe/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608713607
++SHA256 (rime-rime-soutzoe-g20190120-beeaeca72d8e17dfd1e9af58680439e9012987dc_GH0.tar.gz) = 834cb1da3619f96f8fd54faa41aea56e98bdda0c397b494837d935a694fa04bc
++SIZE (rime-rime-soutzoe-g20190120-beeaeca72d8e17dfd1e9af58680439e9012987dc_GH0.tar.gz) = 37388
+diff --git a/chinese/rime-soutzoe/pkg-descr b/chinese/rime-soutzoe/pkg-descr
+new file mode 100644
+index 000000000000..6c99392f5666
+--- /dev/null
++++ b/chinese/rime-soutzoe/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Soutzoe schema for Soutzoe Rougniu input support.
++
++WWW: https://github.com/rime/rime-soutzoe
+diff --git a/chinese/rime-soutzoe/pkg-plist b/chinese/rime-soutzoe/pkg-plist
+new file mode 100644
+index 000000000000..692d0eeeab79
+--- /dev/null
++++ b/chinese/rime-soutzoe/pkg-plist
+@@ -0,0 +1,8 @@
++share/rime-data/build/soutzoe.prism.bin
++share/rime-data/build/soutzoe.prism.txt
++share/rime-data/build/soutzoe.reverse.bin
++share/rime-data/build/soutzoe.schema.yaml
++share/rime-data/build/soutzoe.table.bin
++share/rime-data/build/soutzoe.table.txt
++share/rime-data/soutzoe.dict.yaml
++share/rime-data/soutzoe.schema.yaml
+diff --git a/chinese/rime-stenotype/Makefile b/chinese/rime-stenotype/Makefile
+new file mode 100644
+index 000000000000..c407e9630baf
+--- /dev/null
++++ b/chinese/rime-stenotype/Makefile
+@@ -0,0 +1,62 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-stenotype
++DISTVERSION=	g20191007
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Stenotype schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	f3e9189d5ce33c55d3936cc58e39d0c88b3f0c88
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++LUNA_PINYIN_FILES=	luna_pinyin.dict.yaml
++SCHEMA_FILES=	stenotype.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES} ${LUNA_PINYIN_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data/build
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${MY_OUTDIR}/build/stenotype* \
++		${STAGEDIR}${PREFIX}/share/rime-data/build
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-stenotype/distinfo b/chinese/rime-stenotype/distinfo
+new file mode 100644
+index 000000000000..1cb77f5908fa
+--- /dev/null
++++ b/chinese/rime-stenotype/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608713957
++SHA256 (rime-rime-stenotype-g20191007-f3e9189d5ce33c55d3936cc58e39d0c88b3f0c88_GH0.tar.gz) = 0009b2578cb3128be8b63565fb195943cd2e7cb0ff983afffb5ade60948227fc
++SIZE (rime-rime-stenotype-g20191007-f3e9189d5ce33c55d3936cc58e39d0c88b3f0c88_GH0.tar.gz) = 15311
+diff --git a/chinese/rime-stenotype/pkg-descr b/chinese/rime-stenotype/pkg-descr
+new file mode 100644
+index 000000000000..b306e06022ce
+--- /dev/null
++++ b/chinese/rime-stenotype/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Stenotype schema input support.
++
++WWW: https://github.com/rime/rime-stenotype
+diff --git a/chinese/rime-stenotype/pkg-plist b/chinese/rime-stenotype/pkg-plist
+new file mode 100644
+index 000000000000..e1d180bc9f60
+--- /dev/null
++++ b/chinese/rime-stenotype/pkg-plist
+@@ -0,0 +1,4 @@
++share/rime-data/build/stenotype.prism.bin
++share/rime-data/build/stenotype.prism.txt
++share/rime-data/build/stenotype.schema.yaml
++share/rime-data/stenotype.schema.yaml
+diff --git a/chinese/rime-wubi/Makefile b/chinese/rime-wubi/Makefile
+new file mode 100644
+index 000000000000..b9cda304dc18
+--- /dev/null
++++ b/chinese/rime-wubi/Makefile
+@@ -0,0 +1,62 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-wubi
++DISTVERSION=	g20190908
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Wubi schema support
++
++LICENSE=	LGPL3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude \
++		zh-rime-luna-pinyin>g0:chinese/rime-luna-pinyin
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	f1876f08f1d4a9696395be0070c0e8e4353c44cb
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++LUNA_PINYIN_FILES=	luna_pinyin.dict.yaml
++SCHEMA_FILES=	wubi86.schema.yaml wubi_pinyin.schema.yaml wubi_trad.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES} ${LUNA_PINYIN_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data/build
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${MY_OUTDIR}/build/wubi* \
++		${STAGEDIR}${PREFIX}/share/rime-data/build
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-wubi/distinfo b/chinese/rime-wubi/distinfo
+new file mode 100644
+index 000000000000..9df8c10401b0
+--- /dev/null
++++ b/chinese/rime-wubi/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608714454
++SHA256 (rime-rime-wubi-g20190908-f1876f08f1d4a9696395be0070c0e8e4353c44cb_GH0.tar.gz) = b5b2f49cd1111093a6cefe82e8dd77874a6a862f1214dde2e7f3ea901cc23969
++SIZE (rime-rime-wubi-g20190908-f1876f08f1d4a9696395be0070c0e8e4353c44cb_GH0.tar.gz) = 1092187
+diff --git a/chinese/rime-wubi/pkg-descr b/chinese/rime-wubi/pkg-descr
+new file mode 100644
+index 000000000000..a4f2c2b70e00
+--- /dev/null
++++ b/chinese/rime-wubi/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Wubi schema input support.
++
++WWW: https://github.com/rime/rime-wubi
+diff --git a/chinese/rime-wubi/pkg-plist b/chinese/rime-wubi/pkg-plist
+new file mode 100644
+index 000000000000..b19bf2dc14cf
+--- /dev/null
++++ b/chinese/rime-wubi/pkg-plist
+@@ -0,0 +1,13 @@
++share/rime-data/build/wubi86.prism.bin
++share/rime-data/build/wubi86.reverse.bin
++share/rime-data/build/wubi86.schema.yaml
++share/rime-data/build/wubi86.table.bin
++share/rime-data/build/wubi86.table.txt
++share/rime-data/build/wubi_pinyin.prism.bin
++share/rime-data/build/wubi_pinyin.schema.yaml
++share/rime-data/build/wubi_trad.prism.bin
++share/rime-data/build/wubi_trad.schema.yaml
++share/rime-data/wubi86.dict.yaml
++share/rime-data/wubi86.schema.yaml
++share/rime-data/wubi_pinyin.schema.yaml
++share/rime-data/wubi_trad.schema.yaml
+diff --git a/chinese/rime-wugniu/Makefile b/chinese/rime-wugniu/Makefile
+new file mode 100644
+index 000000000000..2f8e0e2e46d7
+--- /dev/null
++++ b/chinese/rime-wugniu/Makefile
+@@ -0,0 +1,57 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	rime-wugniu
++DISTVERSION=	g20190120
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Rime Wugniu schema support
++
++LICENSE=	GPLv3
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	rime_deployer:chinese/librime	\
++		zh-rime-essay>g0:chinese/rime-essay \
++		zh-rime-prelude>g0:chinese/rime-prelude
++RUN_DEPENDS=	zh-rime-prelude>g0:chinese/rime-prelude
++
++USES=		localbase
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_SUB=	yes
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	rime
++GH_TAGNAME=	abd1ee98efbf170258fcf43875c21a4259e00b61
++
++NO_ARCH=	yes
++
++PORTDOCS=	AUTHORS README.md
++
++PRELUDE_FILES=	default.yaml key_bindings.yaml punctuation.yaml symbols.yaml
++ESSAY_FILES=	essay.txt
++SCHEMA_FILES=	wugniu.schema.yaml wugniu_lopha.schema.yaml
++MY_OUTDIR=	${WRKDIR}/out
++
++do-build:
++	@${MKDIR} ${MY_OUTDIR}
++	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
++.for i in ${PRELUDE_FILES} ${ESSAY_FILES}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++.endfor
++.for i in ${SCHEMA_FILES}
++	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
++.endfor
++
++do-install:
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/rime-data
++	${INSTALL_DATA} ${WRKSRC}/*.yaml ${STAGEDIR}${PREFIX}/share/rime-data
++	(cd ${MY_OUTDIR} && ${COPYTREE_SHARE} build ${STAGEDIR}${PREFIX}/share/rime-data)
++
++do-install-DOCS-on:
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/AUTHORS ${STAGEDIR}/${DOCSDIR}
++	${INSTALL_MAN} ${WRKSRC}/README.md ${STAGEDIR}/${DOCSDIR}
++
++.include <bsd.port.mk>
+diff --git a/chinese/rime-wugniu/distinfo b/chinese/rime-wugniu/distinfo
+new file mode 100644
+index 000000000000..c99686efda7b
+--- /dev/null
++++ b/chinese/rime-wugniu/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608714973
++SHA256 (rime-rime-wugniu-g20190120-abd1ee98efbf170258fcf43875c21a4259e00b61_GH0.tar.gz) = 57cc982a42e4c7767dc81aff9b954f9c487a3688b3ae2061b004a77e43745362
++SIZE (rime-rime-wugniu-g20190120-abd1ee98efbf170258fcf43875c21a4259e00b61_GH0.tar.gz) = 268955
+diff --git a/chinese/rime-wugniu/pkg-descr b/chinese/rime-wugniu/pkg-descr
+new file mode 100644
+index 000000000000..4f9d9c25326c
+--- /dev/null
++++ b/chinese/rime-wugniu/pkg-descr
+@@ -0,0 +1,3 @@
++Rime Wugniu schema for Zaonhe Wugniu/Shanghainese input support.
++
++WWW: https://github.com/rime/rime-wugniu
+diff --git a/chinese/rime-wugniu/pkg-plist b/chinese/rime-wugniu/pkg-plist
+new file mode 100644
+index 000000000000..47fd148bd85d
+--- /dev/null
++++ b/chinese/rime-wugniu/pkg-plist
+@@ -0,0 +1,12 @@
++share/rime-data/build/wugniu.prism.bin
++share/rime-data/build/wugniu.prism.txt
++share/rime-data/build/wugniu.schema.yaml
++share/rime-data/build/wugniu_lopha.prism.bin
++share/rime-data/build/wugniu_lopha.prism.txt
++share/rime-data/build/wugniu_lopha.reverse.bin
++share/rime-data/build/wugniu_lopha.schema.yaml
++share/rime-data/build/wugniu_lopha.table.bin
++share/rime-data/build/wugniu_lopha.table.txt
++share/rime-data/wugniu.schema.yaml
++share/rime-data/wugniu_lopha.dict.yaml
++share/rime-data/wugniu_lopha.schema.yaml
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..eb18a51cdd44
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,15 @@
++chinese/rime-array
++chinese/rime-combo-pinyin
++chinese/rime-data-full
++chinese/rime-double-pinyin
++chinese/rime-emoji
++chinese/rime-ipa
++chinese/rime-jyutping
++chinese/rime-middle-chinese
++chinese/rime-pinyin-simp
++chinese/rime-quick
++chinese/rime-scj
++chinese/rime-soutzoe
++chinese/rime-stenotype
++chinese/rime-wubi
++chinese/rime-wugniu
