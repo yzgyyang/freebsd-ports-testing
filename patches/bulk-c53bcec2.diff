@@ -1,0 +1,958 @@
+diff --git a/chinese/Makefile b/chinese/Makefile
+index f71d505b5034..cc825bb027d6 100644
+--- a/chinese/Makefile
++++ b/chinese/Makefile
+@@ -38,7 +38,9 @@
+     SUBDIR += fcitx-table-extra
+     SUBDIR += fcitx-ui-light
+     SUBDIR += fcitx5-chewing
++    SUBDIR += fcitx5-chinese-addons
+     SUBDIR += fcitx5-rime
++    SUBDIR += fcitx5-table-extra
+     SUBDIR += fireflyttf
+     SUBDIR += font-std
+     SUBDIR += fortunetw
+@@ -59,6 +61,8 @@
+     SUBDIR += kcfonts
+     SUBDIR += libcangjie
+     SUBDIR += libchewing
++    SUBDIR += libime
++    SUBDIR += libime-jyutping
+     SUBDIR += libpinyin
+     SUBDIR += libreoffice-zh_CN
+     SUBDIR += libreoffice-zh_TW
+diff --git a/chinese/fcitx5-chinese-addons/Makefile b/chinese/fcitx5-chinese-addons/Makefile
+new file mode 100644
+index 000000000000..18589ca70e49
+--- /dev/null
++++ b/chinese/fcitx5-chinese-addons/Makefile
+@@ -0,0 +1,58 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-chinese-addons
++DISTVERSION=	5.0.2
++CATEGORIES=	chinese textproc
++MASTER_SITES=	https://download.fcitx-im.org/data/:py_stroke,py_table
++DISTFILES=	${PY_STROKE_TAR}:py_stroke \
++		${PY_TABLE_TAR}:py_table
++DIST_SUBDIR=	${PORTNAME}
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Pinyin and table input method support for Fcitx5
++
++LICENSE=	LGPL21+
++LICENSE_FILE=	${WRKSRC}/LICENSES/LGPL-2.1-or-later.txt
++
++BUILD_DEPENDS=	fcitx5-lua>0:textproc/fcitx5-lua
++LIB_DEPENDS=	libcurl.so:ftp/curl \
++		libfmt.so:devel/libfmt \
++		libopencc.so:chinese/opencc \
++		libboost_iostreams.so:devel/boost-libs \
++		libIMEPinyin.so:chinese/libime \
++		libFcitx5Core.so:textproc/fcitx5
++RUN_DEPENDS=	fcitx5-lua>0:textproc/fcitx5-lua
++
++USES=		compiler:c++17-lang gettext cmake kde:5 localbase pkgconfig
++
++OPTIONS_DEFINE=		GUI
++OPTIONS_DEFAULT=	GUI
++
++USE_LDCONFIG=	yes
++
++GUI_DESC=	Configuration GUI
++GUI_USES=	qt:5
++GUI_USE=	qt=dbus,concurrent,webkit,buildtools_build,qmake_build
++GUI_LIB_DEPENDS=	libFcitx5Qt5DBusAddons.so:textproc/fcitx5-qt
++GUI_CMAKE_ON=	-DUSE_WEBKIT:BOOL=true
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++CMAKE_ON=	ENABLE_OPENCC
++CMAKE_OFF=	ENABLE_TEST
++MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
++
++PY_STROKE_VER=	20121124
++PY_TABLE_VER=	20121124
++PY_STROKE_TAR=	py_stroke-${PY_STROKE_VER}.tar.gz
++PY_TABLE_TAR=	py_table-${PY_TABLE_VER}.tar.gz
++
++post-extract:
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${PY_STROKE_TAR} ${WRKSRC}/modules/pinyinhelper
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${PY_TABLE_TAR} ${WRKSRC}/modules/pinyinhelper
++
++.include <bsd.port.mk>
+diff --git a/chinese/fcitx5-chinese-addons/distinfo b/chinese/fcitx5-chinese-addons/distinfo
+new file mode 100644
+index 000000000000..f302c2564258
+--- /dev/null
++++ b/chinese/fcitx5-chinese-addons/distinfo
+@@ -0,0 +1,7 @@
++TIMESTAMP = 1608618244
++SHA256 (fcitx5-chinese-addons/py_stroke-20121124.tar.gz) = 8eb128a9bfa43952e67cf2fcee1fd134c6f4cfd317bc2f6c38a615f5eb64e248
++SIZE (fcitx5-chinese-addons/py_stroke-20121124.tar.gz) = 445601
++SHA256 (fcitx5-chinese-addons/py_table-20121124.tar.gz) = 42146ac97de6c13d55f9e99ed873915f4c66739e9c11532a34556badf9792c04
++SIZE (fcitx5-chinese-addons/py_table-20121124.tar.gz) = 186822
++SHA256 (fcitx5-chinese-addons/fcitx-fcitx5-chinese-addons-5.0.2_GH0.tar.gz) = 4b3731fc790d071273fbd91beb76d23166992add060cfd89ecaa55f147036dc6
++SIZE (fcitx5-chinese-addons/fcitx-fcitx5-chinese-addons-5.0.2_GH0.tar.gz) = 259776
+diff --git a/chinese/fcitx5-chinese-addons/pkg-descr b/chinese/fcitx5-chinese-addons/pkg-descr
+new file mode 100644
+index 000000000000..e6471f21a0dc
+--- /dev/null
++++ b/chinese/fcitx5-chinese-addons/pkg-descr
+@@ -0,0 +1,4 @@
++This provides Pinyin and Table input method support for
++Fcitx5 input method framework.
++
++WWW: https://github.com/fcitx/fcitx5-chinese-addons
+diff --git a/chinese/fcitx5-chinese-addons/pkg-plist b/chinese/fcitx5-chinese-addons/pkg-plist
+new file mode 100644
+index 000000000000..439b940f12c5
+--- /dev/null
++++ b/chinese/fcitx5-chinese-addons/pkg-plist
+@@ -0,0 +1,126 @@
++bin/scel2org5
++include/Fcitx5/Module/fcitx-module/cloudpinyin/cloudpinyin_public.h
++include/Fcitx5/Module/fcitx-module/pinyinhelper/pinyinhelper_public.h
++include/Fcitx5/Module/fcitx-module/punctuation/punctuation_public.h
++lib/cmake/Fcitx5ModuleCloudPinyin/Fcitx5ModuleCloudPinyinConfig.cmake
++lib/cmake/Fcitx5ModuleCloudPinyin/Fcitx5ModuleCloudPinyinConfigVersion.cmake
++lib/cmake/Fcitx5ModulePinyinHelper/Fcitx5ModulePinyinHelperConfig.cmake
++lib/cmake/Fcitx5ModulePinyinHelper/Fcitx5ModulePinyinHelperConfigVersion.cmake
++lib/cmake/Fcitx5ModulePunctuation/Fcitx5ModulePunctuationConfig.cmake
++lib/cmake/Fcitx5ModulePunctuation/Fcitx5ModulePunctuationConfigVersion.cmake
++lib/fcitx5/chttrans.so
++lib/fcitx5/cloudpinyin.so
++lib/fcitx5/fullwidth.so
++lib/fcitx5/pinyin.so
++lib/fcitx5/pinyinhelper.so
++lib/fcitx5/punctuation.so
++lib/fcitx5/qt5/libpinyindictmanager.so
++lib/fcitx5/table.so
++share/fcitx5/addon/chttrans.conf
++share/fcitx5/addon/cloudpinyin.conf
++share/fcitx5/addon/fullwidth.conf
++share/fcitx5/addon/pinyin.conf
++share/fcitx5/addon/pinyinhelper.conf
++share/fcitx5/addon/punctuation.conf
++share/fcitx5/addon/table.conf
++share/fcitx5/chttrans/gbks2t.tab
++share/fcitx5/inputmethod/cangjie.conf
++share/fcitx5/inputmethod/db.conf
++share/fcitx5/inputmethod/erbi.conf
++share/fcitx5/inputmethod/pinyin.conf
++share/fcitx5/inputmethod/qxm.conf
++share/fcitx5/inputmethod/shuangpin.conf
++share/fcitx5/inputmethod/wanfeng.conf
++share/fcitx5/inputmethod/wbpy.conf
++share/fcitx5/inputmethod/wbx.conf
++share/fcitx5/inputmethod/zrm.conf
++share/fcitx5/lua/imeapi/extensions/pinyin.lua
++share/fcitx5/pinyin/chaizi.dict
++share/fcitx5/pinyin/emoji.dict
++share/fcitx5/pinyinhelper/py_stroke.mb
++share/fcitx5/pinyinhelper/py_table.mb
++share/fcitx5/punctuation/punc.mb.zh_CN
++share/fcitx5/punctuation/punc.mb.zh_HK
++share/fcitx5/punctuation/punc.mb.zh_TW
++share/icons/hicolor/16x16/apps/fcitx-fullwidth-active.png
++share/icons/hicolor/16x16/apps/fcitx-fullwidth-inactive.png
++share/icons/hicolor/16x16/apps/fcitx-punc-active.png
++share/icons/hicolor/16x16/apps/fcitx-punc-inactive.png
++share/icons/hicolor/16x16/apps/org.fcitx.Fcitx5.fcitx-fullwidth-active.png
++share/icons/hicolor/16x16/apps/org.fcitx.Fcitx5.fcitx-fullwidth-inactive.png
++share/icons/hicolor/16x16/apps/org.fcitx.Fcitx5.fcitx-punc-active.png
++share/icons/hicolor/16x16/apps/org.fcitx.Fcitx5.fcitx-punc-inactive.png
++share/icons/hicolor/22x22/apps/fcitx-fullwidth-active.png
++share/icons/hicolor/22x22/apps/fcitx-fullwidth-inactive.png
++share/icons/hicolor/22x22/apps/fcitx-punc-active.png
++share/icons/hicolor/22x22/apps/fcitx-punc-inactive.png
++share/icons/hicolor/22x22/apps/org.fcitx.Fcitx5.fcitx-fullwidth-active.png
++share/icons/hicolor/22x22/apps/org.fcitx.Fcitx5.fcitx-fullwidth-inactive.png
++share/icons/hicolor/22x22/apps/org.fcitx.Fcitx5.fcitx-punc-active.png
++share/icons/hicolor/22x22/apps/org.fcitx.Fcitx5.fcitx-punc-inactive.png
++share/icons/hicolor/24x24/apps/fcitx-fullwidth-active.png
++share/icons/hicolor/24x24/apps/fcitx-fullwidth-inactive.png
++share/icons/hicolor/24x24/apps/fcitx-punc-active.png
++share/icons/hicolor/24x24/apps/fcitx-punc-inactive.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.fcitx-fullwidth-active.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.fcitx-fullwidth-inactive.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.fcitx-punc-active.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.fcitx-punc-inactive.png
++share/icons/hicolor/48x48/apps/fcitx-cangjie.png
++share/icons/hicolor/48x48/apps/fcitx-chn.png
++share/icons/hicolor/48x48/apps/fcitx-chttrans-active.png
++share/icons/hicolor/48x48/apps/fcitx-chttrans-inactive.png
++share/icons/hicolor/48x48/apps/fcitx-erbi.png
++share/icons/hicolor/48x48/apps/fcitx-fullwidth-active.png
++share/icons/hicolor/48x48/apps/fcitx-fullwidth-inactive.png
++share/icons/hicolor/48x48/apps/fcitx-pinyin.png
++share/icons/hicolor/48x48/apps/fcitx-punc-active.png
++share/icons/hicolor/48x48/apps/fcitx-punc-inactive.png
++share/icons/hicolor/48x48/apps/fcitx-remind-active.png
++share/icons/hicolor/48x48/apps/fcitx-remind-inactive.png
++share/icons/hicolor/48x48/apps/fcitx-shuangpin.png
++share/icons/hicolor/48x48/apps/fcitx-wbpy.png
++share/icons/hicolor/48x48/apps/fcitx-wubi.png
++share/icons/hicolor/48x48/apps/fcitx-ziranma.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-cangjie.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-chn.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-chttrans-active.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-chttrans-inactive.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-erbi.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-fullwidth-active.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-fullwidth-inactive.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-pinyin.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-punc-active.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-punc-inactive.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-remind-active.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-remind-inactive.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-shuangpin.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-wbpy.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-wubi.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-ziranma.png
++share/icons/hicolor/scalable/apps/fcitx-fullwidth-active-symbolic.svg
++share/icons/hicolor/scalable/apps/fcitx-fullwidth-active.svg
++share/icons/hicolor/scalable/apps/fcitx-fullwidth-inactive-symbolic.svg
++share/icons/hicolor/scalable/apps/fcitx-fullwidth-inactive.svg
++share/icons/hicolor/scalable/apps/fcitx-punc-active-symbolic.svg
++share/icons/hicolor/scalable/apps/fcitx-punc-active.svg
++share/icons/hicolor/scalable/apps/fcitx-punc-inactive-symbolic.svg
++share/icons/hicolor/scalable/apps/fcitx-punc-inactive.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-fullwidth-active-symbolic.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-fullwidth-active.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-fullwidth-inactive-symbolic.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-fullwidth-inactive.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-punc-active-symbolic.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-punc-active.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-punc-inactive-symbolic.svg
++share/icons/hicolor/scalable/apps/org.fcitx.Fcitx5.fcitx-punc-inactive.svg
++share/locale/ca/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/da/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/de/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/he/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/ja/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/ko/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/ru/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-chinese-addons.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.ChineseAddons.metainfo.xml
+diff --git a/chinese/fcitx5-table-extra/Makefile b/chinese/fcitx5-table-extra/Makefile
+new file mode 100644
+index 000000000000..27f85da6cc2e
+--- /dev/null
++++ b/chinese/fcitx5-table-extra/Makefile
+@@ -0,0 +1,26 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-table-extra
++DISTVERSION=	5.0.1
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Extra table support for Fcitx5
++
++LICENSE=	GPLv2+ GPLv3
++LICENSE_COMB=	multi
++
++LIB_DEPENDS=	libIMETable.so:chinese/libime \
++		libFcitx5Core.so:textproc/fcitx5
++
++USES=		gettext-tools cmake kde:5
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++INSTALL_TARGET=	install
++
++.include <bsd.port.mk>
+diff --git a/chinese/fcitx5-table-extra/distinfo b/chinese/fcitx5-table-extra/distinfo
+new file mode 100644
+index 000000000000..c7ad3ddc5190
+--- /dev/null
++++ b/chinese/fcitx5-table-extra/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608629497
++SHA256 (fcitx-fcitx5-table-extra-5.0.1_GH0.tar.gz) = 0c236df5af8bdde57098d096752711200a58fc76128896c50f9061f262415a43
++SIZE (fcitx-fcitx5-table-extra-5.0.1_GH0.tar.gz) = 8489375
+diff --git a/chinese/fcitx5-table-extra/pkg-descr b/chinese/fcitx5-table-extra/pkg-descr
+new file mode 100644
+index 000000000000..477c48a115bb
+--- /dev/null
++++ b/chinese/fcitx5-table-extra/pkg-descr
+@@ -0,0 +1,4 @@
++This provides extra tables for Fcitx5 input method framework, including
++Boshiamy, Zhengma, Cangjie, and Quick.
++
++WWW: https://github.com/fcitx/fcitx5-table-extra
+diff --git a/chinese/fcitx5-table-extra/pkg-plist b/chinese/fcitx5-table-extra/pkg-plist
+new file mode 100644
+index 000000000000..6c7ef5122655
+--- /dev/null
++++ b/chinese/fcitx5-table-extra/pkg-plist
+@@ -0,0 +1,73 @@
++share/fcitx5/inputmethod/array30-large.conf
++share/fcitx5/inputmethod/array30.conf
++share/fcitx5/inputmethod/boshiamy.conf
++share/fcitx5/inputmethod/cangjie-large.conf
++share/fcitx5/inputmethod/cangjie3.conf
++share/fcitx5/inputmethod/cangjie5.conf
++share/fcitx5/inputmethod/cantonese.conf
++share/fcitx5/inputmethod/cantonhk.conf
++share/fcitx5/inputmethod/easy-large.conf
++share/fcitx5/inputmethod/jyutping-table.conf
++share/fcitx5/inputmethod/quick-classic.conf
++share/fcitx5/inputmethod/quick3.conf
++share/fcitx5/inputmethod/quick5.conf
++share/fcitx5/inputmethod/scj6.conf
++share/fcitx5/inputmethod/stroke5.conf
++share/fcitx5/inputmethod/t9.conf
++share/fcitx5/inputmethod/wu.conf
++share/fcitx5/inputmethod/wubi-large.conf
++share/fcitx5/inputmethod/zhengma-large.conf
++share/fcitx5/inputmethod/zhengma-pinyin.conf
++share/fcitx5/inputmethod/zhengma.conf
++share/fcitx5/table/array30-large.main.dict
++share/fcitx5/table/array30.main.dict
++share/fcitx5/table/boshiamy.main.dict
++share/fcitx5/table/cangjie-large.main.dict
++share/fcitx5/table/cangjie3.main.dict
++share/fcitx5/table/cangjie5.main.dict
++share/fcitx5/table/cantonese.main.dict
++share/fcitx5/table/cantonhk.main.dict
++share/fcitx5/table/easy-large.main.dict
++share/fcitx5/table/jyutping-table.main.dict
++share/fcitx5/table/quick-classic.main.dict
++share/fcitx5/table/quick3.main.dict
++share/fcitx5/table/quick5.main.dict
++share/fcitx5/table/scj6.main.dict
++share/fcitx5/table/stroke5.main.dict
++share/fcitx5/table/t9.main.dict
++share/fcitx5/table/wu.main.dict
++share/fcitx5/table/wubi-large.main.dict
++share/fcitx5/table/zhengma-large.main.dict
++share/fcitx5/table/zhengma-pinyin.main.dict
++share/fcitx5/table/zhengma.main.dict
++share/icons/hicolor/48x48/apps/fcitx-cantonese.png
++share/icons/hicolor/48x48/apps/fcitx-cantonhk.png
++share/icons/hicolor/48x48/apps/fcitx-jyutping-table.png
++share/icons/hicolor/48x48/apps/fcitx-quick-classic.png
++share/icons/hicolor/48x48/apps/fcitx-quick3.png
++share/icons/hicolor/48x48/apps/fcitx-quick5.png
++share/icons/hicolor/48x48/apps/fcitx-scj6.png
++share/icons/hicolor/48x48/apps/fcitx-stroke5.png
++share/icons/hicolor/48x48/apps/fcitx-wu.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-cantonese.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-cantonhk.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-jyutping-table.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-quick-classic.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-quick3.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-quick5.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-scj6.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-stroke5.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-wu.png
++share/icons/hicolor/64x64/apps/fcitx-array30-large.png
++share/icons/hicolor/64x64/apps/fcitx-array30.png
++share/icons/hicolor/64x64/apps/fcitx-boshiamy.png
++share/icons/hicolor/64x64/apps/fcitx-easy-large.png
++share/icons/hicolor/64x64/apps/fcitx-t9.png
++share/icons/hicolor/64x64/apps/fcitx-zhengma.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-array30-large.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-array30.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-boshiamy.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-easy-large.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-t9.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-zhengma.png
++share/metainfo/org.fcitx.Fcitx5.Addon.TableExtra.metainfo.xml
+diff --git a/chinese/fcitx5-table-other/Makefile b/chinese/fcitx5-table-other/Makefile
+new file mode 100644
+index 000000000000..d6637c260fa3
+--- /dev/null
++++ b/chinese/fcitx5-table-other/Makefile
+@@ -0,0 +1,30 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-table-other
++DISTVERSION=	5.0.1
++CATEGORIES=	chinese textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Other table support for Fcitx5
++
++LICENSE=	GPLv3
++
++LIB_DEPENDS=	libIMETable.so:chinese/libime \
++		libFcitx5Core.so:textproc/fcitx5
++
++USES=		gettext-tools cmake kde:5
++
++OPTIONS_DEFINE=	DEPRECATED
++
++DEPRECATED_DESC=	Deprecated tables
++DEPRECATED_CMAKE_BOOL=	ENABLE_DEPRECATED
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++INSTALL_TARGET=	install
++
++.include <bsd.port.mk>
+diff --git a/chinese/fcitx5-table-other/distinfo b/chinese/fcitx5-table-other/distinfo
+new file mode 100644
+index 000000000000..c2aa2dcb5171
+--- /dev/null
++++ b/chinese/fcitx5-table-other/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609150780
++SHA256 (fcitx-fcitx5-table-other-5.0.1_GH0.tar.gz) = e64bd0e61fc522cf5c971dcad3b4573b732421e755d1887c6535233f02cdf2b4
++SIZE (fcitx-fcitx5-table-other-5.0.1_GH0.tar.gz) = 523065
+diff --git a/chinese/fcitx5-table-other/pkg-descr b/chinese/fcitx5-table-other/pkg-descr
+new file mode 100644
+index 000000000000..b58a3de57331
+--- /dev/null
++++ b/chinese/fcitx5-table-other/pkg-descr
+@@ -0,0 +1,4 @@
++This provides some other tables for Fcitx5 input method framework, forked from
++ibus-table-others and scim-tables.
++
++WWW: https://github.com/fcitx/fcitx5-table-other
+diff --git a/chinese/fcitx5-table-other/pkg-plist b/chinese/fcitx5-table-other/pkg-plist
+new file mode 100644
+index 000000000000..2c37d5a0cb1a
+--- /dev/null
++++ b/chinese/fcitx5-table-other/pkg-plist
+@@ -0,0 +1,93 @@
++share/fcitx5/inputmethod/amharic.conf
++share/fcitx5/inputmethod/arabic.conf
++share/fcitx5/inputmethod/cns11643.conf
++share/fcitx5/inputmethod/compose.conf
++share/fcitx5/inputmethod/emoji.conf
++share/fcitx5/inputmethod/ipa-x-sampa.conf
++share/fcitx5/inputmethod/latex.conf
++share/fcitx5/inputmethod/malayalam-phonetic.conf
++share/fcitx5/inputmethod/rustrad.conf
++share/fcitx5/inputmethod/tamil-remington.conf
++share/fcitx5/inputmethod/thai.conf
++share/fcitx5/inputmethod/translit-ua.conf
++share/fcitx5/inputmethod/translit.conf
++share/fcitx5/inputmethod/viqr.conf
++share/fcitx5/inputmethod/yawerty.conf
++share/fcitx5/table/amharic.main.dict
++share/fcitx5/table/arabic.main.dict
++share/fcitx5/table/cns11643.main.dict
++share/fcitx5/table/compose.main.dict
++share/fcitx5/table/emoji.main.dict
++share/fcitx5/table/ipa-x-sampa.main.dict
++share/fcitx5/table/latex.main.dict
++share/fcitx5/table/malayalam-phonetic.main.dict
++share/fcitx5/table/rustrad.main.dict
++share/fcitx5/table/tamil-remington.main.dict
++share/fcitx5/table/thai.main.dict
++share/fcitx5/table/translit-ua.main.dict
++share/fcitx5/table/translit.main.dict
++share/fcitx5/table/viqr.main.dict
++share/fcitx5/table/yawerty.main.dict
++share/icons/hicolor/24x24/apps/fcitx-amharic.png
++share/icons/hicolor/24x24/apps/fcitx-arabic.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.fcitx-amharic.png
++share/icons/hicolor/24x24/apps/org.fcitx.Fcitx5.fcitx-arabic.png
++share/icons/hicolor/32x32/apps/fcitx-thai.png
++share/icons/hicolor/32x32/apps/org.fcitx.Fcitx5.fcitx-thai.png
++share/icons/hicolor/48x48/apps/fcitx-bengali-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-bengali-probhat.png
++share/icons/hicolor/48x48/apps/fcitx-compose.png
++share/icons/hicolor/48x48/apps/fcitx-emoji.png
++share/icons/hicolor/48x48/apps/fcitx-gujarati-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-gujarati-phonetic.png
++share/icons/hicolor/48x48/apps/fcitx-hindi-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-hindi-phonetic.png
++share/icons/hicolor/48x48/apps/fcitx-ipa-x-sampa.png
++share/icons/hicolor/48x48/apps/fcitx-kannada-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-kannada-kgp.png
++share/icons/hicolor/48x48/apps/fcitx-latex.png
++share/icons/hicolor/48x48/apps/fcitx-malayalam-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-malayalam-phonetic.png
++share/icons/hicolor/48x48/apps/fcitx-nepali.png
++share/icons/hicolor/48x48/apps/fcitx-punjabi-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-punjabi-jhelum.png
++share/icons/hicolor/48x48/apps/fcitx-punjabi-phonetic.png
++share/icons/hicolor/48x48/apps/fcitx-rustrad.png
++share/icons/hicolor/48x48/apps/fcitx-tamil-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-tamil-phonetic.png
++share/icons/hicolor/48x48/apps/fcitx-tamil-remington.png
++share/icons/hicolor/48x48/apps/fcitx-telugu-inscript.png
++share/icons/hicolor/48x48/apps/fcitx-translit-ua.png
++share/icons/hicolor/48x48/apps/fcitx-translit.png
++share/icons/hicolor/48x48/apps/fcitx-yawerty.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-bengali-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-bengali-probhat.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-compose.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-emoji.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-gujarati-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-gujarati-phonetic.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-hindi-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-hindi-phonetic.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-ipa-x-sampa.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-kannada-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-kannada-kgp.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-latex.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-malayalam-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-malayalam-phonetic.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-nepali.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-punjabi-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-punjabi-jhelum.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-punjabi-phonetic.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-rustrad.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-tamil-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-tamil-phonetic.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-tamil-remington.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-telugu-inscript.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-translit-ua.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-translit.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-yawerty.png
++share/icons/hicolor/64x64/apps/fcitx-cns11643.png
++share/icons/hicolor/64x64/apps/fcitx-viqr.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-cns11643.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-viqr.png
++share/metainfo/org.fcitx.Fcitx5.Addon.TableOther.metainfo.xml
+diff --git a/chinese/libime-jyutping/Makefile b/chinese/libime-jyutping/Makefile
+new file mode 100644
+index 000000000000..311ec6130d12
+--- /dev/null
++++ b/chinese/libime-jyutping/Makefile
+@@ -0,0 +1,44 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	libime-jyutping
++DISTVERSION=	1.0.1
++CATEGORIES=	chinese textproc
++MASTER_SITES=	https://download.fcitx-im.org/data/:dict,model
++DISTFILES=	${DICT_TAR}:dict \
++		${MODEL_TAR}:model
++DIST_SUBDIR=	${PORTNAME}
++EXTRACT_ONLY=	${DISTNAME}${EXTRACT_SUFX}
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Library to support Jyutping through libime
++
++LICENSE=	LGPL21+ GPLv3+
++LICENSE_COMB=	multi
++
++BUILD_DEPENDS=	${LOCALBASE}/lib/fcitx5/punctuation.so:chinese/fcitx5-chinese-addons
++LIB_DEPENDS=	libboost_iostreams.so:devel/boost-libs \
++		libIMECore.so:chinese/libime \
++		libFcitx5Core.so:textproc/fcitx5
++RUN_DEPENDS=	${LOCALBASE}/lib/fcitx5/punctuation.so:chinese/fcitx5-chinese-addons
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USES=		compiler:c++17-lang cmake gettext-tools kde:5 localbase
++
++USE_KDE=	ecm
++USE_LDCONFIG=	yes
++
++CMAKE_ON=	ENABLE_ENGINE
++CMAKE_OFF=	ENABLE_TEST ENABLE_DOC
++MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
++
++DICT_TAR=	jyutping-dict-20180104.tar.xz
++MODEL_TAR=	jyutping-model-20180103.tar.xz
++
++post-extract:
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${DICT_TAR} ${WRKSRC}/data
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${MODEL_TAR} ${WRKSRC}/data
++
++.include <bsd.port.mk>
+diff --git a/chinese/libime-jyutping/distinfo b/chinese/libime-jyutping/distinfo
+new file mode 100644
+index 000000000000..efff2ab40ee3
+--- /dev/null
++++ b/chinese/libime-jyutping/distinfo
+@@ -0,0 +1,7 @@
++TIMESTAMP = 1608631171
++SHA256 (libime-jyutping/jyutping-dict-20180104.tar.xz) = e3a5b13edb8efa2f764245a3232f99ba7e7670e22b8cbe666a4fffa84b35f35b
++SIZE (libime-jyutping/jyutping-dict-20180104.tar.xz) = 1987632
++SHA256 (libime-jyutping/jyutping-model-20180103.tar.xz) = 4f07229e2080f0ee30ce51b016409f260af82a58dd406a01ea5981b59ca87071
++SIZE (libime-jyutping/jyutping-model-20180103.tar.xz) = 11006680
++SHA256 (libime-jyutping/fcitx-libime-jyutping-1.0.1_GH0.tar.gz) = 4b5973ae10420d506de28e09eb61238613c759db904e0329b624903dcce276d3
++SIZE (libime-jyutping/fcitx-libime-jyutping-1.0.1_GH0.tar.gz) = 45877
+diff --git a/chinese/libime-jyutping/pkg-descr b/chinese/libime-jyutping/pkg-descr
+new file mode 100644
+index 000000000000..de3a9966ea39
+--- /dev/null
++++ b/chinese/libime-jyutping/pkg-descr
+@@ -0,0 +1,3 @@
++This is a library to support Jyutping through libime.
++
++WWW: https://github.com/fcitx/libime-jyutping
+diff --git a/chinese/libime-jyutping/pkg-plist b/chinese/libime-jyutping/pkg-plist
+new file mode 100644
+index 000000000000..5f6890ec14b0
+--- /dev/null
++++ b/chinese/libime-jyutping/pkg-plist
+@@ -0,0 +1,24 @@
++bin/libime_jyutpingdict
++include/LibIME/libime/jyutping/jyutpingcontext.h
++include/LibIME/libime/jyutping/jyutpingdata.h
++include/LibIME/libime/jyutping/jyutpingdecoder.h
++include/LibIME/libime/jyutping/jyutpingdictionary.h
++include/LibIME/libime/jyutping/jyutpingencoder.h
++include/LibIME/libime/jyutping/jyutpingime.h
++include/LibIME/libime/jyutping/jyutpingmatchstate.h
++include/LibIME/libime/jyutping/libimejyutping_export.h
++lib/cmake/LibIMEJyutping/LibIMEJyutpingConfig.cmake
++lib/cmake/LibIMEJyutping/LibIMEJyutpingConfigVersion.cmake
++lib/cmake/LibIMEJyutping/LibIMEJyutpingTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/LibIMEJyutping/LibIMEJyutpingTargets.cmake
++lib/fcitx5/jyutping.so
++lib/libIMEJyutping.so
++lib/libIMEJyutping.so.1
++lib/libIMEJyutping.so.1.0.1
++lib/libime/zh_HK.lm
++lib/libime/zh_HK.lm.predict
++share/fcitx5/addon/jyutping.conf
++share/fcitx5/inputmethod/jyutping.conf
++share/libime/jyutping.dict
++share/locale/zh_CN/LC_MESSAGES/fcitx5-jyutping.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.Jyutping.metainfo.xml
+diff --git a/chinese/libime/Makefile b/chinese/libime/Makefile
+new file mode 100644
+index 000000000000..f7ded5e5eea9
+--- /dev/null
++++ b/chinese/libime/Makefile
+@@ -0,0 +1,42 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	libime
++DISTVERSION=	1.0.2-4
++CATEGORIES=	chinese textproc
++MASTER_SITES=	https://download.fcitx-im.org/data/:opengram_lm,opengram_dict,table_dict
++DISTFILES=	${OPENGRAM_LM_TAR}:opengram_lm \
++		${OPENGRAM_DICT_TAR}:opengram_dict \
++		${TABLE_DICT_TAR}:table_dict
++DIST_SUBDIR=	${PORTNAME}
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Library to support generic input method implementation
++
++LICENSE=	LGPL21
++
++LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
++		libFcitx5Utils.so:textproc/fcitx5
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++GH_TAGNAME=	e2e48ed
++GH_TUPLE=	kpu:kenlm:01c49fe:kenlm/src/libime/core/kenlm
++
++USES=		compiler:c++17-lang cmake kde:5
++
++USE_KDE=	ecm
++
++CMAKE_OFF=	ENABLE_TEST
++MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
++
++OPENGRAM_LM_TAR=	lm_sc.3gm.arpa-20140820.tar.bz2
++OPENGRAM_DICT_TAR=	dict.utf8-20200715.tar.xz
++TABLE_DICT_TAR=		table.tar.gz
++
++post-extract:
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${OPENGRAM_LM_TAR} ${WRKSRC}/data
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${OPENGRAM_DICT_TAR} ${WRKSRC}/data
++	${CP} ${DISTDIR}/${DIST_SUBDIR}/${TABLE_DICT_TAR} ${WRKSRC}/data
++
++.include <bsd.port.mk>
+diff --git a/chinese/libime/distinfo b/chinese/libime/distinfo
+new file mode 100644
+index 000000000000..3281373d9297
+--- /dev/null
++++ b/chinese/libime/distinfo
+@@ -0,0 +1,11 @@
++TIMESTAMP = 1608569935
++SHA256 (libime/lm_sc.3gm.arpa-20140820.tar.bz2) = 751bab7c55ea93a2cedfb0fbb7eb09f67d4da9c2c55496e5f31eb8580f1d1e2f
++SIZE (libime/lm_sc.3gm.arpa-20140820.tar.bz2) = 36623028
++SHA256 (libime/dict.utf8-20200715.tar.xz) = 23c36cd4df6de17f66bf2dfc453ec6c773641a479b6020c9e787552489c9c7d2
++SIZE (libime/dict.utf8-20200715.tar.xz) = 471536
++SHA256 (libime/table.tar.gz) = 6196053c724125e3ae3d8bd6b2f9172d0c83b65b0d410d3cde63b7a8d6ab87b7
++SIZE (libime/table.tar.gz) = 4144686
++SHA256 (libime/fcitx-libime-1.0.2-4-e2e48ed_GH0.tar.gz) = 592bd2b60a8665e906aeb8da45f14d3f770abddaa0d1fc67b7bc23dc144ee598
++SIZE (libime/fcitx-libime-1.0.2-4-e2e48ed_GH0.tar.gz) = 122597
++SHA256 (libime/kpu-kenlm-01c49fe_GH0.tar.gz) = 94919822e57cb019cd6a3c64ec00f44d17e3abe8410c07733c42ab2a8e83dc96
++SIZE (libime/kpu-kenlm-01c49fe_GH0.tar.gz) = 408488
+diff --git a/chinese/libime/pkg-descr b/chinese/libime/pkg-descr
+new file mode 100644
+index 000000000000..813763c92a8b
+--- /dev/null
++++ b/chinese/libime/pkg-descr
+@@ -0,0 +1,3 @@
++This is a library to support generic input method implementation.
++
++WWW: https://github.com/fcitx/libime
+diff --git a/chinese/libime/pkg-plist b/chinese/libime/pkg-plist
+new file mode 100644
+index 000000000000..46b2632b8754
+--- /dev/null
++++ b/chinese/libime/pkg-plist
+@@ -0,0 +1,71 @@
++bin/libime_history
++bin/libime_migrate_fcitx4_pinyin
++bin/libime_migrate_fcitx4_table
++bin/libime_pinyindict
++bin/libime_prediction
++bin/libime_slm_build_binary
++bin/libime_tabledict
++include/LibIME/libime/core/datrie.h
++include/LibIME/libime/core/decoder.h
++include/LibIME/libime/core/dictionary.h
++include/LibIME/libime/core/historybigram.h
++include/LibIME/libime/core/inputbuffer.h
++include/LibIME/libime/core/languagemodel.h
++include/LibIME/libime/core/lattice.h
++include/LibIME/libime/core/libimecore_export.h
++include/LibIME/libime/core/lrucache.h
++include/LibIME/libime/core/prediction.h
++include/LibIME/libime/core/segmentgraph.h
++include/LibIME/libime/core/triedictionary.h
++include/LibIME/libime/core/userlanguagemodel.h
++include/LibIME/libime/core/utils.h
++include/LibIME/libime/pinyin/libimepinyin_export.h
++include/LibIME/libime/pinyin/pinyincontext.h
++include/LibIME/libime/pinyin/pinyindata.h
++include/LibIME/libime/pinyin/pinyindecoder.h
++include/LibIME/libime/pinyin/pinyindictionary.h
++include/LibIME/libime/pinyin/pinyinencoder.h
++include/LibIME/libime/pinyin/pinyinime.h
++include/LibIME/libime/pinyin/pinyinmatchstate.h
++include/LibIME/libime/pinyin/pinyinmatchstate_p.h
++include/LibIME/libime/pinyin/shuangpindata.h
++include/LibIME/libime/pinyin/shuangpinprofile.h
++include/LibIME/libime/table/autophrasedict.h
++include/LibIME/libime/table/libimetable_export.h
++include/LibIME/libime/table/tablebaseddictionary.h
++include/LibIME/libime/table/tablecontext.h
++include/LibIME/libime/table/tabledecoder.h
++include/LibIME/libime/table/tableoptions.h
++include/LibIME/libime/table/tablerule.h
++lib/cmake/LibIMECore/LibIMECoreConfig.cmake
++lib/cmake/LibIMECore/LibIMECoreConfigVersion.cmake
++lib/cmake/LibIMECore/LibIMECoreTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/LibIMECore/LibIMECoreTargets.cmake
++lib/cmake/LibIMEPinyin/LibIMEPinyinConfig.cmake
++lib/cmake/LibIMEPinyin/LibIMEPinyinConfigVersion.cmake
++lib/cmake/LibIMEPinyin/LibIMEPinyinTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/LibIMEPinyin/LibIMEPinyinTargets.cmake
++lib/cmake/LibIMETable/LibIMETableConfig.cmake
++lib/cmake/LibIMETable/LibIMETableConfigVersion.cmake
++lib/cmake/LibIMETable/LibIMETableTargets-%%CMAKE_BUILD_TYPE%%.cmake
++lib/cmake/LibIMETable/LibIMETableTargets.cmake
++lib/libIMECore.so
++lib/libIMECore.so.0
++lib/libIMECore.so.1.0.3
++lib/libIMEPinyin.so
++lib/libIMEPinyin.so.0
++lib/libIMEPinyin.so.1.0.3
++lib/libIMETable.so
++lib/libIMETable.so.0
++lib/libIMETable.so.1.0.3
++lib/libime/zh_CN.lm
++lib/libime/zh_CN.lm.predict
++%%DATADIR%%/cj.main.dict
++%%DATADIR%%/db.main.dict
++%%DATADIR%%/erbi.main.dict
++%%DATADIR%%/qxm.main.dict
++%%DATADIR%%/sc.dict
++%%DATADIR%%/wanfeng.main.dict
++%%DATADIR%%/wbpy.main.dict
++%%DATADIR%%/wbx.main.dict
++%%DATADIR%%/zrm.main.dict
+diff --git a/korean/Makefile b/korean/Makefile
+index 448ccc79eb0b..2f8f26fc6de9 100644
+--- a/korean/Makefile
++++ b/korean/Makefile
+@@ -11,6 +11,7 @@
+     SUBDIR += d2coding-ttf
+     SUBDIR += engdic
+     SUBDIR += fcitx-hangul
++    SUBDIR += fcitx5-hangul
+     SUBDIR += h2ps
+     SUBDIR += hanyangfonts
+     SUBDIR += hcode
+diff --git a/korean/fcitx5-hangul/Makefile b/korean/fcitx5-hangul/Makefile
+new file mode 100644
+index 000000000000..d1bf6606b060
+--- /dev/null
++++ b/korean/fcitx5-hangul/Makefile
+@@ -0,0 +1,24 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-hangul
++DISTVERSION=	5.0.1
++CATEGORIES=	korean textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Hangul support for Fcitx5
++
++LICENSE=	GPLv2+
++LICENSE_FILE=	${WRKSRC}/LICENSES/GPL-2.0-or-later.txt
++
++LIB_DEPENDS=	libhangul.so:korean/libhangul \
++		libFcitx5Core.so:textproc/fcitx5
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 pkgconfig
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++.include <bsd.port.mk>
+diff --git a/korean/fcitx5-hangul/distinfo b/korean/fcitx5-hangul/distinfo
+new file mode 100644
+index 000000000000..5e9b089324e3
+--- /dev/null
++++ b/korean/fcitx5-hangul/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608392411
++SHA256 (fcitx-fcitx5-hangul-5.0.1_GH0.tar.gz) = 8e0b90539a14a5ce36189ae021faf71d71345f89f7e1e2e9acb9c3e4f45964cc
++SIZE (fcitx-fcitx5-hangul-5.0.1_GH0.tar.gz) = 29532
+diff --git a/korean/fcitx5-hangul/pkg-descr b/korean/fcitx5-hangul/pkg-descr
+new file mode 100644
+index 000000000000..263e2eb0b6c2
+--- /dev/null
++++ b/korean/fcitx5-hangul/pkg-descr
+@@ -0,0 +1,3 @@
++libhangul support for Fcitx5 input method framework.
++
++WWW: https://github.com/fcitx/fcitx5-anthy
+diff --git a/korean/fcitx5-hangul/pkg-plist b/korean/fcitx5-hangul/pkg-plist
+new file mode 100644
+index 000000000000..eb9694299287
+--- /dev/null
++++ b/korean/fcitx5-hangul/pkg-plist
+@@ -0,0 +1,21 @@
++lib/fcitx5/hangul.so
++share/fcitx5/addon/hangul.conf
++share/fcitx5/hangul/symbol.txt
++share/fcitx5/inputmethod/hangul.conf
++share/icons/hicolor/48x48/apps/fcitx-hanja-active.png
++share/icons/hicolor/48x48/apps/fcitx-hanja-inactive.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-hanja-active.png
++share/icons/hicolor/48x48/apps/org.fcitx.Fcitx5.fcitx-hanja-inactive.png
++share/icons/hicolor/64x64/apps/fcitx-hangul.png
++share/icons/hicolor/64x64/apps/org.fcitx.Fcitx5.fcitx-hangul.png
++share/locale/ca/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/da/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/de/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/he/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/ja/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/ko/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/ru/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/tr/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-hangul.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-hangul.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.Hangul.metainfo.xml
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..067bda4c971d
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,7 @@
++chinese/fcitx5-chinese-addons
++chinese/fcitx5-table-extra
++chinese/fcitx5-table-other
++chinese/libime
++chinese/libime-jyutping
++korean/fcitx5-hangul
++textproc/fcitx5-lua
+diff --git a/textproc/Makefile b/textproc/Makefile
+index ab164574a044..57e262d3992d 100644
+--- a/textproc/Makefile
++++ b/textproc/Makefile
+@@ -199,6 +199,7 @@
+     SUBDIR += fcitx5
+     SUBDIR += fcitx5-configtool
+     SUBDIR += fcitx5-gtk
++    SUBDIR += fcitx5-lua
+     SUBDIR += fcitx5-qt
+     SUBDIR += fex
+     SUBDIR += ffe
+diff --git a/textproc/fcitx5-lua/Makefile b/textproc/fcitx5-lua/Makefile
+new file mode 100644
+index 000000000000..6215bad5c621
+--- /dev/null
++++ b/textproc/fcitx5-lua/Makefile
+@@ -0,0 +1,23 @@
++# Created by: Ka Ho Ng <khng300@gmail.com>
++# $FreeBSD$
++
++PORTNAME=	fcitx5-lua
++DISTVERSION=	5.0.1
++CATEGORIES=	textproc
++
++MAINTAINER=	khng300@gmail.com
++COMMENT=	Lua support for Fcitx5
++
++LICENSE=	LGPL21+
++LICENSE_FILE=	${WRKSRC}/LICENSES/LGPL-2.1-or-later.txt
++
++LIB_DEPENDS=	libFcitx5Core.so:textproc/fcitx5
++
++USES=		compiler:c++17-lang gettext-tools cmake kde:5 lua:53 pkgconfig
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	fcitx
++
++USE_KDE=	ecm
++
++.include <bsd.port.mk>
+diff --git a/textproc/fcitx5-lua/distinfo b/textproc/fcitx5-lua/distinfo
+new file mode 100644
+index 000000000000..a9cc774cac00
+--- /dev/null
++++ b/textproc/fcitx5-lua/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608626438
++SHA256 (fcitx-fcitx5-lua-5.0.1_GH0.tar.gz) = 04ee90aa2c06224a31b8088168c98fab675515ab925930cb6f8ece3f78d3269c
++SIZE (fcitx-fcitx5-lua-5.0.1_GH0.tar.gz) = 37083
+diff --git a/textproc/fcitx5-lua/pkg-descr b/textproc/fcitx5-lua/pkg-descr
+new file mode 100644
+index 000000000000..131042a543fd
+--- /dev/null
++++ b/textproc/fcitx5-lua/pkg-descr
+@@ -0,0 +1,5 @@
++This provides Lua support for Fcitx5 input method framework in two ways:
++1. An addon loader for Lua
++2. The googlepinyin API provided by imeapi addon.
++
++WWW: https://github.com/fcitx/fcitx5-lua
+diff --git a/textproc/fcitx5-lua/pkg-plist b/textproc/fcitx5-lua/pkg-plist
+new file mode 100644
+index 000000000000..1b415863fa43
+--- /dev/null
++++ b/textproc/fcitx5-lua/pkg-plist
+@@ -0,0 +1,12 @@
++include/Fcitx5/Module/fcitx-module/luaaddonloader/luaaddon_public.h
++%%LUA_LIBDIR%%/cmake/Fcitx5ModuleLuaAddonLoader/Fcitx5ModuleLuaAddonLoaderConfig.cmake
++%%LUA_LIBDIR%%/cmake/Fcitx5ModuleLuaAddonLoader/Fcitx5ModuleLuaAddonLoaderConfigVersion.cmake
++%%LUA_LIBDIR%%/fcitx5/luaaddonloader.so
++share/fcitx5/addon/imeapi.conf
++share/fcitx5/addon/luaaddonloader.conf
++share/fcitx5/lua/imeapi/imeapi.lua
++share/locale/da/LC_MESSAGES/fcitx5-lua.mo
++share/locale/ko/LC_MESSAGES/fcitx5-lua.mo
++share/locale/zh_CN/LC_MESSAGES/fcitx5-lua.mo
++share/locale/zh_TW/LC_MESSAGES/fcitx5-lua.mo
++share/metainfo/org.fcitx.Fcitx5.Addon.Lua.metainfo.xml
