@@ -14,10 +14,7 @@ fi
 cd ${PD_TREE_PATH}
 git clean -df
 git checkout -- .
-git checkout master
-git clean -df
-git checkout -- .
-git pull upstream master
+git pull
 
 # Environmental variables
 CHANGE_TITLE=$(git log --pretty=format:%s | head -n1)
