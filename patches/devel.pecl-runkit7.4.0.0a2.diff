@@ -1,0 +1,55 @@
+diff --git a/devel/Makefile b/devel/Makefile
+index d651217b460c..bc9fb6255b31 100644
+--- a/devel/Makefile
++++ b/devel/Makefile
+@@ -3881,6 +3881,7 @@
+     SUBDIR += pecl-protobuf
+     SUBDIR += pecl-psr
+     SUBDIR += pecl-raphf2
++    SUBDIR += pecl-runkit7
+     SUBDIR += pecl-swoole
+     SUBDIR += pecl-sync
+     SUBDIR += pecl-uploadprogress
+diff --git a/devel/pecl-runkit7/Makefile b/devel/pecl-runkit7/Makefile
+new file mode 100644
+index 000000000000..30cf732f35e8
+--- /dev/null
++++ b/devel/pecl-runkit7/Makefile
+@@ -0,0 +1,14 @@
++# $FreeBSD$
++
++PORTNAME=	runkit7
++PORTVERSION=	4.0.0a2
++CATEGORIES=	devel
++
++MAINTAINER=	vikashb@where-ever.za.net
++COMMENT=	Extension to replace, rename, and remove user functions and classes
++
++LICENSE=	PHP301
++
++USES=		php:pecl
++
++.include <bsd.port.mk>
+diff --git a/devel/pecl-runkit7/distinfo b/devel/pecl-runkit7/distinfo
+new file mode 100644
+index 000000000000..4b6df5a87d9a
+--- /dev/null
++++ b/devel/pecl-runkit7/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1608036502
++SHA256 (PECL/runkit7-4.0.0a2.tgz) = 2f2483df63a6453e09e336c853ba0ff9ae8934e8ca59877c6238545bdde557d1
++SIZE (PECL/runkit7-4.0.0a2.tgz) = 102167
+diff --git a/devel/pecl-runkit7/pkg-descr b/devel/pecl-runkit7/pkg-descr
+new file mode 100644
+index 000000000000..27b766020797
+--- /dev/null
++++ b/devel/pecl-runkit7/pkg-descr
+@@ -0,0 +1,8 @@
++The runkit extension provides means to modify constants, user-defined functions,
++and user-defined classes.  It also provides for custom superglobal variables and
++embeddable sub-interpreters via sandboxing.
++
++Compatibility: PHP7.2 to PHP 7.4
++
++WWW: https://github.com/runkit7/runkit7
++Documentation: https://www.php.net/runkit7
