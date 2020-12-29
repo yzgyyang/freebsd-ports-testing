@@ -1,0 +1,63 @@
+diff --git a/chinese/fcitx-rime/Makefile b/chinese/fcitx-rime/Makefile
+index b46c0bf46d41..36fddcd83335 100644
+--- a/chinese/fcitx-rime/Makefile
++++ b/chinese/fcitx-rime/Makefile
+@@ -2,25 +2,33 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx-rime
+-PORTVERSION=	0.3.2
+-PORTREVISION=	1
++DISTVERSION=	0.3.2
++PORTREVISION=	2
+ CATEGORIES=	chinese
+-MASTER_SITES=	http://download.fcitx-im.org/${PORTNAME}/
++MASTER_SITES=	https://download.fcitx-im.org/${PORTNAME}/
+ DIST_SUBDIR=	fcitx
+ 
++PATCH_SITES=	https://github.com/fcitx/${PORTNAME}/commit/
++PATCHFILES=	a3a9fffb6ee89adc327ad8a7dec05d5f35414f9d.patch:-p1
++
+ MAINTAINER=	khng300@gmail.com
+ COMMENT=	RIME support for Fcitx
+ 
+ LICENSE=	GPLv2
+ 
+-BUILD_DEPENDS=	bash:shells/bash
++BUILD_DEPENDS=	bash:shells/bash \
++		${_SCHEMA_DEPENDS}
+ LIB_DEPENDS=	libfcitx-config.so:chinese/fcitx \
+ 		librime.so:chinese/librime
+-RUN_DEPENDS=	${LOCALBASE}/share/brise/default.yaml:chinese/brise
++RUN_DEPENDS=	${_SCHEMA_DEPENDS}
+ 
+-USES=		cmake gettext gnome pkgconfig tar:xz
++USES=		cmake gettext gnome localbase pkgconfig tar:xz
+ INSTALLS_ICONS=	yes
+ 
+-CMAKE_ARGS+=	-DBRISE_DIR=${LOCALBASE}/share/brise
++_SCHEMA_DEPENDS=	\
++	${LOCALBASE}/share/rime-data/luna_pinyin.schema.yaml:chinese/rime-luna-pinyin	\
++	${LOCALBASE}/share/rime-data/bopomofo.schema.yaml:chinese/rime-bopomofo	\
++	${LOCALBASE}/share/rime-data/cangjie5.schema.yaml:chinese/rime-cangjie	\
++	${LOCALBASE}/share/rime-data/stroke.schema.yaml:chinese/rime-stroke
+ 
+ .include <bsd.port.mk>
+diff --git a/chinese/fcitx-rime/distinfo b/chinese/fcitx-rime/distinfo
+index bddfdb346b00..b2f0a19a8177 100644
+--- a/chinese/fcitx-rime/distinfo
++++ b/chinese/fcitx-rime/distinfo
+@@ -1,3 +1,5 @@
+-TIMESTAMP = 1536696850
++TIMESTAMP = 1608116604
+ SHA256 (fcitx/fcitx-rime-0.3.2.tar.xz) = f97ea6f515fcc5f526cc25dce3d4ba05fa1c83001f68502d6c284ba39cd5a82d
+ SIZE (fcitx/fcitx-rime-0.3.2.tar.xz) = 40960
++SHA256 (fcitx/a3a9fffb6ee89adc327ad8a7dec05d5f35414f9d.patch) = b108314263ab980947f92ad08ac42642cc5e5274f256bc3cb0d2e86825a78586
++SIZE (fcitx/a3a9fffb6ee89adc327ad8a7dec05d5f35414f9d.patch) = 3167
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..419e0446b857
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1 @@
++chinese/fcitx-rime
