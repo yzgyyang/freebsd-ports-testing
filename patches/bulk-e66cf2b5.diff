@@ -1,0 +1,138 @@
+diff --git a/chinese/rime-bopomofo/Makefile b/chinese/rime-bopomofo/Makefile
+index c1460a1ee8ad..740ec9a9f03c 100644
+--- a/chinese/rime-bopomofo/Makefile
++++ b/chinese/rime-bopomofo/Makefile
+@@ -3,6 +3,7 @@
+ 
+ PORTNAME=	rime-bopomofo
+ DISTVERSION=	g20190120
++PORTREVISION=	1
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -45,7 +46,7 @@ do-build:
+ 	@${MKDIR} ${MY_OUTDIR}
+ 	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
+ .for i in ${PRELUDE_FILES} ${ESSAY_FILES} ${TERRA_PINYIN_FILES}
+-	@${RLN} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
+ .endfor
+ .for i in ${SCHEMA_FILES}
+ 	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
+diff --git a/chinese/rime-cangjie/Makefile b/chinese/rime-cangjie/Makefile
+index 43c8249ea101..e4b0aa9f045e 100644
+--- a/chinese/rime-cangjie/Makefile
++++ b/chinese/rime-cangjie/Makefile
+@@ -3,6 +3,7 @@
+ 
+ PORTNAME=	rime-cangjie
+ DISTVERSION=	g20201030
++PORTREVISION=	1
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -38,7 +39,7 @@ do-build:
+ 	@${MKDIR} ${MY_OUTDIR}
+ 	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
+ .for i in ${PRELUDE_FILES} ${ESSAY_FILES}
+-	@${RLN} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
+ .endfor
+ .for i in ${SCHEMA_FILES}
+ 	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
+diff --git a/chinese/rime-cantonese/Makefile b/chinese/rime-cantonese/Makefile
+index 392debd11b40..c31737f8cf94 100644
+--- a/chinese/rime-cantonese/Makefile
++++ b/chinese/rime-cantonese/Makefile
+@@ -3,6 +3,7 @@
+ 
+ PORTNAME=	rime-cantonese
+ DISTVERSION=	g20201212
++PORTREVISION=	1
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -43,7 +44,7 @@ do-build:
+ 	@${MKDIR} ${MY_OUTDIR}
+ 	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
+ .for i in ${PRELUDE_FILES} ${ESSAY_FILES}
+-	@${RLN} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
+ .endfor
+ .for i in ${SCHEMA_FILES}
+ 	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
+diff --git a/chinese/rime-luna-pinyin/Makefile b/chinese/rime-luna-pinyin/Makefile
+index 8e67bb431b2c..ba4ea875e0d4 100644
+--- a/chinese/rime-luna-pinyin/Makefile
++++ b/chinese/rime-luna-pinyin/Makefile
+@@ -3,6 +3,7 @@
+ 
+ PORTNAME=	rime-luna-pinyin
+ DISTVERSION=	g20201105
++PORTREVISION=	1
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -43,7 +44,7 @@ do-build:
+ 	@${MKDIR} ${MY_OUTDIR}
+ 	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
+ .for i in ${PRELUDE_FILES} ${ESSAY_FILES}
+-	@${RLN} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
+ .endfor
+ .for i in ${SCHEMA_FILES}
+ 	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
+diff --git a/chinese/rime-stroke/Makefile b/chinese/rime-stroke/Makefile
+index 3fcb4296126d..f63916de37e5 100644
+--- a/chinese/rime-stroke/Makefile
++++ b/chinese/rime-stroke/Makefile
+@@ -3,6 +3,7 @@
+ 
+ PORTNAME=	rime-stroke
+ DISTVERSION=	g20191221
++PORTREVISION=	1
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -39,7 +40,7 @@ do-build:
+ 	@${MKDIR} ${MY_OUTDIR}
+ 	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
+ .for i in ${PRELUDE_FILES} ${ESSAY_FILES}
+-	@${RLN} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
+ .endfor
+ .for i in ${SCHEMA_FILES}
+ 	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
+diff --git a/chinese/rime-terra-pinyin/Makefile b/chinese/rime-terra-pinyin/Makefile
+index a93c4b895305..20002d91ee58 100644
+--- a/chinese/rime-terra-pinyin/Makefile
++++ b/chinese/rime-terra-pinyin/Makefile
+@@ -3,6 +3,7 @@
+ 
+ PORTNAME=	rime-terra-pinyin
+ DISTVERSION=	g20201018
++PORTREVISION=	1
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -39,7 +40,7 @@ do-build:
+ 	@${MKDIR} ${MY_OUTDIR}
+ 	@${RLN} ${WRKSRC}/* ${MY_OUTDIR}
+ .for i in ${PRELUDE_FILES} ${ESSAY_FILES}
+-	@${RLN} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
++	@${CP} ${LOCALBASE}/share/rime-data/${i} ${MY_OUTDIR}
+ .endfor
+ .for i in ${SCHEMA_FILES}
+ 	rime_deployer --compile ${WRKSRC}/${i} ${MY_OUTDIR}
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..4f53c2de6651
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,6 @@
++chinese/rime-bopomofo
++chinese/rime-cangjie
++chinese/rime-cantonese
++chinese/rime-luna-pinyin
++chinese/rime-stroke
++chinese/rime-terra-pinyin
