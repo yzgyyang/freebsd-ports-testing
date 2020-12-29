@@ -17,6 +17,7 @@ git checkout -- .
 git pull
 
 # Environmental variables
+cd ${WORKSPACE}/src
 CHANGE_TITLE=$(git log --pretty=format:%s | head -n1)
 
 # Get into Ports tree
