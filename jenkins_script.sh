@@ -18,7 +18,6 @@ git pull
 
 # Environmental variables
 CHANGE_TITLE=$(git log --pretty=format:%s | head -n1)
-PD_JAIL_RELEASE_A=$(echo ${PD_JAIL_RELEASE} | awk -F '.' '{print $1}')
 
 # Get into Ports tree
 cd ${PD_TREE_PATH}
@@ -34,14 +33,14 @@ case ${GIT_BRANCH} in origin/bulk*)
   exit 0
 esac
 
+# Apply patch
+patch -p1 -u < ${WORKSPACE}/src/patches/${PATCH_NAME}
+
 # in Jenkins, GIT_BRANCH=origin/devel/R-cran-covr
 PORT_CAT=$(echo ${GIT_BRANCH} | awk -F '/' '{print $2}')
 PORT_NAME=$(echo ${GIT_BRANCH} | awk -F '/' '{print $3}')
 PORT_VER=$(echo ${CHANGE_TITLE} | awk -F ':' '{print $2}')
 PATCH_NAME="${PORT_CAT}.${PORT_NAME}.${PORT_VER}.diff"
-
-# Apply patch
-patch -p1 -u < ${WORKSPACE}/src/patches/${PATCH_NAME}
 
 # Build
 sudo poudriere testport -j ${PD_JAIL} -p ${PD_TREE} -o ${PORT_CAT}/${PORT_NAME}
