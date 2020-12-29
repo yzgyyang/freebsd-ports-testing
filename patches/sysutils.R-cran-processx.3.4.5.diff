@@ -1,0 +1,65 @@
+diff --git a/sysutils/Makefile b/sysutils/Makefile
+index b1958ae30c76..a9da3053967a 100644
+--- a/sysutils/Makefile
++++ b/sysutils/Makefile
+@@ -9,6 +9,7 @@
+     SUBDIR += 915resolution
+     SUBDIR += LPRng
+     SUBDIR += LPRngTool
++    SUBDIR += R-cran-processx
+     SUBDIR += R-cran-ps
+     SUBDIR += UEFITool
+     SUBDIR += abduco
+diff --git a/sysutils/R-cran-processx/Makefile b/sysutils/R-cran-processx/Makefile
+new file mode 100644
+index 000000000000..a8fe9cfba548
+--- /dev/null
++++ b/sysutils/R-cran-processx/Makefile
+@@ -0,0 +1,24 @@
++# $FreeBSD$
++
++PORTNAME=	processx
++DISTVERSION=	3.4.5
++CATEGORIES=	sysutils
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Execute and Control System Processes
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++RUN_DEPENDS=	R-cran-R6>0:devel/R-cran-R6 \
++		R-cran-ps>=1.2.0:sysutils/R-cran-ps
++TEST_DEPENDS=	R-cran-covr>0:devel/R-cran-covr \
++		R-cran-crayon>0:devel/R-cran-crayon \
++		R-cran-testthat>0:devel/R-cran-testthat \
++		R-cran-withr>0:devel/R-cran-withr \
++		R-cran-curl>0:ftp/R-cran-curl
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/sysutils/R-cran-processx/distinfo b/sysutils/R-cran-processx/distinfo
+new file mode 100644
+index 000000000000..6b0344dbae4a
+--- /dev/null
++++ b/sysutils/R-cran-processx/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609275213
++SHA256 (processx_3.4.5.tar.gz) = e368103aa6a6894bfa8e78b12a25598464bcd2c19a8b6334f24ee397db13bb14
++SIZE (processx_3.4.5.tar.gz) = 135121
+diff --git a/sysutils/R-cran-processx/pkg-descr b/sysutils/R-cran-processx/pkg-descr
+new file mode 100644
+index 000000000000..0f3f8f92eaed
+--- /dev/null
++++ b/sysutils/R-cran-processx/pkg-descr
+@@ -0,0 +1,8 @@
++Tools to run system processes in the background. It can check if a background
++process is running; wait on a background process to finish; get the exit status
++of finished processes; kill background processes. It can read the standard
++output and error of the processes, using non-blocking connections. 'processx'
++can poll a process for standard output or error, with a timeout. It can also
++poll several processes at once.
++
++WWW: https://processx.r-lib.org
