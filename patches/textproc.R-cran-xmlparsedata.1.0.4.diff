@@ -1,0 +1,57 @@
+diff --git a/textproc/Makefile b/textproc/Makefile
+index 57e262d3992d..966879ee575e 100644
+--- a/textproc/Makefile
++++ b/textproc/Makefile
+@@ -29,6 +29,7 @@
+     SUBDIR += R-cran-stringr
+     SUBDIR += R-cran-utf8
+     SUBDIR += R-cran-xml2
++    SUBDIR += R-cran-xmlparsedata
+     SUBDIR += R-cran-xtable
+     SUBDIR += R-cran-yaml
+     SUBDIR += UCD
+diff --git a/textproc/R-cran-xmlparsedata/Makefile b/textproc/R-cran-xmlparsedata/Makefile
+new file mode 100644
+index 000000000000..cf2f59e9fb55
+--- /dev/null
++++ b/textproc/R-cran-xmlparsedata/Makefile
+@@ -0,0 +1,20 @@
++# $FreeBSD$
++
++PORTNAME=	xmlparsedata
++DISTVERSION=	1.0.4
++CATEGORIES=	textproc
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Parse Data of 'R' Code as an 'XML' Tree
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++TEST_DEPENDS=	R-cran-covr>0:devel/R-cran-covr \
++		R-cran-testthat>0:devel/R-cran-testthat \
++		R-cran-xml2>0:textproc/R-cran-xml2
++
++USES=		cran:auto-plist
++
++.include <bsd.port.mk>
+diff --git a/textproc/R-cran-xmlparsedata/distinfo b/textproc/R-cran-xmlparsedata/distinfo
+new file mode 100644
+index 000000000000..9e7820123ace
+--- /dev/null
++++ b/textproc/R-cran-xmlparsedata/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609275995
++SHA256 (xmlparsedata_1.0.4.tar.gz) = 387b13c25bea9ddc0a39b817c17c199b86ab9acafa328daae2233a9ca577fb9c
++SIZE (xmlparsedata_1.0.4.tar.gz) = 8399
+diff --git a/textproc/R-cran-xmlparsedata/pkg-descr b/textproc/R-cran-xmlparsedata/pkg-descr
+new file mode 100644
+index 000000000000..e145a9217e5f
+--- /dev/null
++++ b/textproc/R-cran-xmlparsedata/pkg-descr
+@@ -0,0 +1,4 @@
++Convert the output of 'utils::getParseData()' to an 'XML' tree, that one can
++search via 'XPath', and easier to manipulate in general.
++
++WWW: https://github.com/r-lib/xmlparsedata#readme
