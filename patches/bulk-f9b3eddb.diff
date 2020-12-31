@@ -1,0 +1,19 @@
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..0efa9488be4f
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1 @@
++www/py-flask-bootstrap
+diff --git a/www/py-flask-bootstrap/Makefile b/www/py-flask-bootstrap/Makefile
+index 3e8ac02429f0..767f557668cf 100644
+--- a/www/py-flask-bootstrap/Makefile
++++ b/www/py-flask-bootstrap/Makefile
+@@ -1,6 +1,6 @@
+ # $FreeBSD$
+ 
+-PORTNAME=	Flask-Bootstrap
++PORTNAME=	flask-bootstrap
+ PORTVERSION=	3.3.7.1
+ PORTREVISION=	1
+ CATEGORIES=	www python
