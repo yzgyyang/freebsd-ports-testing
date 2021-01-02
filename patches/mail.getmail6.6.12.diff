@@ -1,0 +1,24 @@
+diff --git a/mail/getmail6/Makefile b/mail/getmail6/Makefile
+index 395be6acd5ba..f509e3991766 100644
+--- a/mail/getmail6/Makefile
++++ b/mail/getmail6/Makefile
+@@ -2,7 +2,7 @@
+ 
+ PORTNAME=	getmail6
+ DISTVERSIONPREFIX=	v
+-DISTVERSION=	6.11
++DISTVERSION=	6.12
+ CATEGORIES=	mail python
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+ 
+diff --git a/mail/getmail6/distinfo b/mail/getmail6/distinfo
+index 44bae8c8e06e..50d242f7046f 100644
+--- a/mail/getmail6/distinfo
++++ b/mail/getmail6/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1607520272
+-SHA256 (getmail6-getmail6-v6.11_GH0.tar.gz) = ae9f9a9b4e6fbd2f2575dfd3309cfec392f5824378536b929b89ea89c0f5ee3b
+-SIZE (getmail6-getmail6-v6.11_GH0.tar.gz) = 184818
++TIMESTAMP = 1609509181
++SHA256 (getmail6-getmail6-v6.12_GH0.tar.gz) = e2e7a645514bbaf94bc21ef30d3ef61955433382d515b717e78527b730ea4f73
++SIZE (getmail6-getmail6-v6.12_GH0.tar.gz) = 185040
