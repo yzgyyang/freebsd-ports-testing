@@ -1,0 +1,25 @@
+diff --git a/graphics/R-cran-ggrepel/Makefile b/graphics/R-cran-ggrepel/Makefile
+index 42069d9e2b9f..e780e9838392 100644
+--- a/graphics/R-cran-ggrepel/Makefile
++++ b/graphics/R-cran-ggrepel/Makefile
+@@ -1,8 +1,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	ggrepel
+-DISTVERSION=	0.8.2
+-PORTREVISION=	1
++DISTVERSION=	0.9.0
+ CATEGORIES=	graphics
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+diff --git a/graphics/R-cran-ggrepel/distinfo b/graphics/R-cran-ggrepel/distinfo
+index ac03bbcdb84b..9be6b04a8520 100644
+--- a/graphics/R-cran-ggrepel/distinfo
++++ b/graphics/R-cran-ggrepel/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1585401232
+-SHA256 (ggrepel_0.8.2.tar.gz) = 0d01bfc005e9af5e6b57e2a677781424387f38ec208818295eb87dd5867551e1
+-SIZE (ggrepel_0.8.2.tar.gz) = 538532
++TIMESTAMP = 1609315141
++SHA256 (ggrepel_0.9.0.tar.gz) = 4f7ca3da7dc08902487c961c539ef43516263c30abcc4ce303ff3c5580f42fda
++SIZE (ggrepel_0.9.0.tar.gz) = 269925
