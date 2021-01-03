@@ -1,0 +1,386 @@
+diff --git a/print/fontforge/Makefile b/print/fontforge/Makefile
+index 71da30af8307..6a3cb48abf18 100644
+--- a/print/fontforge/Makefile
++++ b/print/fontforge/Makefile
+@@ -2,8 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fontforge
+-PORTVERSION=	20190801
+-PORTREVISION=	2
++PORTVERSION=	20201107
+ CATEGORIES=	print
+ 
+ MAINTAINER=	cyberbotx@cyberbotx.com
+@@ -14,93 +13,104 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
+ 
+ LIB_DEPENDS=	libfreetype.so:print/freetype2
+ 
+-USES=		autoreconf compiler:c++11-lang gettext gmake gnome iconv:wchar_t libtool \
+-		localbase pkgconfig
++USES=		compiler:c++11-lang cmake desktop-file-utils gettext gnome \
++		iconv:wchar_t pkgconfig shared-mime-info
+ USE_GITHUB=	yes
+-USE_GNOME=	glib20 libxml2
+-
+-# It seems that iconv is required regardless of this setting, so forcing it on
+-CONFIGURE_ARGS=	--with-iconv
++USE_GNOME=	cairo glib20 libxml2
++CMAKE_ARGS=	-DIconv_INCLUDE_DIR=${ICONV_INCLUDE_PATH} \
++		-DIconv_LIBRARY=${ICONV_LIB_PATH}
+ 
+ USE_LDCONFIG=	yes
+-GNU_CONFIGURE=	yes
+-INSTALL_TARGET=	install-strip
+ INSTALLS_ICONS=	yes
+ 
+-PORTDOCS=	* .htaccess
++PORTDOCS=	*
+ 
+-OPTIONS_DEFINE=	CAIRO DOCS FREETYPE GIF JPEG PNG PYTHON READLINE SPIRO TIFF \
++OPTIONS_DEFINE=	DOCS FREETYPE GIF JPEG PNG PYTHON READLINE SPIRO TIFF \
+ 		TILEPATH UNINAMESLIST WOFF2 WRITEPFM
+-OPTIONS_GROUP=	GUI
+-OPTIONS_GROUP_GUI=	GTK3 X11
++OPTIONS_RADIO=	GUI
++OPTIONS_RADIO_GUI=	GTK3 X11
+ OPTIONS_SINGLE=	THEME
+ OPTIONS_SINGLE_THEME=	TANGO 2012
+-OPTIONS_DEFAULT=CAIRO GIF GTK3 JPEG PNG PYTHON READLINE SPIRO TANGO TIFF \
++OPTIONS_DEFAULT=GIF GTK3 JPEG PNG PYTHON READLINE SPIRO TANGO TIFF \
+ 		TILEPATH UNINAMESLIST WOFF2
+ OPTIONS_SUB=	yes
+ 
+ 2012_DESC=	Old theme that was used until 2012
+-2012_CONFIGURE_ENABLE=	theme-2012
++2012_CMAKE_ON=	-DTHEME:ENUM=2012
+ 
+-CAIRO_USE=	gnome=cairo,pango
+-CAIRO_CONFIGURE_WITH=	cairo
+-CAIRO_IMPLIES=	PNG
++DOCS_BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}sphinx>0:textproc/py-sphinx@${PY_FLAVOR}
++DOCS_CMAKE_BOOL=ENABLE_DOCS
+ 
+ FREETYPE_DESC=	Include freetype's internal debugger
+ FREETYPE_PATCH_DEPENDS=	${NONEXISTENT}:print/freetype2:extract
+-FREETYPE_CONFIGURE_ENABLE=	freetype-debugger=${WRKSRC}/freetype
++FREETYPE_CMAKE_ON=	-DENABLE_FREETYPE_DEBUGGER:PATH=${WRKSRC}/freetype
+ 
+ GIF_LIB_DEPENDS=	libgif.so:graphics/giflib
+-GIF_CONFIGURE_WITH=	giflib
++GIF_CMAKE_BOOL=	ENABLE_LIBGIF
+ 
+ GTK3_USE=	gnome=gtk30
+-GTK3_CONFIGURE_ENABLE=	gdk
+-GTK3_IMPLIES=	CAIRO X11
+ 
+ JPEG_USES=	jpeg
+-JPEG_CONFIGURE_WITH=	libjpeg
++JPEG_CMAKE_BOOL=ENABLE_LIBJPEG
+ 
+ PNG_LIB_DEPENDS=libpng.so:graphics/png
+-PNG_CONFIGURE_WITH=	libpng
++PNG_CMAKE_BOOL=	ENABLE_LIBPNG
+ 
+-PYTHON_USES=	python:3.5-3.7
+-PYTHON_USES_OFF=python:3.5-3.7,build
+-PYTHON_CONFIGURE_ENABLE=	python-scripting python-extension
++PYTHON_USES=	python:3.5+
++PYTHON_USES_OFF=python:3.5+,build
++PYTHON_CMAKE_BOOL=	ENABLE_PYTHON_SCRIPTING ENABLE_PYTHON_EXTENSION
+ 
+ READLINE_USES=	readline:port
+-READLINE_CONFIGURE_WITH=	libreadline
++READLINE_CMAKE_BOOL=	ENABLE_LIBREADLINE
+ 
+ SPIRO_DESC=	Use libspiro to edit with clothoid splines
+ SPIRO_LIB_DEPENDS=	libspiro.so:graphics/libspiro
+-SPIRO_CONFIGURE_WITH=	libspiro
++SPIRO_CMAKE_BOOL=	ENABLE_LIBSPIRO
+ 
+ TANGO_DESC=	Default theme based on the Tango Desktop Project
++TANGO_CMAKE_ON=	-DTHEME:ENUM=tango
+ 
+ TIFF_LIB_DEPENDS=	libtiff.so:graphics/tiff
+-TIFF_CONFIGURE_WITH=	libtiff
++TIFF_CMAKE_BOOL=ENABLE_LIBTIFF
+ 
++# This is disabled by default in fontforge's CMakeLists.txt, but it was
++# previously enabled in this port when it was using GNU configure, so I've
++# defaulted it to enabled
+ TILEPATH_DESC=	Enable a 'tile path' command (a variant of 'expand stroke')
+-TILEPATH_CONFIGURE_ENABLE=	tile-path
++TILEPATH_CMAKE_BOOL=	ENABLE_TILE_PATH
+ 
+ UNINAMESLIST_DESC=	Use libuninameslist for Unicode attribute data
+ UNINAMESLIST_LIB_DEPENDS=	libuninameslist.so:textproc/libuninameslist
+-UNINAMESLIST_CONFIGURE_WITH=	libuninameslist
++UNINAMESLIST_CMAKE_BOOL=	ENABLE_LIBUNINAMESLIST
+ 
+ WOFF2_DESC=	WOFF2 web font support
+ WOFF2_LIB_DEPENDS=	libbrotlidec.so:archivers/brotli \
+ 			libwoff2dec.so:devel/woff2
+-WOFF2_CONFIGURE_ENABLE=	woff2
++WOFF2_CMAKE_BOOL=	ENABLE_WOFF2
+ 
+ WRITEPFM_DESC=	Add ability to save PFM file w/o creating associated font file
+-WRITEPFM_CONFIGURE_ENABLE=	write-pfm
++WRITEPFM_CMAKE_BOOL=	ENABLE_WRITE_PFM
+ 
+-X11_USES=	desktop-file-utils shared-mime-info xorg
+-X11_USE=	gnome=pango xorg=ice,sm,x11,xft,xi
++X11_USES=	xorg
++X11_USE=	gnome=pango xorg=ice,sm,x11,xext,xft,xi
+ X11_LIB_DEPENDS=	libfontconfig.so:x11-fonts/fontconfig
+ X11_RUN_DEPENDS=	${LOCALBASE}/share/fonts/gnu-unifont/unifont.pcf.gz:x11-fonts/gnu-unifont
+-X11_CONFIGURE_WITH=	x
++X11_CMAKE_BOOL=	ENABLE_X11
+ 
+ post-patch-FREETYPE-on:
+-	@${LN} -s $$(${MAKE} -C ${PORTSDIR}/print/freetype2 -V WRKSRC) ${WRKSRC}/freetype
++	@${LN} -s $$(${MAKE} -C ${PORTSDIR}/print/freetype2 -V WRKSRC) \
++		${WRKSRC}/freetype
++
++post-stage-DOCS-on:
++	@${RM} ${STAGEDIR}${DOCSDIR}/.buildinfo \
++		${STAGEDIR}${DOCSDIR}/.nojekyll
++
++.include <bsd.port.options.mk>
++
++.if ${PORT_OPTIONS:MGTK3} || ${PORT_OPTIONS:MX11}
++CMAKE_ARGS+=	-DENABLE_GUI:BOOL=true
++.else
++CMAKE_ARGS+=	-DENABLE_GUI:BOOL=false
++.endif
+ 
+ .include <bsd.port.mk>
+diff --git a/print/fontforge/distinfo b/print/fontforge/distinfo
+index a12da1c21ede..481152c4fa8d 100644
+--- a/print/fontforge/distinfo
++++ b/print/fontforge/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1567124778
+-SHA256 (fontforge-fontforge-20190801_GH0.tar.gz) = e4501de5bd8e7f6c68fe7d3abd4667bf44a07b981d342ffa00e8f42e155ce633
+-SIZE (fontforge-fontforge-20190801_GH0.tar.gz) = 21082347
++TIMESTAMP = 1609352128
++SHA256 (fontforge-fontforge-20201107_GH0.tar.gz) = 274f8c8cbd7b6a1c77d2a1c03d4d6cd3c9319db62be8b8c88fabbf597f7e863c
++SIZE (fontforge-fontforge-20201107_GH0.tar.gz) = 19485522
+diff --git a/print/fontforge/files/patch-fontforgeexe_startui.c b/print/fontforge/files/patch-fontforgeexe_startui.c
+deleted file mode 100644
+index a7e23b7834a6..000000000000
+--- a/print/fontforge/files/patch-fontforgeexe_startui.c
++++ /dev/null
+@@ -1,25 +0,0 @@
+---- fontforgeexe/startui.c.orig	2019-08-01 08:28:36 UTC
+-+++ fontforgeexe/startui.c
+-@@ -1099,10 +1099,6 @@ int fontforge_main( int argc, char **argv ) {
+-     CheckIsScript(argc,argv); /* Will run the script and exit if it is a script */
+- 					/* If there is no UI, there is always a script */
+- 			                /*  and we will never return from the above */
+--#ifdef FONTFORGE_CAN_USE_GDK
+--    gdk_init(&argc, &argv);
+--    gdk_set_allowed_backends("win32,quartz,x11");
+--#endif
+-     if ( load_prefs==NULL ||
+- 	    (strcasecmp(load_prefs,"Always")!=0 &&	/* Already loaded */
+- 	     strcasecmp(load_prefs,"Never")!=0 ))
+-@@ -1185,7 +1181,10 @@ int fontforge_main( int argc, char **argv ) {
+- 	}
+- #endif
+-     }
+--
+-+#ifdef FONTFORGE_CAN_USE_GDK
+-+    gdk_init(&argc, &argv);
+-+    gdk_set_allowed_backends("win32,quartz,x11");
+-+#endif
+-     ensureDotFontForgeIsSetup();
+- #if defined(__MINGW32__) && !defined(_NO_LIBCAIRO)
+-     //Load any custom fonts for the user interface
+diff --git a/print/fontforge/files/patch-m4_fontforge__arg__enable.m4 b/print/fontforge/files/patch-m4_fontforge__arg__enable.m4
+deleted file mode 100644
+index b9eba9a9f393..000000000000
+--- a/print/fontforge/files/patch-m4_fontforge__arg__enable.m4
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- m4/fontforge_arg_enable.m4.orig	2019-08-01 08:28:36 UTC
+-+++ m4/fontforge_arg_enable.m4
+-@@ -232,7 +232,7 @@ AC_DEFUN([FONTFORGE_ARG_ENABLE_WOFF2],
+- AC_ARG_ENABLE([woff2],
+-         [AS_HELP_STRING([--enable-woff2],
+-                 [Enable WOFF2 support.])],
+--        [use_woff2=yes])
+-+        [use_woff2="${enableval}"])
+- if test x$use_woff2 = xyes ; then
+-     PKG_CHECK_MODULES([WOFF2],[libwoff2enc,libwoff2dec],
+-     [
+diff --git a/print/fontforge/files/patch-mk_layout.am b/print/fontforge/files/patch-mk_layout.am
+deleted file mode 100644
+index 6a55820f684c..000000000000
+--- a/print/fontforge/files/patch-mk_layout.am
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- mk/layout.am.orig	2014-11-27 00:40:08 UTC
+-+++ mk/layout.am
+-@@ -52,7 +52,7 @@ HTDOCS_SUBDIR =
+- htdocsdir = ${docdir}$(HTDOCS_SUBDIR)
+- 
+- # Where pkg-config files go.
+--pkgconfigdir = ${libdir}/pkgconfig
+-+pkgconfigdir = ${PREFIX}/libdata/pkgconfig
+- 
+- # Where contributed Python scripts go.
+- pkgpythondatadir = $(pkgdatadir)/python
+diff --git a/print/fontforge/pkg-descr b/print/fontforge/pkg-descr
+index 5286247bb570..9fd86d3c2125 100644
+--- a/print/fontforge/pkg-descr
++++ b/print/fontforge/pkg-descr
+@@ -12,4 +12,4 @@ from imported bitmap images.
+ 
+ For more information, see
+ 
+-WWW: http://fontforge.sourceforge.net/
++WWW: https://fontforge.org/en-US/
+diff --git a/print/fontforge/pkg-plist b/print/fontforge/pkg-plist
+index fc48e75da9ae..5dff0897929f 100644
+--- a/print/fontforge/pkg-plist
++++ b/print/fontforge/pkg-plist
+@@ -2,104 +2,14 @@ bin/fontforge
+ bin/fontimage
+ bin/fontlint
+ bin/sfddiff
+-include/fontforge/PfEd.h
+-include/fontforge/autowidth.h
+-include/fontforge/autowidth2.h
+-include/fontforge/baseviews.h
+-include/fontforge/basics.h
+-include/fontforge/bezctx_ff.h
+-include/fontforge/bitmapcontrol.h
+-include/fontforge/carbon.h
+-include/fontforge/chardata.h
+-include/fontforge/charset.h
+-include/fontforge/delta.h
+-include/fontforge/dlist.h
+-include/fontforge/edgelist.h
+-include/fontforge/edgelist2.h
+-include/fontforge/encoding.h
+-include/fontforge/fffreetype.h
+-include/fontforge/ffgdk.h
+-include/fontforge/ffglib.h
+-include/fontforge/ffpython.h
+-include/fontforge/flaglist.h
+-include/fontforge/fontforge-config.h
+-include/fontforge/fontforge-version-extras.h
+-include/fontforge/fontforge.h
+-include/fontforge/fontforgevw.h
+-include/fontforge/fvmetrics.h
+-include/fontforge/gdraw.h
+-include/fontforge/gfile.h
+-include/fontforge/ggadget.h
+-include/fontforge/gicons.h
+-include/fontforge/gimage.h
+-include/fontforge/gio.h
+-include/fontforge/gkeysym.h
+-include/fontforge/glif_name_hash.h
+-include/fontforge/glyphcomp.h
+-include/fontforge/gprogress.h
+-include/fontforge/gresedit.h
+-include/fontforge/gresource.h
+-include/fontforge/groups.h
+-include/fontforge/gutils.h
+-include/fontforge/gwidget.h
+-include/fontforge/gwwiconv.h
+-include/fontforge/hotkeys.h
+-include/fontforge/intl.h
+-include/fontforge/lookups.h
+-include/fontforge/mem.h
+-include/fontforge/mm.h
+-include/fontforge/namehash.h
+-include/fontforge/nonlineartrans.h
+-include/fontforge/ofl.h
+-include/fontforge/prefs.h
+-include/fontforge/print.h
+-include/fontforge/psfont.h
+-include/fontforge/savefont.h
+-include/fontforge/scriptfuncs.h
+-include/fontforge/scripting.h
+-include/fontforge/sd.h
+-include/fontforge/search.h
+-include/fontforge/sfd1.h
+-include/fontforge/sflayoutP.h
+-include/fontforge/splinefont.h
+-include/fontforge/stemdb.h
+-include/fontforge/ttf.h
+-include/fontforge/ttfinstrs.h
+-include/fontforge/uiinterface.h
+-include/fontforge/unicodelibinfo.h
+-include/fontforge/unicoderange.h
+-include/fontforge/ustring.h
+-include/fontforge/utype.h
+-include/fontforge/views.h
+-lib/libfontforge.a
+ lib/libfontforge.so
+-lib/libfontforge.so.3
+-lib/libfontforge.so.3.0.0
+-lib/libfontforgeexe.a
+-lib/libfontforgeexe.so
+-lib/libfontforgeexe.so.3
+-lib/libfontforgeexe.so.3.0.0
+-%%X11%%lib/libgdraw.a
+-%%X11%%lib/libgdraw.so
+-%%X11%%lib/libgdraw.so.6
+-%%X11%%lib/libgdraw.so.6.0.0
+-lib/libgunicode.a
+-lib/libgunicode.so
+-lib/libgunicode.so.5
+-lib/libgunicode.so.5.0.0
+-lib/libgutils.a
+-lib/libgutils.so
+-lib/libgutils.so.3
+-lib/libgutils.so.3.0.1
++lib/libfontforge.so.4
+ %%PYTHON%%%%PYTHON_SITELIBDIR%%/fontforge.so
+ %%PYTHON%%%%PYTHON_SITELIBDIR%%/psMat.so
+-libdata/pkgconfig/libfontforge.pc
+-libdata/pkgconfig/libfontforgeexe.pc
+ man/man1/fontforge.1.gz
+ man/man1/fontimage.1.gz
+ man/man1/fontlint.1.gz
+ man/man1/sfddiff.1.gz
+-%%X11%%share/appdata/org.fontforge.FontForge.appdata.xml
+ %%X11%%share/applications/org.fontforge.FontForge.desktop
+ %%DATADIR%%/hotkeys/default
+ %%TANGO%%%%DATADIR%%/pixmaps/Cantarell-Bold.ttf
+@@ -391,6 +301,8 @@ man/man1/sfddiff.1.gz
+ %%DATADIR%%/pixmaps/selectyellow.png
+ %%DATADIR%%/pixmaps/shadow.png
+ %%DATADIR%%/pixmaps/skew.png
++%%TANGO%%%%DATADIR%%/pixmaps/splash2019.png
++%%TANGO%%%%DATADIR%%/pixmaps/splash2020.png
+ %%DATADIR%%/pixmaps/styleschangeweight.png
+ %%DATADIR%%/pixmaps/styleschangexheight.png
+ %%DATADIR%%/pixmaps/stylesextendcondense.png
+@@ -456,9 +368,6 @@ man/man1/sfddiff.1.gz
+ %%DATADIR%%/pixmaps/wireframe.png
+ %%DATADIR%%/prefs
+ %%PYTHON%%%%DATADIR%%/python/excepthook.py
+-%%PYTHON%%%%DATADIR%%/python/simple/expand-a.py
+-%%PYTHON%%%%DATADIR%%/python/simple/load-font-and-show-name.py
+-%%PYTHON%%%%DATADIR%%/python/test.sfd
+ %%X11%%share/icons/hicolor/128x128/apps/org.fontforge.FontForge.png
+ %%X11%%share/icons/hicolor/16x16/apps/org.fontforge.FontForge.png
+ %%X11%%share/icons/hicolor/22x22/apps/org.fontforge.FontForge.png
+@@ -483,13 +392,12 @@ share/locale/ml/LC_MESSAGES/FontForge.mo
+ share/locale/pl/LC_MESSAGES/FontForge.mo
+ share/locale/pt/LC_MESSAGES/FontForge.mo
+ share/locale/ru/LC_MESSAGES/FontForge.mo
++share/locale/tr_TR/LC_MESSAGES/FontForge.mo
+ share/locale/uk/LC_MESSAGES/FontForge.mo
+ share/locale/vi/LC_MESSAGES/FontForge.mo
+ share/locale/zh_CN/LC_MESSAGES/FontForge.mo
+ share/locale/zh_TW/LC_MESSAGES/FontForge.mo
+ %%X11%%share/metainfo/org.fontforge.FontForge.appdata.xml
+-%%X11%%share/metainfo/org.fontforge.FontForge.metainfo.xml
+ %%X11%%share/mime/packages/fontforge.xml
+ %%X11%%share/pixmaps/org.fontforge.FontForge.png
+ %%X11%%share/pixmaps/org.fontforge.FontForge.xpm
+-%%NO_PYTHON%%@dir %%DATADIR%%/python
