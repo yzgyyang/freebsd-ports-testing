@@ -1,0 +1,61 @@
+diff --git a/math/Makefile b/math/Makefile
+index 4061dc50c7f0..93c55b60f3f6 100644
+--- a/math/Makefile
++++ b/math/Makefile
+@@ -91,6 +91,7 @@
+     SUBDIR += R-cran-nortest
+     SUBDIR += R-cran-numDeriv
+     SUBDIR += R-cran-numbers
++    SUBDIR += R-cran-osmdata
+     SUBDIR += R-cran-outliers
+     SUBDIR += R-cran-partitions
+     SUBDIR += R-cran-pbkrtest
+diff --git a/math/R-cran-osmdata/Makefile b/math/R-cran-osmdata/Makefile
+new file mode 100644
+index 000000000000..6a01076a0dd4
+--- /dev/null
++++ b/math/R-cran-osmdata/Makefile
+@@ -0,0 +1,22 @@
++# $FreeBSD$
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++
++PORTNAME=	osmdata
++DISTVERSION=	0.1.4
++CATEGORIES=	math geography
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Import 'OpenStreetMap' Data as Simple Features or Spatial Objects
++
++LICENSE=	GPLv3
++
++BUILD_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
++RUN_DEPENDS=	R-cran-jsonlite>0:converters/R-cran-jsonlite \
++		R-cran-curl>0:ftp/R-cran-curl \
++		R-cran-httr>0:www/R-cran-httr
++TEST_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/math/R-cran-osmdata/distinfo b/math/R-cran-osmdata/distinfo
+new file mode 100644
+index 000000000000..fc3b10bed061
+--- /dev/null
++++ b/math/R-cran-osmdata/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609701941
++SHA256 (osmdata_0.1.4.tar.gz) = f59ca3bbb0a8d0b9c9e2e323057625f5de0cb800f183e6f33119f18196472d05
++SIZE (osmdata_0.1.4.tar.gz) = 2532243
+diff --git a/math/R-cran-osmdata/pkg-descr b/math/R-cran-osmdata/pkg-descr
+new file mode 100644
+index 000000000000..4962af224d8b
+--- /dev/null
++++ b/math/R-cran-osmdata/pkg-descr
+@@ -0,0 +1,6 @@
++Download and import of 'OpenStreetMap' ('OSM') data as 'sf' or 'sp' objects.
++'OSM' data are extracted from the 'Overpass' web server
++(<https://overpass-api.de/>) and processed with very fast 'C++' routines for
++return to 'R'.
++
++WWW: https://docs.ropensci.org/osmdata/
