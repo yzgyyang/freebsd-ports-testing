@@ -1,0 +1,59 @@
+diff --git a/benchmarks/Makefile b/benchmarks/Makefile
+index 645d42b0ec2c..3bd53ba2ba3b 100644
+--- a/benchmarks/Makefile
++++ b/benchmarks/Makefile
+@@ -3,6 +3,7 @@
+ 
+     COMMENT = Benchmarking tools
+ 
++    SUBDIR += R-cran-rbenchmark
+     SUBDIR += ali
+     SUBDIR += apib
+     SUBDIR += autobench
+diff --git a/benchmarks/R-cran-rbenchmark/Makefile b/benchmarks/R-cran-rbenchmark/Makefile
+new file mode 100644
+index 000000000000..b3d6890b5401
+--- /dev/null
++++ b/benchmarks/R-cran-rbenchmark/Makefile
+@@ -0,0 +1,16 @@
++# $FreeBSD$
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++
++PORTNAME=	rbenchmark
++DISTVERSION=	1.0.0
++CATEGORIES=	benchmarks
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Benchmarking routine for R
++
++LICENSE=	GPLv2+
++
++USES=		cran:auto-plist
++
++.include <bsd.port.mk>
+diff --git a/benchmarks/R-cran-rbenchmark/distinfo b/benchmarks/R-cran-rbenchmark/distinfo
+new file mode 100644
+index 000000000000..f3e1de12a1af
+--- /dev/null
++++ b/benchmarks/R-cran-rbenchmark/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609699748
++SHA256 (rbenchmark_1.0.0.tar.gz) = 892a7189ccb13ad727aaffea41215c8389d082cadbe3c54220534ccbf1b00e04
++SIZE (rbenchmark_1.0.0.tar.gz) = 5093
+diff --git a/benchmarks/R-cran-rbenchmark/pkg-descr b/benchmarks/R-cran-rbenchmark/pkg-descr
+new file mode 100644
+index 000000000000..99c4bb0b8c70
+--- /dev/null
++++ b/benchmarks/R-cran-rbenchmark/pkg-descr
+@@ -0,0 +1,10 @@
++rbenchmark is inspired by the Perl module Benchmark, and is intended to
++facilitate benchmarking of arbitrary R code. The library consists of just one
++function, benchmark, which is a simple wrapper around system.time. Given a
++specification of the benchmarking process (counts of replications, evaluation
++environment) and an arbitrary number of expressions, benchmark evaluates each
++of the expressions in the specified environment, replicating the evaluation as
++many times as specified, and returning the results conveniently wrapped into a
++data frame.
++
++WWW: http://rbenchmark.googlecode.com
