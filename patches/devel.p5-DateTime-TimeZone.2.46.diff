@@ -1,0 +1,36 @@
+diff --git a/devel/p5-DateTime-TimeZone/Makefile b/devel/p5-DateTime-TimeZone/Makefile
+index bc413665336c..7a16afa37f7f 100644
+--- a/devel/p5-DateTime-TimeZone/Makefile
++++ b/devel/p5-DateTime-TimeZone/Makefile
+@@ -1,7 +1,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	DateTime-TimeZone
+-PORTVERSION=	2.44
++PORTVERSION=	2.46
+ PORTEPOCH=	1
+ CATEGORIES=	devel perl5
+ MASTER_SITES=	CPAN
+diff --git a/devel/p5-DateTime-TimeZone/distinfo b/devel/p5-DateTime-TimeZone/distinfo
+index 24004ed6d40c..280260a77be4 100644
+--- a/devel/p5-DateTime-TimeZone/distinfo
++++ b/devel/p5-DateTime-TimeZone/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1604951871
+-SHA256 (DateTime-TimeZone-2.44.tar.gz) = 573dd4059a2dfd3833d6a7d2bf084778ac6595a009b11dea6360d7d022ce4526
+-SIZE (DateTime-TimeZone-2.44.tar.gz) = 997253
++TIMESTAMP = 1609719816
++SHA256 (DateTime-TimeZone-2.46.tar.gz) = f4c19e097e17f184de4ea1c758d42184ba03ac9dde92cf2e56108c147157a3b3
++SIZE (DateTime-TimeZone-2.46.tar.gz) = 995245
+diff --git a/devel/p5-DateTime-TimeZone/pkg-plist b/devel/p5-DateTime-TimeZone/pkg-plist
+index e85752920ffc..d941075435fc 100644
+--- a/devel/p5-DateTime-TimeZone/pkg-plist
++++ b/devel/p5-DateTime-TimeZone/pkg-plist
+@@ -248,7 +248,6 @@
+ %%SITE_PERL%%/DateTime/TimeZone/Australia/Adelaide.pm
+ %%SITE_PERL%%/DateTime/TimeZone/Australia/Brisbane.pm
+ %%SITE_PERL%%/DateTime/TimeZone/Australia/Broken_Hill.pm
+-%%SITE_PERL%%/DateTime/TimeZone/Australia/Currie.pm
+ %%SITE_PERL%%/DateTime/TimeZone/Australia/Darwin.pm
+ %%SITE_PERL%%/DateTime/TimeZone/Australia/Eucla.pm
+ %%SITE_PERL%%/DateTime/TimeZone/Australia/Hobart.pm
