@@ -1,0 +1,60 @@
+diff --git a/devel/Makefile b/devel/Makefile
+index 26f9e6a1c270..1186d0451a0a 100644
+--- a/devel/Makefile
++++ b/devel/Makefile
+@@ -69,6 +69,7 @@
+     SUBDIR += R-cran-plogr
+     SUBDIR += R-cran-plyr
+     SUBDIR += R-cran-praise
++    SUBDIR += R-cran-prettycode
+     SUBDIR += R-cran-prettyunits
+     SUBDIR += R-cran-progress
+     SUBDIR += R-cran-promises
+diff --git a/devel/R-cran-prettycode/Makefile b/devel/R-cran-prettycode/Makefile
+new file mode 100644
+index 000000000000..deb1518bd773
+--- /dev/null
++++ b/devel/R-cran-prettycode/Makefile
+@@ -0,0 +1,23 @@
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++# $FreeBSD$
++
++PORTNAME=	prettycode
++DISTVERSION=	1.1.0
++CATEGORIES=	devel
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Pretty Print R Code in the Terminal
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++RUN_DEPENDS=	R-cran-crayon>0:devel/R-cran-crayon
++TEST_DEPENDS=	R-cran-covr>0:devel/R-cran-covr \
++		R-cran-rstudioapi>0:devel/R-cran-rstudioapi \
++		R-cran-testthat>0:devel/R-cran-testthat \
++		R-cran-withr>0:devel/R-cran-withr
++
++USES=		cran:auto-plist
++
++.include <bsd.port.mk>
+diff --git a/devel/R-cran-prettycode/distinfo b/devel/R-cran-prettycode/distinfo
+new file mode 100644
+index 000000000000..40d292b85909
+--- /dev/null
++++ b/devel/R-cran-prettycode/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609807466
++SHA256 (prettycode_1.1.0.tar.gz) = 4f877bef2d4ff7771a3fa0368c9b85ef058b4c06ff9c18c31d827d3d0e4cd0c5
++SIZE (prettycode_1.1.0.tar.gz) = 209279
+diff --git a/devel/R-cran-prettycode/pkg-descr b/devel/R-cran-prettycode/pkg-descr
+new file mode 100644
+index 000000000000..272e9078b84f
+--- /dev/null
++++ b/devel/R-cran-prettycode/pkg-descr
+@@ -0,0 +1,4 @@
++Replace the standard print method for functions with one that performs syntax
++highlighting, using ANSI colors, if the terminal supports them.
++
++WWW: https://github.com/r-lib/prettycode#readme
