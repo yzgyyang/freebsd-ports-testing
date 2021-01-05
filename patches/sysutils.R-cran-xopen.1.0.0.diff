@@ -1,0 +1,58 @@
+diff --git a/sysutils/Makefile b/sysutils/Makefile
+index 02437347b443..aabc2bc69300 100644
+--- a/sysutils/Makefile
++++ b/sysutils/Makefile
+@@ -11,6 +11,7 @@
+     SUBDIR += LPRngTool
+     SUBDIR += R-cran-processx
+     SUBDIR += R-cran-ps
++    SUBDIR += R-cran-xopen
+     SUBDIR += UEFITool
+     SUBDIR += abduco
+     SUBDIR += abgx360
+diff --git a/sysutils/R-cran-xopen/Makefile b/sysutils/R-cran-xopen/Makefile
+new file mode 100644
+index 000000000000..35ca2b6579af
+--- /dev/null
++++ b/sysutils/R-cran-xopen/Makefile
+@@ -0,0 +1,21 @@
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++# $FreeBSD$
++
++PORTNAME=	xopen
++DISTVERSION=	1.0.0
++CATEGORIES=	sysutils
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Open System Files, 'URLs', Anything
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++RUN_DEPENDS=	R-cran-processx>0:sysutils/R-cran-processx
++TEST_DEPENDS=	R-cran-testthat>0:devel/R-cran-testthat \
++		R-cran-ps>0:sysutils/R-cran-ps
++
++USES=		cran:auto-plist
++
++.include <bsd.port.mk>
+diff --git a/sysutils/R-cran-xopen/distinfo b/sysutils/R-cran-xopen/distinfo
+new file mode 100644
+index 000000000000..440ecc2d4878
+--- /dev/null
++++ b/sysutils/R-cran-xopen/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1609807718
++SHA256 (xopen_1.0.0.tar.gz) = e207603844d69c226142be95281ba2f4a056b9d8cbfae7791ba60535637b3bef
++SIZE (xopen_1.0.0.tar.gz) = 11221
+diff --git a/sysutils/R-cran-xopen/pkg-descr b/sysutils/R-cran-xopen/pkg-descr
+new file mode 100644
+index 000000000000..d76ed6143596
+--- /dev/null
++++ b/sysutils/R-cran-xopen/pkg-descr
+@@ -0,0 +1,4 @@
++Cross platform solution to open files, directories or 'URLs' with their
++associated programs.
++
++WWW: https://github.com/r-lib/xopen#readme
