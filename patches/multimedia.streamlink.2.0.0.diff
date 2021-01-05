@@ -1,0 +1,36 @@
+diff --git a/multimedia/streamlink/Makefile b/multimedia/streamlink/Makefile
+index 99dc47ddc2b0..260232d184a7 100644
+--- a/multimedia/streamlink/Makefile
++++ b/multimedia/streamlink/Makefile
+@@ -1,7 +1,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	streamlink
+-PORTVERSION=	1.7.0
++PORTVERSION=	2.0.0
+ CATEGORIES=	multimedia
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -25,10 +25,7 @@ TEST_DEPENDS=	${PYTHON_PKGNAMEPREFIX}backports>0:devel/py-backports@${PY_FLAVOR}
+ 		${PYTHON_PKGNAMEPREFIX}pytest>0:devel/py-pytest@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}requests-mock>0:www/py-requests-mock@${PY_FLAVOR}
+ 
+-# The upstream port would in theory support python 2.7, but deprecates use of streamlink
+-# on it, there are 4 additional RUN_DEPENDS, and also one of the self-tests fails on 2.7
+-# but not 3.7, and is encoding-related, so to avoid run-time issues, limit to >= 3.5.
+-USES=		python:3.5+
++USES=		python:3.6+
+ USE_PYTHON=	autoplist concurrent distutils
+ 
+ NO_ARCH=	yes
+diff --git a/multimedia/streamlink/distinfo b/multimedia/streamlink/distinfo
+index 27689a43b172..757d28bec126 100644
+--- a/multimedia/streamlink/distinfo
++++ b/multimedia/streamlink/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1604205950
+-SHA256 (streamlink-1.7.0.tar.gz) = f87a62a47212d94769929bd040d9c186b461643bdbda06f839b99ec9efefb87a
+-SIZE (streamlink-1.7.0.tar.gz) = 728957
++TIMESTAMP = 1609830007
++SHA256 (streamlink-2.0.0.tar.gz) = c0ead9e961638d41cab9bd9677cdc701f2313bfd4d23cd8158410932839c62db
++SIZE (streamlink-2.0.0.tar.gz) = 497816
