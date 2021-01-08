@@ -1,0 +1,34 @@
+diff --git a/devel/R-cran-diffobj/Makefile b/devel/R-cran-diffobj/Makefile
+index 0ea79d1826fb..48529caf6754 100644
+--- a/devel/R-cran-diffobj/Makefile
++++ b/devel/R-cran-diffobj/Makefile
+@@ -1,7 +1,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	diffobj
+-DISTVERSION=	0.3.2
++DISTVERSION=	0.3.3
+ CATEGORIES=	devel
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+@@ -12,8 +12,7 @@ LICENSE=	GPLv2+
+ 
+ BUILD_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
+ RUN_DEPENDS=	R-cran-crayon>=1.3.2:devel/R-cran-crayon
+-TEST_DEPENDS=	R-cran-testthat>0:devel/R-cran-testthat \
+-		R-cran-knitr>0:print/R-cran-knitr \
++TEST_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr \
+ 		R-cran-rmarkdown>0:textproc/R-cran-rmarkdown
+ 
+ USES=		cran:auto-plist,compiles
+diff --git a/devel/R-cran-diffobj/distinfo b/devel/R-cran-diffobj/distinfo
+index 4b35b845f28b..a74258981d1e 100644
+--- a/devel/R-cran-diffobj/distinfo
++++ b/devel/R-cran-diffobj/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1607325983
+-SHA256 (diffobj_0.3.2.tar.gz) = a2fa3275db2a53644277f56e4e683d6240a76bcb27a51664fdf7a247c2ff286c
+-SIZE (diffobj_0.3.2.tar.gz) = 446375
++TIMESTAMP = 1610147493
++SHA256 (diffobj_0.3.3.tar.gz) = 414e5573470b9565b9149a0a61c7e8344fb37f889d23dc4e131acc8aa62e6df4
++SIZE (diffobj_0.3.3.tar.gz) = 472233
