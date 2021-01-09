@@ -1,0 +1,67 @@
+diff --git a/devel/Makefile b/devel/Makefile
+index 0c30dd0b651c..80a84ec07a68 100644
+--- a/devel/Makefile
++++ b/devel/Makefile
+@@ -67,6 +67,7 @@
+     SUBDIR += R-cran-pillar
+     SUBDIR += R-cran-pkgbuild
+     SUBDIR += R-cran-pkgconfig
++    SUBDIR += R-cran-pkgload
+     SUBDIR += R-cran-pkgmaker
+     SUBDIR += R-cran-plogr
+     SUBDIR += R-cran-plyr
+diff --git a/devel/R-cran-pkgload/Makefile b/devel/R-cran-pkgload/Makefile
+new file mode 100644
+index 000000000000..dfccd4c92a16
+--- /dev/null
++++ b/devel/R-cran-pkgload/Makefile
+@@ -0,0 +1,29 @@
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++# $FreeBSD$
++
++PORTNAME=	pkgload
++DISTVERSION=	1.1.0
++CATEGORIES=	devel
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Simulate Package Installation and Attach
++
++LICENSE=	GPLv3
++
++RUN_DEPENDS=	R-cran-cli>0:devel/R-cran-cli \
++		R-cran-crayon>0:devel/R-cran-crayon \
++		R-cran-desc>0:devel/R-cran-desc \
++		R-cran-pkgbuild>0:devel/R-cran-pkgbuild \
++		R-cran-rlang>0:devel/R-cran-rlang \
++		R-cran-rprojroot>0:devel/R-cran-rprojroot \
++		R-cran-rstudioapi>0:devel/R-cran-rstudioapi \
++		R-cran-withr>0:devel/R-cran-withr
++TEST_DEPENDS=	R-cran-Rcpp>0:devel/R-cran-Rcpp \
++		R-cran-bitops>0:devel/R-cran-bitops \
++		R-cran-covr>0:devel/R-cran-covr \
++		R-cran-testthat>0:devel/R-cran-testthat
++
++USES=		cran:auto-plist,compiles
++
++.include <bsd.port.mk>
+diff --git a/devel/R-cran-pkgload/distinfo b/devel/R-cran-pkgload/distinfo
+new file mode 100644
+index 000000000000..a1ef1b83e7d2
+--- /dev/null
++++ b/devel/R-cran-pkgload/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1610211129
++SHA256 (pkgload_1.1.0.tar.gz) = 189d460dbba2b35fa15dd59ce832df252dfa654a5acee0c9a8471b4d70477b0d
++SIZE (pkgload_1.1.0.tar.gz) = 58046
+diff --git a/devel/R-cran-pkgload/pkg-descr b/devel/R-cran-pkgload/pkg-descr
+new file mode 100644
+index 000000000000..b29974e44d03
+--- /dev/null
++++ b/devel/R-cran-pkgload/pkg-descr
+@@ -0,0 +1,5 @@
++Simulates the process of installing a package and then attaching it. This is a
++key part of the 'devtools' package as it allows you to rapidly iterate while
++developing a package.
++
++WWW: https://github.com/r-lib/pkgload
