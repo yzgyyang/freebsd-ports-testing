@@ -1,0 +1,590 @@
+diff --git a/chinese/fcitx5-chewing/Makefile b/chinese/fcitx5-chewing/Makefile
+index bc808dc0d136..ca8effb927b5 100644
+--- a/chinese/fcitx5-chewing/Makefile
++++ b/chinese/fcitx5-chewing/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-chewing
+-DISTVERSION=	5.0.2
++DISTVERSION=	5.0.3
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/chinese/fcitx5-chewing/distinfo b/chinese/fcitx5-chewing/distinfo
+index 7c3aa338f14e..f27d6283c505 100644
+--- a/chinese/fcitx5-chewing/distinfo
++++ b/chinese/fcitx5-chewing/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608388686
+-SHA256 (fcitx-fcitx5-chewing-5.0.2_GH0.tar.gz) = acf4a18ccbc815dfbb28bc92fc1d4552133c15c355ca41052d01b1b1e6d5301b
+-SIZE (fcitx-fcitx5-chewing-5.0.2_GH0.tar.gz) = 19701
++TIMESTAMP = 1610441092
++SHA256 (fcitx-fcitx5-chewing-5.0.3_GH0.tar.gz) = 6fae9fb01a1fef8267078b4b251d325386edb3b20cfa8d59bb20cad340b093fa
++SIZE (fcitx-fcitx5-chewing-5.0.3_GH0.tar.gz) = 20320
+diff --git a/chinese/fcitx5-chinese-addons/Makefile b/chinese/fcitx5-chinese-addons/Makefile
+index 18589ca70e49..5e8f09ae7b85 100644
+--- a/chinese/fcitx5-chinese-addons/Makefile
++++ b/chinese/fcitx5-chinese-addons/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-chinese-addons
+-DISTVERSION=	5.0.2
++DISTVERSION=	5.0.3
+ CATEGORIES=	chinese textproc
+ MASTER_SITES=	https://download.fcitx-im.org/data/:py_stroke,py_table
+ DISTFILES=	${PY_STROKE_TAR}:py_stroke \
+@@ -46,6 +46,7 @@ CMAKE_ON=	ENABLE_OPENCC
+ CMAKE_OFF=	ENABLE_TEST
+ MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
+ 
++# These must follow modules/pinyinhelper/CMakeLists.txt
+ PY_STROKE_VER=	20121124
+ PY_TABLE_VER=	20121124
+ PY_STROKE_TAR=	py_stroke-${PY_STROKE_VER}.tar.gz
+diff --git a/chinese/fcitx5-chinese-addons/distinfo b/chinese/fcitx5-chinese-addons/distinfo
+index f302c2564258..b3799959144a 100644
+--- a/chinese/fcitx5-chinese-addons/distinfo
++++ b/chinese/fcitx5-chinese-addons/distinfo
+@@ -1,7 +1,7 @@
+-TIMESTAMP = 1608618244
++TIMESTAMP = 1610441098
+ SHA256 (fcitx5-chinese-addons/py_stroke-20121124.tar.gz) = 8eb128a9bfa43952e67cf2fcee1fd134c6f4cfd317bc2f6c38a615f5eb64e248
+ SIZE (fcitx5-chinese-addons/py_stroke-20121124.tar.gz) = 445601
+ SHA256 (fcitx5-chinese-addons/py_table-20121124.tar.gz) = 42146ac97de6c13d55f9e99ed873915f4c66739e9c11532a34556badf9792c04
+ SIZE (fcitx5-chinese-addons/py_table-20121124.tar.gz) = 186822
+-SHA256 (fcitx5-chinese-addons/fcitx-fcitx5-chinese-addons-5.0.2_GH0.tar.gz) = 4b3731fc790d071273fbd91beb76d23166992add060cfd89ecaa55f147036dc6
+-SIZE (fcitx5-chinese-addons/fcitx-fcitx5-chinese-addons-5.0.2_GH0.tar.gz) = 259776
++SHA256 (fcitx5-chinese-addons/fcitx-fcitx5-chinese-addons-5.0.3_GH0.tar.gz) = 6d1fff649f5f91cd85aef5bac52c5be6866dc573841e65acd1f430b2580635c2
++SIZE (fcitx5-chinese-addons/fcitx-fcitx5-chinese-addons-5.0.3_GH0.tar.gz) = 262024
+diff --git a/chinese/fcitx5-rime/Makefile b/chinese/fcitx5-rime/Makefile
+index 3e6638031214..8017981e4813 100644
+--- a/chinese/fcitx5-rime/Makefile
++++ b/chinese/fcitx5-rime/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-rime
+-DISTVERSION=	5.0.2
++DISTVERSION=	5.0.3
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/chinese/fcitx5-rime/distinfo b/chinese/fcitx5-rime/distinfo
+index e03627216e49..da48bf7d916a 100644
+--- a/chinese/fcitx5-rime/distinfo
++++ b/chinese/fcitx5-rime/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608288386
+-SHA256 (fcitx-fcitx5-rime-5.0.2_GH0.tar.gz) = d3c2663c483a04fc5fbb0490a0de53220903314faa642d0c921815e8a1c28094
+-SIZE (fcitx-fcitx5-rime-5.0.2_GH0.tar.gz) = 45722
++TIMESTAMP = 1610441059
++SHA256 (fcitx-fcitx5-rime-5.0.3_GH0.tar.gz) = 164cac0d761f7bd76feb31d1b06f1e84fc346065be6be675b99410833e05f204
++SIZE (fcitx-fcitx5-rime-5.0.3_GH0.tar.gz) = 45773
+diff --git a/chinese/fcitx5-table-extra/Makefile b/chinese/fcitx5-table-extra/Makefile
+index 27f85da6cc2e..a3169d9a2e2a 100644
+--- a/chinese/fcitx5-table-extra/Makefile
++++ b/chinese/fcitx5-table-extra/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-table-extra
+-DISTVERSION=	5.0.1
++DISTVERSION=	5.0.2
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/chinese/fcitx5-table-extra/distinfo b/chinese/fcitx5-table-extra/distinfo
+index c7ad3ddc5190..b57891efd5aa 100644
+--- a/chinese/fcitx5-table-extra/distinfo
++++ b/chinese/fcitx5-table-extra/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608629497
+-SHA256 (fcitx-fcitx5-table-extra-5.0.1_GH0.tar.gz) = 0c236df5af8bdde57098d096752711200a58fc76128896c50f9061f262415a43
+-SIZE (fcitx-fcitx5-table-extra-5.0.1_GH0.tar.gz) = 8489375
++TIMESTAMP = 1610441105
++SHA256 (fcitx-fcitx5-table-extra-5.0.2_GH0.tar.gz) = 6c4b2efaf0e41c58a01d8408fc096a519e82cb0fff8879ca83de5d3287b43036
++SIZE (fcitx-fcitx5-table-extra-5.0.2_GH0.tar.gz) = 8489836
+diff --git a/chinese/fcitx5-table-other/Makefile b/chinese/fcitx5-table-other/Makefile
+index d6637c260fa3..6652cec3655a 100644
+--- a/chinese/fcitx5-table-other/Makefile
++++ b/chinese/fcitx5-table-other/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-table-other
+-DISTVERSION=	5.0.1
++DISTVERSION=	5.0.2
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/chinese/fcitx5-table-other/distinfo b/chinese/fcitx5-table-other/distinfo
+index c2aa2dcb5171..7ea544f5ba2a 100644
+--- a/chinese/fcitx5-table-other/distinfo
++++ b/chinese/fcitx5-table-other/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1609150780
+-SHA256 (fcitx-fcitx5-table-other-5.0.1_GH0.tar.gz) = e64bd0e61fc522cf5c971dcad3b4573b732421e755d1887c6535233f02cdf2b4
+-SIZE (fcitx-fcitx5-table-other-5.0.1_GH0.tar.gz) = 523065
++TIMESTAMP = 1610441106
++SHA256 (fcitx-fcitx5-table-other-5.0.2_GH0.tar.gz) = 7f738f7b1f0f5cf013806d0bb69c0c23aa6704c275dbf753535c9df65164287b
++SIZE (fcitx-fcitx5-table-other-5.0.2_GH0.tar.gz) = 523496
+diff --git a/chinese/libime-jyutping/Makefile b/chinese/libime-jyutping/Makefile
+index 311ec6130d12..a94959e9ead1 100644
+--- a/chinese/libime-jyutping/Makefile
++++ b/chinese/libime-jyutping/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	libime-jyutping
+-DISTVERSION=	1.0.1
++DISTVERSION=	1.0.2
+ CATEGORIES=	chinese textproc
+ MASTER_SITES=	https://download.fcitx-im.org/data/:dict,model
+ DISTFILES=	${DICT_TAR}:dict \
+@@ -34,6 +34,7 @@ CMAKE_ON=	ENABLE_ENGINE
+ CMAKE_OFF=	ENABLE_TEST ENABLE_DOC
+ MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
+ 
++# These must follow data/CMakeLists.txt
+ DICT_TAR=	jyutping-dict-20180104.tar.xz
+ MODEL_TAR=	jyutping-model-20180103.tar.xz
+ 
+diff --git a/chinese/libime-jyutping/distinfo b/chinese/libime-jyutping/distinfo
+index efff2ab40ee3..75adedc32866 100644
+--- a/chinese/libime-jyutping/distinfo
++++ b/chinese/libime-jyutping/distinfo
+@@ -1,7 +1,7 @@
+-TIMESTAMP = 1608631171
++TIMESTAMP = 1610441224
+ SHA256 (libime-jyutping/jyutping-dict-20180104.tar.xz) = e3a5b13edb8efa2f764245a3232f99ba7e7670e22b8cbe666a4fffa84b35f35b
+ SIZE (libime-jyutping/jyutping-dict-20180104.tar.xz) = 1987632
+ SHA256 (libime-jyutping/jyutping-model-20180103.tar.xz) = 4f07229e2080f0ee30ce51b016409f260af82a58dd406a01ea5981b59ca87071
+ SIZE (libime-jyutping/jyutping-model-20180103.tar.xz) = 11006680
+-SHA256 (libime-jyutping/fcitx-libime-jyutping-1.0.1_GH0.tar.gz) = 4b5973ae10420d506de28e09eb61238613c759db904e0329b624903dcce276d3
+-SIZE (libime-jyutping/fcitx-libime-jyutping-1.0.1_GH0.tar.gz) = 45877
++SHA256 (libime-jyutping/fcitx-libime-jyutping-1.0.2_GH0.tar.gz) = 4ff3793fbb1412e51885f68f8fad0d2ad9367dcd0ef0d4fdf8aec0bab963b3c9
++SIZE (libime-jyutping/fcitx-libime-jyutping-1.0.2_GH0.tar.gz) = 45884
+diff --git a/chinese/libime-jyutping/pkg-plist b/chinese/libime-jyutping/pkg-plist
+index 5f6890ec14b0..8fa963847a15 100644
+--- a/chinese/libime-jyutping/pkg-plist
++++ b/chinese/libime-jyutping/pkg-plist
+@@ -14,7 +14,7 @@ lib/cmake/LibIMEJyutping/LibIMEJyutpingTargets.cmake
+ lib/fcitx5/jyutping.so
+ lib/libIMEJyutping.so
+ lib/libIMEJyutping.so.1
+-lib/libIMEJyutping.so.1.0.1
++lib/libIMEJyutping.so.1.0.2
+ lib/libime/zh_HK.lm
+ lib/libime/zh_HK.lm.predict
+ share/fcitx5/addon/jyutping.conf
+diff --git a/chinese/libime/Makefile b/chinese/libime/Makefile
+index f7ded5e5eea9..4228b4a10459 100644
+--- a/chinese/libime/Makefile
++++ b/chinese/libime/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	libime
+-DISTVERSION=	1.0.2-4
++DISTVERSION=	1.0.3
+ CATEGORIES=	chinese textproc
+ MASTER_SITES=	https://download.fcitx-im.org/data/:opengram_lm,opengram_dict,table_dict
+ DISTFILES=	${OPENGRAM_LM_TAR}:opengram_lm \
+@@ -20,7 +20,6 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	fcitx
+-GH_TAGNAME=	e2e48ed
+ GH_TUPLE=	kpu:kenlm:01c49fe:kenlm/src/libime/core/kenlm
+ 
+ USES=		compiler:c++17-lang cmake kde:5
+@@ -30,6 +29,7 @@ USE_KDE=	ecm
+ CMAKE_OFF=	ENABLE_TEST
+ MAKE_ENV=	FCITX5_DOWNLOAD_DISALLOWED=TRUE
+ 
++# These must follow data/CMakeLists.txt
+ OPENGRAM_LM_TAR=	lm_sc.3gm.arpa-20140820.tar.bz2
+ OPENGRAM_DICT_TAR=	dict.utf8-20200715.tar.xz
+ TABLE_DICT_TAR=		table.tar.gz
+diff --git a/chinese/libime/distinfo b/chinese/libime/distinfo
+index 3281373d9297..56ead220b8cb 100644
+--- a/chinese/libime/distinfo
++++ b/chinese/libime/distinfo
+@@ -1,11 +1,11 @@
+-TIMESTAMP = 1608569935
++TIMESTAMP = 1610441189
+ SHA256 (libime/lm_sc.3gm.arpa-20140820.tar.bz2) = 751bab7c55ea93a2cedfb0fbb7eb09f67d4da9c2c55496e5f31eb8580f1d1e2f
+ SIZE (libime/lm_sc.3gm.arpa-20140820.tar.bz2) = 36623028
+ SHA256 (libime/dict.utf8-20200715.tar.xz) = 23c36cd4df6de17f66bf2dfc453ec6c773641a479b6020c9e787552489c9c7d2
+ SIZE (libime/dict.utf8-20200715.tar.xz) = 471536
+ SHA256 (libime/table.tar.gz) = 6196053c724125e3ae3d8bd6b2f9172d0c83b65b0d410d3cde63b7a8d6ab87b7
+ SIZE (libime/table.tar.gz) = 4144686
+-SHA256 (libime/fcitx-libime-1.0.2-4-e2e48ed_GH0.tar.gz) = 592bd2b60a8665e906aeb8da45f14d3f770abddaa0d1fc67b7bc23dc144ee598
+-SIZE (libime/fcitx-libime-1.0.2-4-e2e48ed_GH0.tar.gz) = 122597
++SHA256 (libime/fcitx-libime-1.0.3_GH0.tar.gz) = ef1eea6b25afd0b5427d5203197547f5280577d293fd836f816bc3e43fccd411
++SIZE (libime/fcitx-libime-1.0.3_GH0.tar.gz) = 123385
+ SHA256 (libime/kpu-kenlm-01c49fe_GH0.tar.gz) = 94919822e57cb019cd6a3c64ec00f44d17e3abe8410c07733c42ab2a8e83dc96
+ SIZE (libime/kpu-kenlm-01c49fe_GH0.tar.gz) = 408488
+diff --git a/japanese/fcitx5-anthy/Makefile b/japanese/fcitx5-anthy/Makefile
+index 298ee195c8b7..863dd3f7c257 100644
+--- a/japanese/fcitx5-anthy/Makefile
++++ b/japanese/fcitx5-anthy/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-anthy
+-DISTVERSION=	5.0.1
++DISTVERSION=	5.0.2
+ CATEGORIES=	japanese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/japanese/fcitx5-anthy/distinfo b/japanese/fcitx5-anthy/distinfo
+index c204eb0e91a3..7a8183d626e2 100644
+--- a/japanese/fcitx5-anthy/distinfo
++++ b/japanese/fcitx5-anthy/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608388045
+-SHA256 (fcitx-fcitx5-anthy-5.0.1_GH0.tar.gz) = 73edfa4b69e21cf368ac70bc6c08aa75c9bb8cb482f1e998928fc581067efc22
+-SIZE (fcitx-fcitx5-anthy-5.0.1_GH0.tar.gz) = 96840
++TIMESTAMP = 1610441448
++SHA256 (fcitx-fcitx5-anthy-5.0.2_GH0.tar.gz) = a4ec3dfea46190262c0bbcf35b8a391c899a2baec83afc18c110f0f284d6f443
++SIZE (fcitx-fcitx5-anthy-5.0.2_GH0.tar.gz) = 98105
+diff --git a/japanese/fcitx5-anthy/pkg-plist b/japanese/fcitx5-anthy/pkg-plist
+index f04af2e5f716..5a5c140ab574 100644
+--- a/japanese/fcitx5-anthy/pkg-plist
++++ b/japanese/fcitx5-anthy/pkg-plist
+@@ -34,6 +34,7 @@ share/icons/hicolor/scalable/status/org.fcitx.Fcitx5.fcitx-anthy-symbol.svg
+ share/locale/ca/LC_MESSAGES/fcitx5-anthy.mo
+ share/locale/da/LC_MESSAGES/fcitx5-anthy.mo
+ share/locale/de/LC_MESSAGES/fcitx5-anthy.mo
++share/locale/he/LC_MESSAGES/fcitx5-anthy.mo
+ share/locale/ja/LC_MESSAGES/fcitx5-anthy.mo
+ share/locale/ko/LC_MESSAGES/fcitx5-anthy.mo
+ share/locale/ru/LC_MESSAGES/fcitx5-anthy.mo
+diff --git a/korean/fcitx5-hangul/Makefile b/korean/fcitx5-hangul/Makefile
+index d1bf6606b060..612b2583067e 100644
+--- a/korean/fcitx5-hangul/Makefile
++++ b/korean/fcitx5-hangul/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-hangul
+-DISTVERSION=	5.0.1
++DISTVERSION=	5.0.2
+ CATEGORIES=	korean textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/korean/fcitx5-hangul/distinfo b/korean/fcitx5-hangul/distinfo
+index 5e9b089324e3..901768ea58de 100644
+--- a/korean/fcitx5-hangul/distinfo
++++ b/korean/fcitx5-hangul/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608392411
+-SHA256 (fcitx-fcitx5-hangul-5.0.1_GH0.tar.gz) = 8e0b90539a14a5ce36189ae021faf71d71345f89f7e1e2e9acb9c3e4f45964cc
+-SIZE (fcitx-fcitx5-hangul-5.0.1_GH0.tar.gz) = 29532
++TIMESTAMP = 1610441454
++SHA256 (fcitx-fcitx5-hangul-5.0.2_GH0.tar.gz) = 55028fdcd9232330495800f29731dcbbc6baa9e66a429a9b8f9ac444c1f1bc6c
++SIZE (fcitx-fcitx5-hangul-5.0.2_GH0.tar.gz) = 29665
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..cb3aa4065c0e
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,15 @@
++chinese/fcitx5-chewing
++chinese/fcitx5-chinese-addons
++chinese/fcitx5-rime
++chinese/fcitx5-table-extra
++chinese/fcitx5-table-other
++chinese/libime
++chinese/libime-jyutping
++japanese/fcitx5-anthy
++korean/fcitx5-hangul
++textproc/fcitx5
++textproc/fcitx5-configtool
++textproc/fcitx5-gtk
++textproc/fcitx5-lua
++textproc/fcitx5-qt
++x11/xcb-imdkit
+diff --git a/textproc/fcitx5-configtool/Makefile b/textproc/fcitx5-configtool/Makefile
+index 90fc862edb78..3d8ad769528d 100644
+--- a/textproc/fcitx5-configtool/Makefile
++++ b/textproc/fcitx5-configtool/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-configtool
+-DISTVERSION=	5.0.1-20
++DISTVERSION=	5.0.2
+ CATEGORIES=	textproc x11
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -11,7 +11,9 @@ COMMENT=	Fcitx5 IM framework configuration tool
+ LICENSE=	GPLv2+
+ LICENSE_FILE=	${WRKSRC}/LICENSES/GPL-2.0-or-later.txt
+ 
+-BUILD_DEPENDS=	iso-codes>=0:misc/iso-codes
++BUILD_DEPENDS=	iso-codes>=0:misc/iso-codes \
++		fcitx5=5.0.4:textproc/fcitx5 \
++		fcitx5-qt=5.0.2:textproc/fcitx5-qt
+ LIB_DEPENDS=	libxkbcommon.so:x11/libxkbcommon \
+ 		libFcitx5Core.so:textproc/fcitx5 \
+ 		libFcitx5Qt5DBusAddons.so:textproc/fcitx5-qt
+@@ -22,7 +24,6 @@ USES=		compiler:c++17-lang gettext-tools cmake kde:5 pkgconfig qt:5 xorg
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	fcitx
+-GH_TAGNAME=	b4fbd81
+ 
+ USE_KDE=	ecm coreaddons kdeclarative i18n itemviews kirigami2 package widgetsaddons
+ USE_QT=		concurrent core gui quickcontrols2 widgets x11extras buildtools_build qmake_build
+diff --git a/textproc/fcitx5-configtool/distinfo b/textproc/fcitx5-configtool/distinfo
+index 525ea70ad59a..4695c09585a7 100644
+--- a/textproc/fcitx5-configtool/distinfo
++++ b/textproc/fcitx5-configtool/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608287204
+-SHA256 (fcitx-fcitx5-configtool-5.0.1-20-b4fbd81_GH0.tar.gz) = d9699d05c1d8cfdb864c7040d3300394efa2ceb1159063a41a323e07d46e4d09
+-SIZE (fcitx-fcitx5-configtool-5.0.1-20-b4fbd81_GH0.tar.gz) = 130607
++TIMESTAMP = 1610441324
++SHA256 (fcitx-fcitx5-configtool-5.0.2_GH0.tar.gz) = c730a0282c03bb0b976a16d6be01caf8cad34a752a421f1e0f1fe5bfba7591c2
++SIZE (fcitx-fcitx5-configtool-5.0.2_GH0.tar.gz) = 132894
+diff --git a/textproc/fcitx5-configtool/pkg-plist b/textproc/fcitx5-configtool/pkg-plist
+index 59643fad327f..b1140cf482ac 100644
+--- a/textproc/fcitx5-configtool/pkg-plist
++++ b/textproc/fcitx5-configtool/pkg-plist
+@@ -3,7 +3,7 @@ bin/fcitx5-migrator
+ bin/kbd-layout-viewer5
+ lib/libFcitx5Migrator.so
+ lib/libFcitx5Migrator.so.5
+-lib/libFcitx5Migrator.so.5.0.1
++lib/libFcitx5Migrator.so.5.0.2
+ %%QT_PLUGINDIR%%/kcms/kcm_fcitx5.so
+ share/applications/kbd-layout-viewer5.desktop
+ share/kpackage/kcms/org.fcitx.fcitx5.kcm/contents/ui/AddIMPage.qml
+diff --git a/textproc/fcitx5-gtk/Makefile b/textproc/fcitx5-gtk/Makefile
+index 4e9c539d5cd1..39564facfbfe 100644
+--- a/textproc/fcitx5-gtk/Makefile
++++ b/textproc/fcitx5-gtk/Makefile
+@@ -2,8 +2,8 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-gtk
+-DISTVERSION=	5.0.1
+-CATEGORIES=	textproc
++DISTVERSION=	5.0.2
++CATEGORIES=	textproc x11
+ 
+ MAINTAINER=	khng300@gmail.com
+ COMMENT=	Fcitx support for GTK+ 2/3
+diff --git a/textproc/fcitx5-gtk/distinfo b/textproc/fcitx5-gtk/distinfo
+index ca706ded9a70..1d841c4a1cf1 100644
+--- a/textproc/fcitx5-gtk/distinfo
++++ b/textproc/fcitx5-gtk/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608282030
+-SHA256 (fcitx-fcitx5-gtk-5.0.1_GH0.tar.gz) = 464645a9445e0d301b2274f4b86bcdec3a2d0ecc3ff993f59985927a39b17bb9
+-SIZE (fcitx-fcitx5-gtk-5.0.1_GH0.tar.gz) = 37195
++TIMESTAMP = 1610441325
++SHA256 (fcitx-fcitx5-gtk-5.0.2_GH0.tar.gz) = 2c0ac66e16a768b92ea3583c5201499c0e5608f2207e9144f5654dbd1fe76e96
++SIZE (fcitx-fcitx5-gtk-5.0.2_GH0.tar.gz) = 48100
+diff --git a/textproc/fcitx5-gtk/pkg-plist b/textproc/fcitx5-gtk/pkg-plist
+index 4a9a3d160c34..8b8c7407d6dc 100644
+--- a/textproc/fcitx5-gtk/pkg-plist
++++ b/textproc/fcitx5-gtk/pkg-plist
+@@ -9,6 +9,6 @@ lib/gtk-2.0/%%GTK2_VERSION%%/immodules/im-fcitx5.so
+ lib/gtk-3.0/%%GTK3_VERSION%%/immodules/im-fcitx5.so
+ lib/libFcitx5GClient.so
+ lib/libFcitx5GClient.so.1
+-lib/libFcitx5GClient.so.5.0.1
++lib/libFcitx5GClient.so.5.0.2
+ libdata/pkgconfig/Fcitx5GClient.pc
+ share/gir-1.0/FcitxG-1.0.gir
+diff --git a/textproc/fcitx5-lua/Makefile b/textproc/fcitx5-lua/Makefile
+index 6215bad5c621..2c845fcf0cd0 100644
+--- a/textproc/fcitx5-lua/Makefile
++++ b/textproc/fcitx5-lua/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-lua
+-DISTVERSION=	5.0.1
++DISTVERSION=	5.0.2
+ CATEGORIES=	textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/textproc/fcitx5-lua/distinfo b/textproc/fcitx5-lua/distinfo
+index a9cc774cac00..f64b69d3c67b 100644
+--- a/textproc/fcitx5-lua/distinfo
++++ b/textproc/fcitx5-lua/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608626438
+-SHA256 (fcitx-fcitx5-lua-5.0.1_GH0.tar.gz) = 04ee90aa2c06224a31b8088168c98fab675515ab925930cb6f8ece3f78d3269c
+-SIZE (fcitx-fcitx5-lua-5.0.1_GH0.tar.gz) = 37083
++TIMESTAMP = 1610441326
++SHA256 (fcitx-fcitx5-lua-5.0.2_GH0.tar.gz) = 3cee85f8c86ebd0d12c4992acf30be53106b79f70e862de0a1f4bfde5a978393
++SIZE (fcitx-fcitx5-lua-5.0.2_GH0.tar.gz) = 37258
+diff --git a/textproc/fcitx5-lua/pkg-plist b/textproc/fcitx5-lua/pkg-plist
+index 1b415863fa43..3991eb97620f 100644
+--- a/textproc/fcitx5-lua/pkg-plist
++++ b/textproc/fcitx5-lua/pkg-plist
+@@ -6,6 +6,7 @@ share/fcitx5/addon/imeapi.conf
+ share/fcitx5/addon/luaaddonloader.conf
+ share/fcitx5/lua/imeapi/imeapi.lua
+ share/locale/da/LC_MESSAGES/fcitx5-lua.mo
++share/locale/ja/LC_MESSAGES/fcitx5-lua.mo
+ share/locale/ko/LC_MESSAGES/fcitx5-lua.mo
+ share/locale/zh_CN/LC_MESSAGES/fcitx5-lua.mo
+ share/locale/zh_TW/LC_MESSAGES/fcitx5-lua.mo
+diff --git a/textproc/fcitx5-qt/Makefile b/textproc/fcitx5-qt/Makefile
+index 3239cb611e8b..b45f84021eef 100644
+--- a/textproc/fcitx5-qt/Makefile
++++ b/textproc/fcitx5-qt/Makefile
+@@ -2,8 +2,8 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5-qt
+-DISTVERSION=	5.0.1
+-CATEGORIES=	textproc
++DISTVERSION=	5.0.2
++CATEGORIES=	textproc x11
+ 
+ MAINTAINER=	khng300@gmail.com
+ COMMENT=	Fcitx support for Qt5
+diff --git a/textproc/fcitx5-qt/distinfo b/textproc/fcitx5-qt/distinfo
+index 80388e706d7b..a03570cbd344 100644
+--- a/textproc/fcitx5-qt/distinfo
++++ b/textproc/fcitx5-qt/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608279898
+-SHA256 (fcitx-fcitx5-qt-5.0.1_GH0.tar.gz) = 15f3ea902dba2d9a1f368e3ad2efd6e7fde120e49c647452ad136fec8fd92046
+-SIZE (fcitx-fcitx5-qt-5.0.1_GH0.tar.gz) = 107323
++TIMESTAMP = 1610441328
++SHA256 (fcitx-fcitx5-qt-5.0.2_GH0.tar.gz) = 6fb4fc87a3a05bfdd9dad78072e01aa03818e7414bae223af8bb724346aade6f
++SIZE (fcitx-fcitx5-qt-5.0.2_GH0.tar.gz) = 115504
+diff --git a/textproc/fcitx5-qt/pkg-plist b/textproc/fcitx5-qt/pkg-plist
+index d0c3a4cb8e8e..1cd7e249c954 100644
+--- a/textproc/fcitx5-qt/pkg-plist
++++ b/textproc/fcitx5-qt/pkg-plist
+@@ -20,15 +20,15 @@ lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsConfig.cmake
+ lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsConfigVersion.cmake
+ lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsTargets-%%CMAKE_BUILD_TYPE%%.cmake
+ lib/cmake/Fcitx5Qt5WidgetsAddons/Fcitx5Qt5WidgetsAddonsTargets.cmake
+-lib/fcitx5/libexec/fcitx5-qt5-gui-wrapper
+ lib/fcitx5/qt5/libfcitx-quickphrase-editor5.so
+ lib/libFcitx5Qt5DBusAddons.so
+ lib/libFcitx5Qt5DBusAddons.so.1
+-lib/libFcitx5Qt5DBusAddons.so.5.0.1
++lib/libFcitx5Qt5DBusAddons.so.5.0.2
+ lib/libFcitx5Qt5WidgetsAddons.so
+ lib/libFcitx5Qt5WidgetsAddons.so.2
+-lib/libFcitx5Qt5WidgetsAddons.so.5.0.1
++lib/libFcitx5Qt5WidgetsAddons.so.5.0.2
+ %%QT_PLUGINDIR%%/platforminputcontexts/libfcitx5platforminputcontextplugin.so
++libexec/fcitx5-qt5-gui-wrapper
+ share/locale/ca/LC_MESSAGES/fcitx5-qt.mo
+ share/locale/da/LC_MESSAGES/fcitx5-qt.mo
+ share/locale/de/LC_MESSAGES/fcitx5-qt.mo
+diff --git a/textproc/fcitx5/Makefile b/textproc/fcitx5/Makefile
+index 617f2ba8361b..2fb84c6a7831 100644
+--- a/textproc/fcitx5/Makefile
++++ b/textproc/fcitx5/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	fcitx5
+-DISTVERSION=	5.0.3-31
++DISTVERSION=	5.0.4
+ CATEGORIES=	textproc
+ MASTER_SITES=	https://download.fcitx-im.org/data/:dict
+ DISTFILES=	${SPELL_EN_DICT_TAR}:dict
+@@ -67,9 +67,9 @@ USE_LDCONFIG=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	fcitx
+-GH_TAGNAME=	49c79b4
+ 
+-SPELL_EN_DICT_VER=	20121020 # This must follow src/modules/spell/dict/CMakeLists.txt0
++# These must follow src/modules/spell/dict/CMakeLists.txt
++SPELL_EN_DICT_VER=	20121020
+ SPELL_EN_DICT_TAR=	en_dict-${SPELL_EN_DICT_VER}.tar.gz
+ 
+ post-extract:
+diff --git a/textproc/fcitx5/distinfo b/textproc/fcitx5/distinfo
+index 999a6d45f1fd..e5040c5638f5 100644
+--- a/textproc/fcitx5/distinfo
++++ b/textproc/fcitx5/distinfo
+@@ -1,5 +1,5 @@
+-TIMESTAMP = 1608311668
++TIMESTAMP = 1610441322
+ SHA256 (fcitx5/en_dict-20121020.tar.gz) = c44a5d7847925eea9e4d2d04748d442cd28dd9299a0b572ef7d91eac4f5a6ceb
+ SIZE (fcitx5/en_dict-20121020.tar.gz) = 630491
+-SHA256 (fcitx5/fcitx-fcitx5-5.0.3-31-49c79b4_GH0.tar.gz) = 57b52a91ad39b500fd33ab6f348b7db3cbeaa713bb23b2cf86959b0bbc297b4a
+-SIZE (fcitx5/fcitx-fcitx5-5.0.3-31-49c79b4_GH0.tar.gz) = 1902713
++SHA256 (fcitx5/fcitx-fcitx5-5.0.4_GH0.tar.gz) = d5a5341f2ba1e99a0177a3c09ce92f78587873c985b3b16c9e7655268a22ae1d
++SIZE (fcitx5/fcitx-fcitx5-5.0.4_GH0.tar.gz) = 1916058
+diff --git a/textproc/fcitx5/pkg-plist b/textproc/fcitx5/pkg-plist
+index 94a81bef5094..f671406cef7d 100644
+--- a/textproc/fcitx5/pkg-plist
++++ b/textproc/fcitx5/pkg-plist
+@@ -136,6 +136,7 @@ lib/fcitx5/classicui.so
+ lib/fcitx5/clipboard.so
+ lib/fcitx5/dbus.so
+ lib/fcitx5/dbusfrontend.so
++lib/fcitx5/fcitx4frontend.so
+ lib/fcitx5/ibusfrontend.so
+ lib/fcitx5/imselector.so
+ lib/fcitx5/kimpanel.so
+@@ -172,6 +173,7 @@ share/dbus-1/services/org.fcitx.Fcitx5.service
+ %%DATADIR%%/addon/clipboard.conf
+ %%DATADIR%%/addon/dbus.conf
+ %%DATADIR%%/addon/dbusfrontend.conf
++%%DATADIR%%/addon/fcitx4frontend.conf
+ %%DATADIR%%/addon/ibusfrontend.conf
+ %%DATADIR%%/addon/imselector.conf
+ %%DATADIR%%/addon/keyboard.conf
+diff --git a/x11/xcb-imdkit/Makefile b/x11/xcb-imdkit/Makefile
+index e9d235a88fed..1bfe489fd4c3 100644
+--- a/x11/xcb-imdkit/Makefile
++++ b/x11/xcb-imdkit/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	xcb-imdkit
+-DISTVERSION=	1.0.1
++DISTVERSION=	1.0.2
+ CATEGORIES=	x11 textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/x11/xcb-imdkit/distinfo b/x11/xcb-imdkit/distinfo
+index bccf33f99bd1..472ddf51e60b 100644
+--- a/x11/xcb-imdkit/distinfo
++++ b/x11/xcb-imdkit/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608195071
+-SHA256 (fcitx-xcb-imdkit-1.0.1_GH0.tar.gz) = 78572cc37f16fed62b9e8749d8919b7b6834fe71819847d88b16db7646481e71
+-SIZE (fcitx-xcb-imdkit-1.0.1_GH0.tar.gz) = 659473
++TIMESTAMP = 1610441305
++SHA256 (fcitx-xcb-imdkit-1.0.2_GH0.tar.gz) = a9b1df432202cf5b563324236967d81c9b4a7df1894cef2be9dc969bd60b0e58
++SIZE (fcitx-xcb-imdkit-1.0.2_GH0.tar.gz) = 659602
+diff --git a/x11/xcb-imdkit/pkg-plist b/x11/xcb-imdkit/pkg-plist
+index 8ebe99468cdd..6d6aa7790873 100644
+--- a/x11/xcb-imdkit/pkg-plist
++++ b/x11/xcb-imdkit/pkg-plist
+@@ -1,6 +1,7 @@
+ include/xcb-imdkit/encoding.h
+ include/xcb-imdkit/imclient.h
+ include/xcb-imdkit/imdkit.h
++include/xcb-imdkit/xcbimdkit_export.h
+ include/xcb-imdkit/ximcommon.h
+ include/xcb-imdkit/ximproto-gen.h
+ include/xcb-imdkit/ximproto.h
+@@ -10,5 +11,5 @@ lib/cmake/XCBImdkit/XCBImdkitLibraryTargets-%%CMAKE_BUILD_TYPE%%.cmake
+ lib/cmake/XCBImdkit/XCBImdkitLibraryTargets.cmake
+ lib/libxcb-imdkit.so
+ lib/libxcb-imdkit.so.1
+-lib/libxcb-imdkit.so.1.0.1
++lib/libxcb-imdkit.so.1.0.2
+ libdata/pkgconfig/xcb-imdkit.pc
