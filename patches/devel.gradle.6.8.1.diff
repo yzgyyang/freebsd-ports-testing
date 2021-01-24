@@ -1,0 +1,24 @@
+diff --git a/devel/gradle/Makefile b/devel/gradle/Makefile
+index db732543e66d..958d4c972b7a 100644
+--- a/devel/gradle/Makefile
++++ b/devel/gradle/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	gradle
+-PORTVERSION=	6.8
++PORTVERSION=	6.8.1
+ CATEGORIES=	devel java
+ MASTER_SITES=	https://downloads.gradle.org/distributions/
+ EXTRACT_SUFX=	-bin.zip
+diff --git a/devel/gradle/distinfo b/devel/gradle/distinfo
+index 21050e1037b9..0a25a4c50d7e 100644
+--- a/devel/gradle/distinfo
++++ b/devel/gradle/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1610938239
+-SHA256 (gradle-6.8-bin.zip) = e2774e6fb77c43657decde25542dea710aafd78c4022d19b196e7e78d79d8c6c
+-SIZE (gradle-6.8-bin.zip) = 107841145
++TIMESTAMP = 1611456941
++SHA256 (gradle-6.8.1-bin.zip) = fd591a34af7385730970399f473afabdb8b28d57fd97d6625c388d090039d6fd
++SIZE (gradle-6.8.1-bin.zip) = 107843470
