@@ -1,0 +1,62 @@
+diff --git a/security/Makefile b/security/Makefile
+index d749cf3d31d8..8c8cadccfcfb 100644
+--- a/security/Makefile
++++ b/security/Makefile
+@@ -11,6 +11,7 @@
+     SUBDIR += R-cran-ROAuth
+     SUBDIR += R-cran-askpass
+     SUBDIR += R-cran-digest
++    SUBDIR += R-cran-gitcreds
+     SUBDIR += R-cran-openssl
+     SUBDIR += acme.sh
+     SUBDIR += acmed
+diff --git a/security/R-cran-gitcreds/Makefile b/security/R-cran-gitcreds/Makefile
+new file mode 100644
+index 000000000000..dda4f732a698
+--- /dev/null
++++ b/security/R-cran-gitcreds/Makefile
+@@ -0,0 +1,24 @@
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++# $FreeBSD$
++
++PORTNAME=	gitcreds
++DISTVERSION=	0.1.1
++CATEGORIES=	security
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	Query 'git' Credentials from 'R'
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
++TEST_DEPENDS=	R-cran-mockery>0:devel/R-cran-mockery \
++		R-cran-testthat>0:devel/R-cran-testthat \
++		R-cran-withr>0:devel/R-cran-withr \
++		R-cran-knitr>0:print/R-cran-knitr \
++		R-cran-rmarkdown>0:textproc/R-cran-rmarkdown
++
++USES=		cran:auto-plist
++
++.include <bsd.port.mk>
+diff --git a/security/R-cran-gitcreds/distinfo b/security/R-cran-gitcreds/distinfo
+new file mode 100644
+index 000000000000..3863ea9245f3
+--- /dev/null
++++ b/security/R-cran-gitcreds/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1612632247
++SHA256 (gitcreds_0.1.1.tar.gz) = b14aaf4e910a9d2d6c65c93e645f0b0159c00898e669f917f83c03dfedb1dfea
++SIZE (gitcreds_0.1.1.tar.gz) = 61913
+diff --git a/security/R-cran-gitcreds/pkg-descr b/security/R-cran-gitcreds/pkg-descr
+new file mode 100644
+index 000000000000..db46730396d5
+--- /dev/null
++++ b/security/R-cran-gitcreds/pkg-descr
+@@ -0,0 +1,5 @@
++Query, set, delete credentials from the 'git' credential store. Manage 'GitHub'
++tokens and other 'git' credentials. This package is to be used by other
++packages that need to authenticate to 'GitHub' and/or other 'git' repositories.
++
++WWW: https://github.com/r-lib/gitcreds
