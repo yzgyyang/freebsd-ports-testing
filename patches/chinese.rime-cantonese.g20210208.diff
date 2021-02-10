@@ -1,0 +1,34 @@
+diff --git a/chinese/rime-cantonese/Makefile b/chinese/rime-cantonese/Makefile
+index c31737f8cf94..a395a106c5ee 100644
+--- a/chinese/rime-cantonese/Makefile
++++ b/chinese/rime-cantonese/Makefile
+@@ -2,8 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-cantonese
+-DISTVERSION=	g20201212
+-PORTREVISION=	1
++DISTVERSION=	g20210208
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -29,7 +28,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	99785a30d1f3bffef4142bbc7b73435a73a16cb1
++GH_TAGNAME=	40e6ab15124252307e0b321c8fe54e710392cc74
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-cantonese/distinfo b/chinese/rime-cantonese/distinfo
+index d898815589eb..4d21f1c7dfdf 100644
+--- a/chinese/rime-cantonese/distinfo
++++ b/chinese/rime-cantonese/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608031935
+-SHA256 (rime-rime-cantonese-g20201212-99785a30d1f3bffef4142bbc7b73435a73a16cb1_GH0.tar.gz) = 0a34a829c2cf2379259cfa9fec5bea57697049aee9e5f051fb94a428d8804cc1
+-SIZE (rime-rime-cantonese-g20201212-99785a30d1f3bffef4142bbc7b73435a73a16cb1_GH0.tar.gz) = 3585583
++TIMESTAMP = 1612809892
++SHA256 (rime-rime-cantonese-g20210208-40e6ab15124252307e0b321c8fe54e710392cc74_GH0.tar.gz) = b9f7a7ddb4dfdb7fa7490d475009c8195968f59e3699e3e0eae9edfda926ad63
++SIZE (rime-rime-cantonese-g20210208-40e6ab15124252307e0b321c8fe54e710392cc74_GH0.tar.gz) = 3585396
