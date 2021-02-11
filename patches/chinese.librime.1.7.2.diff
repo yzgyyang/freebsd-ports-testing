@@ -1,0 +1,44 @@
+diff --git a/chinese/librime/Makefile b/chinese/librime/Makefile
+index 311d43e52f4b..16b285ed00ff 100644
+--- a/chinese/librime/Makefile
++++ b/chinese/librime/Makefile
+@@ -2,13 +2,13 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	librime
+-PORTVERSION=	1.6.1
++PORTVERSION=	1.7.2
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+ COMMENT=	Rime Input Method Engine, the core library
+ 
+-LICENSE=	GPLv3
++LICENSE=	BSD3CLAUSE
+ 
+ LIB_DEPENDS=	libboost_thread.so:devel/boost-libs \
+ 		libcapnp.so:devel/capnproto \
+diff --git a/chinese/librime/distinfo b/chinese/librime/distinfo
+index 9af60bd2edce..ddf312f9280a 100644
+--- a/chinese/librime/distinfo
++++ b/chinese/librime/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1600707948
+-SHA256 (rime-librime-1.6.1_GH0.tar.gz) = 774ebd2ddb9c1301a8a981c65788e0fab71ef54505e04f39b3ce4dfdb8510302
+-SIZE (rime-librime-1.6.1_GH0.tar.gz) = 2856751
++TIMESTAMP = 1612809012
++SHA256 (rime-librime-1.7.2_GH0.tar.gz) = 341df211520d44409dfef07401246076f750e82a94e8d60bc2f583e70d7fd6a8
++SIZE (rime-librime-1.7.2_GH0.tar.gz) = 2859403
+diff --git a/chinese/librime/pkg-plist b/chinese/librime/pkg-plist
+index 24adb36f174b..9b54413c75f2 100644
+--- a/chinese/librime/pkg-plist
++++ b/chinese/librime/pkg-plist
+@@ -4,7 +4,7 @@ bin/rime_patch
+ include/rime_api.h
+ include/rime_levers_api.h
+ lib/librime.so
+-lib/librime.so.%%VER%%
+ lib/librime.so.1
++lib/librime.so.%%VER%%
+ libdata/pkgconfig/rime.pc
+ share/cmake/rime/RimeConfig.cmake
