@@ -1,0 +1,334 @@
+diff --git a/chinese/rime-bopomofo/Makefile b/chinese/rime-bopomofo/Makefile
+index 740ec9a9f03c..39a62f5c108c 100644
+--- a/chinese/rime-bopomofo/Makefile
++++ b/chinese/rime-bopomofo/Makefile
+@@ -2,8 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-bopomofo
+-DISTVERSION=	g20190120
+-PORTREVISION=	1
++DISTVERSION=	g20210131
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -28,7 +27,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	ed25098386f5efd3d70b08650f0d1b70c41c11a3
++GH_TAGNAME=	c7618f4f5728e1634417e9d02ea50d82b71956ab
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-bopomofo/distinfo b/chinese/rime-bopomofo/distinfo
+index 9194d314185b..ce3b48a52680 100644
+--- a/chinese/rime-bopomofo/distinfo
++++ b/chinese/rime-bopomofo/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608102657
+-SHA256 (rime-rime-bopomofo-g20190120-ed25098386f5efd3d70b08650f0d1b70c41c11a3_GH0.tar.gz) = 0b2a0496cf2a291d8e4aa9bf467fd507f6674378e5951c9e2b6470cbf7edaed7
+-SIZE (rime-rime-bopomofo-g20190120-ed25098386f5efd3d70b08650f0d1b70c41c11a3_GH0.tar.gz) = 5835
++TIMESTAMP = 1615216659
++SHA256 (rime-rime-bopomofo-g20210131-c7618f4f5728e1634417e9d02ea50d82b71956ab_GH0.tar.gz) = 37bc156bca8bca93b001b112ee440fc498207a4f6fbcaa2d2c306cfdd4560577
++SIZE (rime-rime-bopomofo-g20210131-c7618f4f5728e1634417e9d02ea50d82b71956ab_GH0.tar.gz) = 5985
+diff --git a/chinese/rime-bopomofo/pkg-plist b/chinese/rime-bopomofo/pkg-plist
+index 7c778a412016..a1399e70e34a 100644
+--- a/chinese/rime-bopomofo/pkg-plist
++++ b/chinese/rime-bopomofo/pkg-plist
+@@ -10,3 +10,4 @@ share/rime-data/build/bopomofo_express.schema.yaml
+ share/rime-data/build/bopomofo_tw.prism.bin
+ share/rime-data/build/bopomofo_tw.prism.txt
+ share/rime-data/build/bopomofo_tw.schema.yaml
++share/rime-data/zhuyin.yaml
+diff --git a/chinese/rime-cangjie/Makefile b/chinese/rime-cangjie/Makefile
+index e4b0aa9f045e..ddbc257dd9c3 100644
+--- a/chinese/rime-cangjie/Makefile
++++ b/chinese/rime-cangjie/Makefile
+@@ -2,8 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-cangjie
+-DISTVERSION=	g20201030
+-PORTREVISION=	1
++DISTVERSION=	g20210223
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -24,7 +23,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	d0f6f521ec049166ada29085434126be175f6439
++GH_TAGNAME=	8dfad9e537f18821b71ba28773315d9c670ae245
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-cangjie/distinfo b/chinese/rime-cangjie/distinfo
+index d0c6fa9c84d5..962bbe0d9f86 100644
+--- a/chinese/rime-cangjie/distinfo
++++ b/chinese/rime-cangjie/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608103989
+-SHA256 (rime-rime-cangjie-g20201030-d0f6f521ec049166ada29085434126be175f6439_GH0.tar.gz) = 50803c76b1865690cf692ce98335c8a1139f0f5fa2e553875b293939f05a02b4
+-SIZE (rime-rime-cangjie-g20201030-d0f6f521ec049166ada29085434126be175f6439_GH0.tar.gz) = 392830
++TIMESTAMP = 1615217097
++SHA256 (rime-rime-cangjie-g20210223-8dfad9e537f18821b71ba28773315d9c670ae245_GH0.tar.gz) = 5d0614fc0959938abd5d013bfa5182fb31cbc6e6a80a9e5e6e9da87e6dd992e8
++SIZE (rime-rime-cangjie-g20210223-8dfad9e537f18821b71ba28773315d9c670ae245_GH0.tar.gz) = 392824
+diff --git a/chinese/rime-cantonese/Makefile b/chinese/rime-cantonese/Makefile
+index a395a106c5ee..baa917ec7c40 100644
+--- a/chinese/rime-cantonese/Makefile
++++ b/chinese/rime-cantonese/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-cantonese
+-DISTVERSION=	g20210208
++DISTVERSION=	g20210218
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -28,7 +28,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	40e6ab15124252307e0b321c8fe54e710392cc74
++GH_TAGNAME=	cbe80d3fd80c2679212cea68417f536eeba30395
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-cantonese/distinfo b/chinese/rime-cantonese/distinfo
+index 4d21f1c7dfdf..4fb5e35867e7 100644
+--- a/chinese/rime-cantonese/distinfo
++++ b/chinese/rime-cantonese/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1612809892
+-SHA256 (rime-rime-cantonese-g20210208-40e6ab15124252307e0b321c8fe54e710392cc74_GH0.tar.gz) = b9f7a7ddb4dfdb7fa7490d475009c8195968f59e3699e3e0eae9edfda926ad63
+-SIZE (rime-rime-cantonese-g20210208-40e6ab15124252307e0b321c8fe54e710392cc74_GH0.tar.gz) = 3585396
++TIMESTAMP = 1615217113
++SHA256 (rime-rime-cantonese-g20210218-cbe80d3fd80c2679212cea68417f536eeba30395_GH0.tar.gz) = faaec109d0d5bb4817bb92f051501289c56a596c259eebdcd6273f6940906974
++SIZE (rime-rime-cantonese-g20210218-cbe80d3fd80c2679212cea68417f536eeba30395_GH0.tar.gz) = 3585340
+diff --git a/chinese/rime-combo-pinyin/Makefile b/chinese/rime-combo-pinyin/Makefile
+index 402a6186b7f0..a6b3f5945e57 100644
+--- a/chinese/rime-combo-pinyin/Makefile
++++ b/chinese/rime-combo-pinyin/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-combo-pinyin
+-DISTVERSION=	g20201204
++DISTVERSION=	g20210131
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -25,7 +25,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	5300951b8de07252d7565fefe84f5fae50205564
++GH_TAGNAME=	a84065a86b272c76215215bd6f03c506b6e7097c
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-combo-pinyin/distinfo b/chinese/rime-combo-pinyin/distinfo
+index 174ed72111df..540c943982e9 100644
+--- a/chinese/rime-combo-pinyin/distinfo
++++ b/chinese/rime-combo-pinyin/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608708086
+-SHA256 (rime-rime-combo-pinyin-g20201204-5300951b8de07252d7565fefe84f5fae50205564_GH0.tar.gz) = 6eb8f61f5300891a39385f3c8126230b6779456f6c92be577166a0d049638182
+-SIZE (rime-rime-combo-pinyin-g20201204-5300951b8de07252d7565fefe84f5fae50205564_GH0.tar.gz) = 17753
++TIMESTAMP = 1615217120
++SHA256 (rime-rime-combo-pinyin-g20210131-a84065a86b272c76215215bd6f03c506b6e7097c_GH0.tar.gz) = 5121732d28168fe7cf724c728ae4095f4bd003c7236f048c0ca629708aa8a69e
++SIZE (rime-rime-combo-pinyin-g20210131-a84065a86b272c76215215bd6f03c506b6e7097c_GH0.tar.gz) = 17749
+diff --git a/chinese/rime-essay/Makefile b/chinese/rime-essay/Makefile
+index 85b59df9db96..fef7a21c8635 100644
+--- a/chinese/rime-essay/Makefile
++++ b/chinese/rime-essay/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-essay
+-DISTVERSION=	g20201004
++DISTVERSION=	g20201222
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -16,7 +16,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	964ff5c5854a4452256891a4fe3b333592f3d68b
++GH_TAGNAME=	8db7fd4e2d9e081dd4c3b859107070495660238d
+ 
+ NO_BUILD=	yes
+ NO_ARCH=	yes
+diff --git a/chinese/rime-essay/distinfo b/chinese/rime-essay/distinfo
+index fb4e5479cf87..c85ed525f25e 100644
+--- a/chinese/rime-essay/distinfo
++++ b/chinese/rime-essay/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608060143
+-SHA256 (rime-rime-essay-g20201004-964ff5c5854a4452256891a4fe3b333592f3d68b_GH0.tar.gz) = 1bbdc62cbaac5ec03caa2d3bfacc304b0ea07f3bba1cb6f8ccf22ff879075568
+-SIZE (rime-rime-essay-g20201004-964ff5c5854a4452256891a4fe3b333592f3d68b_GH0.tar.gz) = 1771557
++TIMESTAMP = 1615217128
++SHA256 (rime-rime-essay-g20201222-8db7fd4e2d9e081dd4c3b859107070495660238d_GH0.tar.gz) = 76389639d7d5ed889f538411e9fdcd9096254172ed9bee654886d7f48abe4147
++SIZE (rime-rime-essay-g20201222-8db7fd4e2d9e081dd4c3b859107070495660238d_GH0.tar.gz) = 1771547
+diff --git a/chinese/rime-luna-pinyin/Makefile b/chinese/rime-luna-pinyin/Makefile
+index ba4ea875e0d4..a73806a71a8d 100644
+--- a/chinese/rime-luna-pinyin/Makefile
++++ b/chinese/rime-luna-pinyin/Makefile
+@@ -2,8 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-luna-pinyin
+-DISTVERSION=	g20201105
+-PORTREVISION=	1
++DISTVERSION=	g20210303
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -25,7 +24,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	3e03d65a1a9162871ee521d5d4846661e59298e0
++GH_TAGNAME=	c7c380d4da10d1aba538d084016147bd5e1997fa
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-luna-pinyin/distinfo b/chinese/rime-luna-pinyin/distinfo
+index 98e4fe1f4cba..7db36f5a09e6 100644
+--- a/chinese/rime-luna-pinyin/distinfo
++++ b/chinese/rime-luna-pinyin/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608102480
+-SHA256 (rime-rime-luna-pinyin-g20201105-3e03d65a1a9162871ee521d5d4846661e59298e0_GH0.tar.gz) = 28ceb79c288c17c8c861174ba0180766033105fea58f564537f0106a79632829
+-SIZE (rime-rime-luna-pinyin-g20201105-3e03d65a1a9162871ee521d5d4846661e59298e0_GH0.tar.gz) = 393707
++TIMESTAMP = 1615223007
++SHA256 (rime-rime-luna-pinyin-g20210303-c7c380d4da10d1aba538d084016147bd5e1997fa_GH0.tar.gz) = 8f6c764d7b196d7d84b5b911c48bbec434cae554cd4e4a7e7186bbdd20a0e73f
++SIZE (rime-rime-luna-pinyin-g20210303-c7c380d4da10d1aba538d084016147bd5e1997fa_GH0.tar.gz) = 395435
+diff --git a/chinese/rime-luna-pinyin/pkg-plist b/chinese/rime-luna-pinyin/pkg-plist
+index 0a2ee6fb0bbe..d31a51ca717e 100644
+--- a/chinese/rime-luna-pinyin/pkg-plist
++++ b/chinese/rime-luna-pinyin/pkg-plist
+@@ -4,8 +4,6 @@ share/rime-data/build/luna_pinyin.reverse.bin
+ share/rime-data/build/luna_pinyin.schema.yaml
+ share/rime-data/build/luna_pinyin.table.bin
+ share/rime-data/build/luna_pinyin.table.txt
+-share/rime-data/build/luna_pinyin_fluency.prism.bin
+-share/rime-data/build/luna_pinyin_fluency.prism.txt
+ share/rime-data/build/luna_pinyin_fluency.schema.yaml
+ share/rime-data/build/luna_pinyin_simp.prism.bin
+ share/rime-data/build/luna_pinyin_simp.prism.txt
+@@ -22,3 +20,4 @@ share/rime-data/luna_pinyin_fluency.schema.yaml
+ share/rime-data/luna_pinyin_simp.schema.yaml
+ share/rime-data/luna_pinyin_tw.schema.yaml
+ share/rime-data/luna_quanpin.schema.yaml
++share/rime-data/pinyin.yaml
+diff --git a/chinese/rime-prelude/Makefile b/chinese/rime-prelude/Makefile
+index 0676d194d24f..30bea745d309 100644
+--- a/chinese/rime-prelude/Makefile
++++ b/chinese/rime-prelude/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-prelude
+-DISTVERSION=	g20201212
++DISTVERSION=	g20210208
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -16,7 +16,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	00a5b5a40b0e4419869ec3783744c75a8c86a5d7
++GH_TAGNAME=	bc9ec4cad9fcaf3e300be9bbf2313104e75b5f25
+ 
+ NO_BUILD=	yes
+ NO_ARCH=	yes
+diff --git a/chinese/rime-prelude/distinfo b/chinese/rime-prelude/distinfo
+index 368d24e7cbf4..ab9ae464cdbe 100644
+--- a/chinese/rime-prelude/distinfo
++++ b/chinese/rime-prelude/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608026020
+-SHA256 (rime-rime-prelude-g20201212-00a5b5a40b0e4419869ec3783744c75a8c86a5d7_GH0.tar.gz) = 29b5122c6713a30ae6bb6914ee7b58e4b02f48f9248ac3d8413adc48e5a64cd2
+-SIZE (rime-rime-prelude-g20201212-00a5b5a40b0e4419869ec3783744c75a8c86a5d7_GH0.tar.gz) = 18287
++TIMESTAMP = 1615223561
++SHA256 (rime-rime-prelude-g20210208-bc9ec4cad9fcaf3e300be9bbf2313104e75b5f25_GH0.tar.gz) = 62cbd9956aab14364f9b19025b4ea075cd0a874b98cce3fd1ed50e666a61be5a
++SIZE (rime-rime-prelude-g20210208-bc9ec4cad9fcaf3e300be9bbf2313104e75b5f25_GH0.tar.gz) = 18283
+diff --git a/chinese/rime-terra-pinyin/Makefile b/chinese/rime-terra-pinyin/Makefile
+index 20002d91ee58..347a6f312a38 100644
+--- a/chinese/rime-terra-pinyin/Makefile
++++ b/chinese/rime-terra-pinyin/Makefile
+@@ -2,8 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-terra-pinyin
+-DISTVERSION=	g20201018
+-PORTREVISION=	1
++DISTVERSION=	g20210201
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+@@ -25,7 +24,7 @@ OPTIONS_SUB=	yes
+ 
+ USE_GITHUB=	yes
+ GH_ACCOUNT=	rime
+-GH_TAGNAME=	5a445e2953c4b8149daac9d4625782fd5f80d9f2
++GH_TAGNAME=	ce7b9249612f575d2f43d51fcacd31d1b4e0ef1b
+ 
+ NO_ARCH=	yes
+ 
+diff --git a/chinese/rime-terra-pinyin/distinfo b/chinese/rime-terra-pinyin/distinfo
+index fbf69f28b963..e58d250fbeee 100644
+--- a/chinese/rime-terra-pinyin/distinfo
++++ b/chinese/rime-terra-pinyin/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608102914
+-SHA256 (rime-rime-terra-pinyin-g20201018-5a445e2953c4b8149daac9d4625782fd5f80d9f2_GH0.tar.gz) = c5fda93a0f5b3fd64b875f853b214a23289802b9022c9b0227af515e97009bfb
+-SIZE (rime-rime-terra-pinyin-g20201018-5a445e2953c4b8149daac9d4625782fd5f80d9f2_GH0.tar.gz) = 730315
++TIMESTAMP = 1615224077
++SHA256 (rime-rime-terra-pinyin-g20210201-ce7b9249612f575d2f43d51fcacd31d1b4e0ef1b_GH0.tar.gz) = 4363bb2e5cac20460b169b5443fcfd6e8905f37afafd5f88aab3db457685da90
++SIZE (rime-rime-terra-pinyin-g20210201-ce7b9249612f575d2f43d51fcacd31d1b4e0ef1b_GH0.tar.gz) = 730469
+diff --git a/chinese/rime-wubi/Makefile b/chinese/rime-wubi/Makefile
+index b9cda304dc18..cbb37868cf2b 100644
+--- a/chinese/rime-wubi/Makefile
++++ b/chinese/rime-wubi/Makefile
+@@ -2,7 +2,7 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rime-wubi
+-DISTVERSION=	g20190908
++DISTVERSION=	g20200908
+ CATEGORIES=	chinese textproc
+ 
+ MAINTAINER=	khng300@gmail.com
+diff --git a/chinese/rime-wubi/distinfo b/chinese/rime-wubi/distinfo
+index 9df8c10401b0..7d638d4e93b7 100644
+--- a/chinese/rime-wubi/distinfo
++++ b/chinese/rime-wubi/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1608714454
+-SHA256 (rime-rime-wubi-g20190908-f1876f08f1d4a9696395be0070c0e8e4353c44cb_GH0.tar.gz) = b5b2f49cd1111093a6cefe82e8dd77874a6a862f1214dde2e7f3ea901cc23969
+-SIZE (rime-rime-wubi-g20190908-f1876f08f1d4a9696395be0070c0e8e4353c44cb_GH0.tar.gz) = 1092187
++TIMESTAMP = 1615224081
++SHA256 (rime-rime-wubi-g20200908-f1876f08f1d4a9696395be0070c0e8e4353c44cb_GH0.tar.gz) = b5b2f49cd1111093a6cefe82e8dd77874a6a862f1214dde2e7f3ea901cc23969
++SIZE (rime-rime-wubi-g20200908-f1876f08f1d4a9696395be0070c0e8e4353c44cb_GH0.tar.gz) = 1092187
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..f5c3e4aac148
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,9 @@
++chinese/rime-bopomofo
++chinese/rime-cangjie
++chinese/rime-cantonese
++chinese/rime-combo-pinyin
++chinese/rime-essay
++chinese/rime-luna-pinyin
++chinese/rime-prelude
++chinese/rime-terra-pinyin
++chinese/rime-wubi
