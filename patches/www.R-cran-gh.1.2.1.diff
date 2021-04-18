@@ -1,0 +1,65 @@
+diff --git a/www/Makefile b/www/Makefile
+index fe91e29c2f01..262e6e9a3515 100644
+--- a/www/Makefile
++++ b/www/Makefile
+@@ -5,6 +5,7 @@
+     SUBDIR += R-cran-bslib
+     SUBDIR += R-cran-crosstalk
+     SUBDIR += R-cran-downloader
++    SUBDIR += R-cran-gh
+     SUBDIR += R-cran-htmlwidgets
+     SUBDIR += R-cran-httpuv
+     SUBDIR += R-cran-httr
+diff --git a/www/R-cran-gh/Makefile b/www/R-cran-gh/Makefile
+new file mode 100644
+index 000000000000..ed8c2ccff4a9
+--- /dev/null
++++ b/www/R-cran-gh/Makefile
+@@ -0,0 +1,29 @@
++# Created by: Guangyuan Yang <ygy@FreeBSD.org>
++
++PORTNAME=	gh
++DISTVERSION=	1.2.1
++CATEGORIES=	www
++DISTNAME=	${PORTNAME}_${DISTVERSION}
++
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	GitHub API for R
++
++LICENSE=	MIT
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++BUILD_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
++RUN_DEPENDS=	R-cran-jsonlite>0:converters/R-cran-jsonlite \
++		R-cran-cli>=2.0.1:devel/R-cran-cli \
++		R-cran-ini>0:devel/R-cran-ini \
++		R-cran-gitcreds>0:security/R-cran-gitcreds \
++		R-cran-httr>=1.2:www/R-cran-httr
++TEST_DEPENDS=	R-cran-covr>0:devel/R-cran-covr \
++		R-cran-rprojroot>0:devel/R-cran-rprojroot \
++		R-cran-testthat>=2.3.2:devel/R-cran-testthat \
++		R-cran-withr>0:devel/R-cran-withr \
++		R-cran-knitr>0:print/R-cran-knitr \
++		R-cran-rmarkdown>0:textproc/R-cran-rmarkdown
++
++USES=		cran:auto-plist
++
++.include <bsd.port.mk>
+diff --git a/www/R-cran-gh/distinfo b/www/R-cran-gh/distinfo
+new file mode 100644
+index 000000000000..63a8370341c8
+--- /dev/null
++++ b/www/R-cran-gh/distinfo
+@@ -0,0 +1,3 @@
++TIMESTAMP = 1618707210
++SHA256 (gh_1.2.1.tar.gz) = 00cfbf7a48a0587d651233dd661092fdc52f70ec592e6f98470e891c160eaa9b
++SIZE (gh_1.2.1.tar.gz) = 45425
+diff --git a/www/R-cran-gh/pkg-descr b/www/R-cran-gh/pkg-descr
+new file mode 100644
+index 000000000000..f891238a6a53
+--- /dev/null
++++ b/www/R-cran-gh/pkg-descr
+@@ -0,0 +1,3 @@
++Minimal client to access the 'GitHub' 'API'.
++
++WWW: https://gh.r-lib.org/
