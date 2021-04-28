@@ -1,0 +1,36 @@
+diff --git a/devel/R-cran-remotes/Makefile b/devel/R-cran-remotes/Makefile
+index 5d312b14c46c..928af50be139 100644
+--- a/devel/R-cran-remotes/Makefile
++++ b/devel/R-cran-remotes/Makefile
+@@ -1,5 +1,6 @@
++
+ PORTNAME=	remotes
+-DISTVERSION=	2.2.0
++DISTVERSION=	2.3.0
+ CATEGORIES=	devel
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+@@ -9,7 +10,11 @@ COMMENT=	R Package Installation from Remote Repositories, Including 'GitHub'
+ LICENSE=	GPLv2+
+ 
+ BUILD_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
+-TEST_DEPENDS=	R-cran-covr>0:devel/R-cran-covr \
++TEST_DEPENDS=	R-cran-callr>0:devel/R-cran-callr \
++		R-cran-covr>0:devel/R-cran-covr \
++		R-cran-git2r>=0.23.0:devel/R-cran-git2r \
++		R-cran-mockery>0:devel/R-cran-mockery \
++		R-cran-pkgbuild>=1.0.1:devel/R-cran-pkgbuild \
+ 		R-cran-rprojroot>0:devel/R-cran-rprojroot \
+ 		R-cran-testthat>0:devel/R-cran-testthat \
+ 		R-cran-withr>0:devel/R-cran-withr \
+diff --git a/devel/R-cran-remotes/distinfo b/devel/R-cran-remotes/distinfo
+index 7d218b0ebbbf..e789ec7ce581 100644
+--- a/devel/R-cran-remotes/distinfo
++++ b/devel/R-cran-remotes/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1609275763
+-SHA256 (remotes_2.2.0.tar.gz) = 12f234fd8c46f4ac54e06a3c60e4015ed2193a32762ca4dd6854f120136f33b8
+-SIZE (remotes_2.2.0.tar.gz) = 145553
++TIMESTAMP = 1619584585
++SHA256 (remotes_2.3.0.tar.gz) = 677d676b60288196c4329fcd00747041f0221d241920e918bd1bf6b610316538
++SIZE (remotes_2.3.0.tar.gz) = 148405
