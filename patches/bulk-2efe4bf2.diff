@@ -1,0 +1,268 @@
+diff --git a/devel/py-bandit/Makefile b/devel/py-bandit/Makefile
+index 1df3ee8671f0..ec8d2314b934 100644
+--- a/devel/py-bandit/Makefile
++++ b/devel/py-bandit/Makefile
+@@ -2,6 +2,7 @@
+ 
+ PORTNAME=	bandit
+ DISTVERSION=	1.7.0
++PORTREVISION=	1
+ CATEGORIES=	devel security python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -13,7 +14,7 @@ LICENSE=	APACHE20
+ LICENSE_FILE=	${WRKSRC}/LICENSE
+ 
+ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pbr>=2.0.0:devel/py-pbr@${PY_FLAVOR}
+-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}GitPython>=1.0.1:devel/py-gitpython@${PY_FLAVOR} \
++RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}gitpython>=1.0.1:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}six>=1.10.0:devel/py-six@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}stevedore>=1.20.0:devel/py-stevedore@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}yaml>=3.13:devel/py-yaml@${PY_FLAVOR}
+diff --git a/devel/py-git-semver/Makefile b/devel/py-git-semver/Makefile
+index c39596a860ee..d472c9f7dde6 100644
+--- a/devel/py-git-semver/Makefile
++++ b/devel/py-git-semver/Makefile
+@@ -2,6 +2,7 @@
+ 
+ PORTNAME=	git-semver
+ PORTVERSION=	0.3.2
++PORTREVISION=	1
+ CATEGORIES=	devel python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -12,7 +13,7 @@ COMMENT=	Semantic versions management integrated to git
+ 
+ LICENSE=	APACHE20
+ 
+-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}GitPython>=3.1<3.2:devel/py-gitpython@${PY_FLAVOR} \
++RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}gitpython>=3.1<3.2:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}semantic-version>=2.8<3:devel/py-semantic-version@${PY_FLAVOR}
+ 
+ USES=		python:3.6+
+diff --git a/devel/py-git-up/Makefile b/devel/py-git-up/Makefile
+index bca04c3bf7f7..9aad4814e322 100644
+--- a/devel/py-git-up/Makefile
++++ b/devel/py-git-up/Makefile
+@@ -1,6 +1,6 @@
+ PORTNAME=	git-up
+ DISTVERSION=	1.4.5
+-PORTREVISION=	1
++PORTREVISION=	2
+ CATEGORIES=	devel python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -12,7 +12,7 @@ LICENSE=	MIT
+ 
+ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}click>=6.0.0:devel/py-click@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}colorama>=0.3.7:devel/py-colorama@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>=2.1.1:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>=2.1.1:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}six>=1.10.0:devel/py-six@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}termcolor>=1.1.0:devel/py-termcolor@${PY_FLAVOR}
+ 
+diff --git a/devel/py-libioc/Makefile b/devel/py-libioc/Makefile
+index 7b31c2d741df..8684f97b840d 100644
+--- a/devel/py-libioc/Makefile
++++ b/devel/py-libioc/Makefile
+@@ -1,5 +1,6 @@
+ PORTNAME=	libioc
+ PORTVERSION=	0.8.2
++PORTREVISION=	1
+ CATEGORIES=	devel python
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+ 
+@@ -12,7 +13,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
+ BROKEN=		fails to build
+ 
+ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pip>0:devel/py-pip@${PY_FLAVOR}
+-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}GitPython>0:devel/py-gitpython@${PY_FLAVOR} \
++RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}gitpython>0:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}libzfs>0:devel/py-libzfs@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}sysctl>0:devel/py-sysctl@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}ucl>0:textproc/py-ucl@${PY_FLAVOR} \
+diff --git a/devel/py-nbdime/Makefile b/devel/py-nbdime/Makefile
+index 7a6c63e5a0eb..17cc765a68ce 100644
+--- a/devel/py-nbdime/Makefile
++++ b/devel/py-nbdime/Makefile
+@@ -2,6 +2,7 @@
+ 
+ PORTNAME=	nbdime
+ PORTVERSION=	3.0.0
++PORTREVISION=	1
+ CATEGORIES=	devel python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -13,7 +14,7 @@ LICENSE=	BSD3CLAUSE
+ LICENSE_FILE=	${WRKSRC}/LICENSE.md
+ 
+ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}colorama>=0:devel/py-colorama@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>=0:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>=0:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}Jinja2>=2.9:devel/py-Jinja2@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}jupyter-server>=0:devel/py-jupyter-server@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}jupyter-server-mathjax>=0.2.2:devel/py-jupyter-server-mathjax@${PY_FLAVOR} \
+diff --git a/misc/snakemake/Makefile b/misc/snakemake/Makefile
+index 7189fab56596..1a7507da645f 100644
+--- a/misc/snakemake/Makefile
++++ b/misc/snakemake/Makefile
+@@ -1,5 +1,6 @@
+ PORTNAME=	snakemake
+ DISTVERSION=	6.2.1
++PORTREVISION=	1
+ CATEGORIES=	misc python
+ MASTER_SITES=	CHEESESHOP
+ 
+@@ -13,7 +14,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}appdirs>0:devel/py-appdirs@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}datrie>0:devel/py-datrie@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}docutils>0:textproc/py-docutils@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}filelock>0:sysutils/py-filelock@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>0:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>0:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}jsonschema>0:devel/py-jsonschema@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}nbformat>0:devel/py-nbformat@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}PuLP>=2.0:math/py-PuLP@${PY_FLAVOR} \
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..fa085320a910
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,12 @@
++devel/py-bandit
++devel/py-git-semver
++devel/py-git-up
++devel/py-libioc
++devel/py-nbdime
++misc/snakemake
++print/py-font-v
++science/dvc
++security/py-angr
++security/py-zkg
++sysutils/iocage
++sysutils/iocage-devel
+diff --git a/print/py-font-v/Makefile b/print/py-font-v/Makefile
+index 5fc60b1ec03e..63091db0feeb 100644
+--- a/print/py-font-v/Makefile
++++ b/print/py-font-v/Makefile
+@@ -2,6 +2,7 @@
+ 
+ PORTNAME=	font-v
+ PORTVERSION=	1.0.5
++PORTREVISION=	1
+ CATEGORIES=	print python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -13,7 +14,7 @@ LICENSE=	MIT
+ LICENSE_FILE=	${WRKSRC}/docs/LICENSE
+ 
+ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}fonttools>=0:print/py-fonttools@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>=0:devel/py-gitpython@${PY_FLAVOR}
++		${PYTHON_PKGNAMEPREFIX}gitpython>=0:devel/py-gitpython@${PY_FLAVOR}
+ 
+ USES=		python:3.6+
+ USE_PYTHON=	autoplist concurrent distutils
+diff --git a/science/dvc/Makefile b/science/dvc/Makefile
+index eeee14a51eae..7d5cbbeb571e 100644
+--- a/science/dvc/Makefile
++++ b/science/dvc/Makefile
+@@ -1,6 +1,6 @@
+ PORTNAME=	dvc
+ DISTVERSION=	0.30.1
+-PORTREVISION=	2
++PORTREVISION=	3
+ CATEGORIES=	science python
+ MASTER_SITES=	CHEESESHOP
+ 
+@@ -16,7 +16,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}appdirs>=1.4.3:devel/py-appdirs@${PY_FLAVOR}
+ 		${PYTHON_PKGNAMEPREFIX}configparser>=3.5.0:devel/py-configparser@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}distro>=1.3.0:sysutils/py-distro@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}future>=0.16.0:devel/py-future@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>=2.1.8:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>=2.1.8:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}grandalf==0.7:math/py-grandalf@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}jsonpath-rw>0:devel/py-jsonpath-rw@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}nanotime>=0.5.2:devel/py-nanotime@${PY_FLAVOR} \
+diff --git a/security/py-angr/Makefile b/security/py-angr/Makefile
+index be4d764390d7..6c60d4343227 100644
+--- a/security/py-angr/Makefile
++++ b/security/py-angr/Makefile
+@@ -1,6 +1,7 @@
+ PORTNAME=	angr
+ DISTVERSIONPREFIX=	v
+ DISTVERSION=	${ANGR_VERSION}
++PORTREVISION=	1
+ CATEGORIES=	security devel python
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+ 
+@@ -22,7 +23,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}ailment>=${ANGR_VERSION}:security/py-ailment
+ 		${PYTHON_PKGNAMEPREFIX}cle>=${ANGR_VERSION}:devel/py-cle@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}cppheaderparser>=0:devel/py-cppheaderparser@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}dpkt>=0:net/py-dpkt@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>=0:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>=0:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}itanium_demangler>=0:devel/py-itanium_demangler@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}mulpyplexer>=0:devel/py-mulpyplexer@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}networkx>=2.0:math/py-networkx@${PY_FLAVOR} \
+diff --git a/security/py-zkg/Makefile b/security/py-zkg/Makefile
+index 80b3fb80cc27..f49fb1f9f3e9 100644
+--- a/security/py-zkg/Makefile
++++ b/security/py-zkg/Makefile
+@@ -1,6 +1,7 @@
+ PORTNAME=	zkg
+ DISTVERSIONPREFIX=	v
+ DISTVERSION=	2.7.1
++PORTREVISION=	1
+ CATEGORIES=	security python
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+ 
+@@ -10,7 +11,7 @@ COMMENT=	Zeek NSM package manager
+ LICENSE=	BSD3CLAUSE
+ LICENSE_FILE=	${WRKSRC}/COPYING
+ 
+-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}GitPython>=2.1.8:devel/py-gitpython@${PY_FLAVOR} \
++RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}gitpython>=2.1.8:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}btest>=0.62:devel/py-btest@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}configparser>=0:devel/py-configparser@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}semantic-version>=0:devel/py-semantic-version@${PY_FLAVOR} \
+diff --git a/sysutils/iocage-devel/Makefile b/sysutils/iocage-devel/Makefile
+index 07a71d875d61..558a835db063 100644
+--- a/sysutils/iocage-devel/Makefile
++++ b/sysutils/iocage-devel/Makefile
+@@ -1,6 +1,6 @@
+ PORTNAME=	iocage-devel
+ PORTVERSION=	1.0.0.20190810
+-PORTREVISION=	3
++PORTREVISION=	4
+ PORTEPOCH=	1
+ CATEGORIES=	sysutils python
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+@@ -21,7 +21,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}netifaces>0:net/py-netifaces@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}pytest-runner>=2.0.0:devel/py-pytest-runner@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}requests>=2.11.1:www/py-requests@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}libzfs>=1.0.2:devel/py-libzfs@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>=2.1.10:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>=2.1.10:devel/py-gitpython@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}dnspython>0:dns/py-dnspython@${PY_FLAVOR} \
+ 
+ USES=		python:3.6+
+diff --git a/sysutils/iocage/Makefile b/sysutils/iocage/Makefile
+index 7eb4344ed465..4e5942d013c8 100644
+--- a/sysutils/iocage/Makefile
++++ b/sysutils/iocage/Makefile
+@@ -1,6 +1,6 @@
+ PORTNAME=	iocage
+ PORTVERSION=	1.2
+-PORTREVISION=	6
++PORTREVISION=	7
+ CATEGORIES=	sysutils python
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+ 
+@@ -26,7 +26,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}netifaces>0:net/py-netifaces@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}requests>=2.11.1:www/py-requests@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}libzfs>=1.0.2:devel/py-libzfs@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}dnspython>0:dns/py-dnspython@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}GitPython>0:devel/py-gitpython@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}gitpython>0:devel/py-gitpython@${PY_FLAVOR} \
+ 		merge:devel/rcs57
+ 
+ USES=		python:3.6+
