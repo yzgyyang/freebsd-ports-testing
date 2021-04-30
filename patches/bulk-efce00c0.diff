@@ -1,0 +1,62 @@
+diff --git a/devel/py-decorator/Makefile b/devel/py-decorator/Makefile
+index 594ed05bec76..4ae8262de6f0 100644
+--- a/devel/py-decorator/Makefile
++++ b/devel/py-decorator/Makefile
+@@ -1,7 +1,7 @@
+ # Created by: Denis Shaposhnikov <dsh@vlink.ru>
+ 
+ PORTNAME=	decorator
+-PORTVERSION=	4.4.2
++PORTVERSION=	5.0.7
+ CATEGORIES=	devel python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+diff --git a/devel/py-decorator/distinfo b/devel/py-decorator/distinfo
+index d8bcaf90ca31..37ab0d929b04 100644
+--- a/devel/py-decorator/distinfo
++++ b/devel/py-decorator/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1584984981
+-SHA256 (decorator-4.4.2.tar.gz) = e3a62f0520172440ca0dcc823749319382e377f37f140a0b99ef45fecb84bfe7
+-SIZE (decorator-4.4.2.tar.gz) = 33629
++TIMESTAMP = 1619745891
++SHA256 (decorator-5.0.7.tar.gz) = 6f201a6c4dac3d187352661f508b9364ec8091217442c9478f1f83c003a0f060
++SIZE (decorator-5.0.7.tar.gz) = 34292
+diff --git a/pkglist b/pkglist
+new file mode 100644
+index 000000000000..b1a63f600043
+--- /dev/null
++++ b/pkglist
+@@ -0,0 +1,32 @@
++finance/odoo
++net-im/py-python-telegram-bot
++math/sage
++math/py-claripy
++math/py-networkx
++multimedia/py-moviepy
++biology/py-scikit-bio
++security/py-gssapi
++devel/ipython
++devel/py-ipyparallel
++devel/py-openstacksdk043
++devel/py-traitlets
++devel/py-openstacksdk
++devel/py-datadog
++devel/py-pytools
++devel/py-dogpile.cache
++devel/py-pyopencl
++devel/py-jsonpath-rw
++devel/py-pytest-relaxed
++devel/py-validators
++devel/py-pytest-twisted
++devel/ipython5
++www/py-ttrv
++www/py-httpbin
++www/py-tuir
++games/anki
++science/py-obspy
++science/py-paramz
++databases/py-sqlalchemy-migrate
++misc/thefuck
++misc/py-cinder
++misc/py-tvm
