@@ -1,27 +1,21 @@
 diff --git a/devel/py-gitpython/Makefile b/devel/py-gitpython/Makefile
-index 117fc3b6bc1c..7cb3e5945cf5 100644
+index 7cb3e5945cf5..62f970b3e5ff 100644
 --- a/devel/py-gitpython/Makefile
 +++ b/devel/py-gitpython/Makefile
-@@ -1,8 +1,9 @@
--PORTNAME=	GitPython
--DISTVERSION=	3.1.11
-+PORTNAME=	gitpython
-+DISTVERSION=	3.1.15
+@@ -1,5 +1,6 @@
+ PORTNAME=	gitpython
+ DISTVERSION=	3.1.15
++PORTREVISION=	1
  CATEGORIES=	devel python
  MASTER_SITES=	CHEESESHOP
  PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
-+DISTNAME=	GitPython-${PORTVERSION}
+@@ -12,7 +13,8 @@ LICENSE=	BSD3CLAUSE
+ LICENSE_FILE=	${WRKSRC}/LICENSE
  
- MAINTAINER=	ygy@FreeBSD.org
- COMMENT=	Python Git Library
-diff --git a/devel/py-gitpython/distinfo b/devel/py-gitpython/distinfo
-index 5ed68c7c9e03..76cf83576ab4 100644
---- a/devel/py-gitpython/distinfo
-+++ b/devel/py-gitpython/distinfo
-@@ -1,3 +1,3 @@
--TIMESTAMP = 1605172201
--SHA256 (GitPython-3.1.11.tar.gz) = befa4d101f91bad1b632df4308ec64555db684c360bd7d2130b4807d49ce86b8
--SIZE (GitPython-3.1.11.tar.gz) = 170908
-+TIMESTAMP = 1619622145
-+SHA256 (GitPython-3.1.15.tar.gz) = 05af150f47a5cca3f4b0af289b73aef8cf3c4fe2385015b06220cbcdee48bb6e
-+SIZE (GitPython-3.1.15.tar.gz) = 175132
+ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}ddt>=1.1.1:devel/py-ddt@${PY_FLAVOR} \
+-		${PYTHON_PKGNAMEPREFIX}gitdb2>=2.0.0:devel/py-gitdb2@${PY_FLAVOR}
++		${PYTHON_PKGNAMEPREFIX}gitdb2>=2.0.0:devel/py-gitdb2@${PY_FLAVOR} \
++		${PYTHON_PKGNAMEPREFIX}typing-extensions>=3.7.4.3:devel/py-typing-extensions@${PY_FLAVOR}
+ TEST_DEPENDS=	${PYTHON_PKGNAMEPREFIX}mock>=0:devel/py-mock@${PY_FLAVOR} \
+ 		${PYTHON_PKGNAMEPREFIX}nose>=0:devel/py-nose@${PY_FLAVOR}
+ 
