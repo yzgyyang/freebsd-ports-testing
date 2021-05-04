@@ -1,0 +1,52 @@
+diff --git a/textproc/R-cran-rio/Makefile b/textproc/R-cran-rio/Makefile
+index 9e79d1e1770d..6d988b074a8e 100644
+--- a/textproc/R-cran-rio/Makefile
++++ b/textproc/R-cran-rio/Makefile
+@@ -1,29 +1,22 @@
+ PORTNAME=	rio
+-DISTVERSION=	0.5.16
+-PORTREVISION=	3
++DISTVERSION=	0.5.26
+ CATEGORIES=	textproc
+ DISTNAME=	${PORTNAME}_${DISTVERSION}
+ 
+-MAINTAINER=	ports@FreeBSD.org
+-COMMENT=	Swiss-Army knife for data I/O
++MAINTAINER=	ygy@FreeBSD.org
++COMMENT=	A Swiss-Army Knife for Data I/O
+ 
+ LICENSE=	GPLv2
+ 
+ BUILD_DEPENDS=	R-cran-knitr>0:print/R-cran-knitr
+-RUN_DEPENDS=	R-cran-data.table>=1.9.8:devel/R-cran-data.table \
+-		R-cran-tibble>0:devel/R-cran-tibble \
+-		R-cran-curl>=0.6:ftp/R-cran-curl \
+-		R-cran-haven>=1.1.0:math/R-cran-haven \
+-		R-cran-openxlsx>0:textproc/R-cran-openxlsx \
+-		R-cran-readxl>=0.1.1:textproc/R-cran-readxl
++RUN_DEPENDS=	R-cran-curl>=0.6:ftp/R-cran-curl \
++		R-cran-haven>=1.1.2:math/R-cran-haven
+ TEST_DEPENDS=	R-cran-jsonlite>0:converters/R-cran-jsonlite \
+ 		R-cran-bit64>0:devel/R-cran-bit64 \
++		R-cran-clipr>0:devel/R-cran-clipr \
+ 		R-cran-magrittr>0:devel/R-cran-magrittr \
+ 		R-cran-testthat>0:devel/R-cran-testthat \
+-		R-cran-knitr>0:print/R-cran-knitr \
+-		R-cran-readr>0:textproc/R-cran-readr \
+-		R-cran-xml2>=1.2.0:textproc/R-cran-xml2 \
+-		R-cran-yaml>0:textproc/R-cran-yaml
++		R-cran-knitr>0:print/R-cran-knitr
+ 
+ USES=		cran:auto-plist
+ 
+diff --git a/textproc/R-cran-rio/distinfo b/textproc/R-cran-rio/distinfo
+index 840ddc7d17e1..f9a832dba503 100644
+--- a/textproc/R-cran-rio/distinfo
++++ b/textproc/R-cran-rio/distinfo
+@@ -1,3 +1,3 @@
+-TIMESTAMP = 1544446543
+-SHA256 (rio_0.5.16.tar.gz) = d3eb8d5a11e0a3d26169bb9d08f834a51a6516a349854250629072d59c29d465
+-SIZE (rio_0.5.16.tar.gz) = 420489
++TIMESTAMP = 1620162319
++SHA256 (rio_0.5.26.tar.gz) = 4df0762782540133f99c5100232b417a2f56d0576bd67f76361fac2596ecdfcc
++SIZE (rio_0.5.26.tar.gz) = 384305
